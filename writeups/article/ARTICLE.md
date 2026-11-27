@@ -1,4 +1,4 @@
-# Pretraining builds the world model. Agent training doesn't.
+# Pretraining builds the world model of tool outputs. Agentic post-training doesn't.
 
 OpenAI’s Jakub Pachocki found that base-model perplexity tracks capabilities from conversation to math. Wenhao Chai found that the models best at predicting a terminal’s replies tended to rank lower as agents. So when does a coding agent learn what its tools will do?
 
