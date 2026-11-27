@@ -1,0 +1,157 @@
+{
+ "n": 1200,
+ "per_stratum": {
+  "S1": {
+   "n": 300,
+   "families": {
+    "s1_grep_count_pattern": 39,
+    "s1_wc_path": 38,
+    "s1_wc_flag": 38,
+    "s1_count_state": 38,
+    "s1_test_exists": 38,
+    "s1_test_state": 35,
+    "s1_grep_q_exit": 38,
+    "s1_grep_flag": 36
+   },
+   "pair_type": {
+    "action": 227,
+    "state": 73
+   },
+   "output_bytes_mean": 5.958333333333333,
+   "output_bytes_max": 184,
+   "noncopy_bytes_mean (incl. terminator)": 3.9033333333333333,
+   "noncopy_byte_frac": 0.5609580838323354,
+   "tokens_mean": 86.325,
+   "tokens_max": 303,
+   "n_steps_mean": 2.2466666666666666,
+   "final_nonzero_rc_frac": 0.06166666666666667,
+   "gap_hist": null
+  },
+  "S2": {
+   "n": 300,
+   "families": {
+    "s2_loop_bound": 32,
+    "s2_argv": 31,
+    "s2_data_line": 30,
+    "s2_sort_key": 36,
+    "s2_uniq_count": 34,
+    "s2_uniq_state": 22,
+    "s2_py_string": 24,
+    "s2_arith": 36,
+    "s2_csv_group": 36,
+    "s2_head_tail_sort": 17,
+    "s2_sort_flag": 2
+   },
+   "pair_type": {
+    "state": 180,
+    "action": 120
+   },
+   "output_bytes_mean": 31.77,
+   "output_bytes_max": 146,
+   "noncopy_bytes_mean (incl. terminator)": 18.273333333333333,
+   "noncopy_byte_frac": 0.5576238429457837,
+   "tokens_mean": 84.51666666666667,
+   "tokens_max": 189,
+   "n_steps_mean": 2.22,
+   "final_nonzero_rc_frac": 0.0,
+   "gap_hist": null
+  },
+  "S3": {
+   "n": 300,
+   "families": {
+    "s3_append_present": 32,
+    "s3_sed_present": 32,
+    "s3_mv_cp": 29,
+    "s3_cp_alias": 32,
+    "s3_multi_append": 32,
+    "s3_mkdir_mv_find": 27,
+    "s3_sed_count": 30,
+    "s3_sed_number_python": 31,
+    "s3_append_python": 28,
+    "s3_append_value": 27
+   },
+   "pair_type": {
+    "state": 300
+   },
+   "output_bytes_mean": 4.506666666666667,
+   "output_bytes_max": 31,
+   "noncopy_bytes_mean (incl. terminator)": 4.526666666666666,
+   "noncopy_byte_frac": 0.8220338983050848,
+   "tokens_mean": 115.16,
+   "tokens_max": 294,
+   "n_steps_mean": 7.73,
+   "final_nonzero_rc_frac": 0.14833333333333334,
+   "gap_hist": {
+    "5": 63,
+    "4": 62,
+    "2": 59,
+    "6": 57,
+    "3": 59
+   }
+  },
+  "S4": {
+   "n": 300,
+   "families": {
+    "s4_py_index": 29,
+    "s4_py_where": 28,
+    "s4_py_syntax": 21,
+    "s4_py_exc_type": 20,
+    "s4_py_keyerror": 27,
+    "s4_py_nameerror": 14,
+    "s4_json_decode": 27,
+    "s4_missing_file": 28,
+    "s4_py_missing_file": 28,
+    "s4_permission": 22,
+    "s4_mkdir_exists": 28,
+    "s4_exit_code": 28
+   },
+   "pair_type": {
+    "state": 244,
+    "action": 56
+   },
+   "output_bytes_mean": 142.63166666666666,
+   "output_bytes_max": 888,
+   "noncopy_bytes_mean (incl. terminator)": 124.89,
+   "noncopy_byte_frac": 0.8695157753048887,
+   "tokens_mean": 89.93333333333334,
+   "tokens_max": 335,
+   "n_steps_mean": 2.723333333333333,
+   "final_nonzero_rc_frac": 0.555,
+   "gap_hist": null
+  }
+ },
+ "rejects": {
+  "S1|s1_find_name|outputs differ only in copied words": 40,
+  "S1|s1_grep_flag|outputs equal": 2,
+  "S1|s1_grep_l|outputs differ only in copied words": 41,
+  "S1|s1_ls_dir|outputs differ only in copied words": 40,
+  "S1|s1_ls_dir|outputs equal": 1,
+  "S1|s1_test_state|duplicate": 3,
+  "S2|s2_argv|duplicate": 3,
+  "S2|s2_argv|outputs differ only in copied words": 10,
+  "S2|s2_argv|outputs equal": 1,
+  "S2|s2_data_line|outputs equal": 13,
+  "S2|s2_head_tail_sort|outputs differ only in copied words": 36,
+  "S2|s2_head_tail_sort|outputs equal": 3,
+  "S2|s2_loop_bound|duplicate": 3,
+  "S2|s2_loop_bound|outputs equal": 9,
+  "S2|s2_py_string|outputs differ only in copied words": 21,
+  "S2|s2_sort_flag|outputs differ only in copied words": 62,
+  "S2|s2_sort_flag|outputs equal": 17,
+  "S2|s2_uniq_count|outputs differ only in copied words": 3,
+  "S2|s2_uniq_state|outputs differ only in copied words": 5,
+  "S2|s2_uniq_state|outputs equal": 22,
+  "S3|s3_append_python|outputs equal": 7,
+  "S3|s3_append_value|outputs differ only in copied words": 1,
+  "S3|s3_append_value|outputs equal": 14,
+  "S3|s3_mkdir_mv_find|outputs equal": 23,
+  "S3|s3_mv_cp|outputs equal": 10,
+  "S3|s3_sed_count|outputs equal": 6,
+  "S4|s4_json_decode|duplicate": 2,
+  "S4|s4_permission|outputs equal": 7,
+  "S4|s4_py_exc_type|outputs differ only in copied words": 13,
+  "S4|s4_py_keyerror|duplicate": 1,
+  "S4|s4_py_nameerror|duplicate": 24,
+  "S4|s4_py_syntax|duplicate": 10
+ }
+}

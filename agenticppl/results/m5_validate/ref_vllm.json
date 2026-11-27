@@ -1,0 +1,36 @@
+{
+ "agenticppl_version": "0.1.0",
+ "model": "Qwen3-0.6B",
+ "data": "terminal/data",
+ "splits": {
+  "heldout": {
+   "n_docs": 960,
+   "picks_name": "obsgain-easy",
+   "agenticppl": -1.113744595778144,
+   "n_ranges": 10568,
+   "plain_ppl": 0.4399506581579988,
+   "picks": {
+    "obsgain-easy": {
+     "agenticppl": -1.113744595778144,
+     "combine": "capped_bits",
+     "n_ranges": 10568,
+     "n_ranges_in_set": 10568
+    },
+    "obsgain-nothought": {
+     "agenticppl": 0.3864893939818441,
+     "combine": "prob_mean",
+     "n_ranges": 28123,
+     "n_ranges_in_set": 28123
+    },
+    "obsgain-taskgain": {
+     "agenticppl": 0.3240640772483436,
+     "combine": "prob_mean",
+     "n_ranges": 21492,
+     "n_ranges_in_set": 21492
+    }
+   }
+  }
+ },
+ "docs_with_special_tokens_in_content": 0,
+ "docs_unmatched": 0
+}

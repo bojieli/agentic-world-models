@@ -1,0 +1,79 @@
+{
+ "model": "Nemotron-Terminal-8B",
+ "name": "Nemotron-Terminal-8B",
+ "split": "heldout",
+ "n_docs": 960,
+ "docs_unmatched": 0,
+ "docs_with_special_tokens_in_content": 0,
+ "forward_seconds": 514.1838290691376,
+ "tokens": 5961788,
+ "plain_ppl": 0.3085541012950205,
+ "picks": {
+  "obsgain-easy": {
+   "agenticppl": -0.7728745958002371,
+   "combine": "capped_bits",
+   "n_ranges": 10568,
+   "n_ranges_in_set": 10568,
+   "ci": [
+    -0.8462440296122076,
+    -0.7000233629788376
+   ],
+   "alt_capped_bits": -0.7728745958002371,
+   "alt_prob_mean": 0.6395398661642864,
+   "mean_range_bits_uncapped": 1.4409053857278658,
+   "mean_range_bits_uncapped_ci": [
+    1.2947920119942706,
+    1.5899100548784135
+   ],
+   "bits_per_row": 1.299162879990793,
+   "ent_per_row": 0.83476730892601,
+   "gap_per_row": 0.464395571064783
+  },
+  "obsgain-nothought": {
+   "agenticppl": 0.5908297939565464,
+   "combine": "prob_mean",
+   "n_ranges": 28123,
+   "n_ranges_in_set": 28123,
+   "ci": [
+    0.573072721200429,
+    0.6092733233694786
+   ],
+   "alt_capped_bits": -0.8728532934363737,
+   "alt_prob_mean": 0.5908297939565464,
+   "mean_range_bits_uncapped": 1.9023155406071042,
+   "mean_range_bits_uncapped_ci": [
+    1.793619685919011,
+    2.013601886402059
+   ],
+   "bits_per_row": 1.762612676215524,
+   "ent_per_row": 0.9215387930802967,
+   "gap_per_row": 0.8410738831352274
+  },
+  "obsgain-taskgain": {
+   "agenticppl": 0.47657131382966983,
+   "combine": "prob_mean",
+   "n_ranges": 21492,
+   "n_ranges_in_set": 21492,
+   "ci": [
+    0.45026254445368563,
+    0.5052142799797359
+   ],
+   "alt_capped_bits": -1.1198814803167656,
+   "alt_prob_mean": 0.47657131382966983,
+   "mean_range_bits_uncapped": 2.58783445142427,
+   "mean_range_bits_uncapped_ci": [
+    2.4302555969181925,
+    2.743286381389802
+   ],
+   "bits_per_row": 2.3870273832622493,
+   "ent_per_row": 1.1589242015029644,
+   "gap_per_row": 1.228103181759285
+  }
+ },
+ "action_tokens": {
+  "n": 1157097,
+  "bits": 0.38706809282302856,
+  "ent": 0.2881641387939453,
+  "gap": 0.09890395402908325
+ }
+}

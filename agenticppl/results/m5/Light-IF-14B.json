@@ -1,0 +1,79 @@
+{
+ "model": "Light-IF-14B",
+ "name": "Light-IF-14B",
+ "split": "heldout",
+ "n_docs": 960,
+ "docs_unmatched": 0,
+ "docs_with_special_tokens_in_content": 0,
+ "forward_seconds": 835.831479549408,
+ "tokens": 5961788,
+ "plain_ppl": 0.2933856781860842,
+ "picks": {
+  "obsgain-easy": {
+   "agenticppl": -0.8524205180437461,
+   "combine": "capped_bits",
+   "n_ranges": 10568,
+   "n_ranges_in_set": 10568,
+   "ci": [
+    -0.9370145986030278,
+    -0.7712366873457455
+   ],
+   "alt_capped_bits": -0.8524205180437461,
+   "alt_prob_mean": 0.5976777795640432,
+   "mean_range_bits_uncapped": 2.2042037647844186,
+   "mean_range_bits_uncapped_ci": [
+    1.9788362596877613,
+    2.4422993490699
+   ],
+   "bits_per_row": 1.9873752569099679,
+   "ent_per_row": 0.7089760389390305,
+   "gap_per_row": 1.2783992179709374
+  },
+  "obsgain-nothought": {
+   "agenticppl": 0.5353240797306834,
+   "combine": "prob_mean",
+   "n_ranges": 28123,
+   "n_ranges_in_set": 28123,
+   "ci": [
+    0.5160497147575449,
+    0.5556643733756002
+   ],
+   "alt_capped_bits": -0.9801221751293242,
+   "alt_prob_mean": 0.5353240797306834,
+   "mean_range_bits_uncapped": 2.8408654554523363,
+   "mean_range_bits_uncapped_ci": [
+    2.702668540170617,
+    2.9751974276632702
+   ],
+   "bits_per_row": 2.6322370586348858,
+   "ent_per_row": 0.820112763566089,
+   "gap_per_row": 1.8121242950687968
+  },
+  "obsgain-taskgain": {
+   "agenticppl": 0.43681655378557194,
+   "combine": "prob_mean",
+   "n_ranges": 21492,
+   "n_ranges_in_set": 21492,
+   "ci": [
+    0.40898702749453997,
+    0.46740157895112133
+   ],
+   "alt_capped_bits": -1.1907794465018262,
+   "alt_prob_mean": 0.43681655378557194,
+   "mean_range_bits_uncapped": 3.5560013480080395,
+   "mean_range_bits_uncapped_ci": [
+    3.3510359023202594,
+    3.7514859133490175
+   ],
+   "bits_per_row": 3.2800678528493044,
+   "ent_per_row": 0.9823008486680541,
+   "gap_per_row": 2.2977670041812503
+  }
+ },
+ "action_tokens": {
+  "n": 1157097,
+  "bits": 0.5330837368965149,
+  "ent": 0.2656398415565491,
+  "gap": 0.2674438953399658
+ }
+}

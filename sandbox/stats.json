@@ -1,0 +1,374 @@
+{
+ "n": 4200,
+ "per_stratum": {
+  "S1": {
+   "n": 300,
+   "families": {
+    "s1_grep_count_pattern": 39,
+    "s1_wc_path": 38,
+    "s1_wc_flag": 38,
+    "s1_count_state": 38,
+    "s1_test_exists": 38,
+    "s1_test_state": 35,
+    "s1_grep_q_exit": 38,
+    "s1_grep_flag": 36
+   },
+   "pair_type": {
+    "action": 227,
+    "state": 73
+   },
+   "output_bytes_mean": 5.958333333333333,
+   "output_bytes_max": 184,
+   "noncopy_bytes_mean (incl. terminator)": 3.9033333333333333,
+   "noncopy_byte_frac": 0.5609580838323354,
+   "tokens_mean": 86.325,
+   "tokens_max": 303,
+   "n_steps_mean": 2.2466666666666666,
+   "final_nonzero_rc_frac": 0.06166666666666667,
+   "gap_hist": null
+  },
+  "S2": {
+   "n": 300,
+   "families": {
+    "s2_loop_bound": 32,
+    "s2_argv": 31,
+    "s2_data_line": 30,
+    "s2_sort_key": 36,
+    "s2_uniq_count": 34,
+    "s2_uniq_state": 22,
+    "s2_py_string": 24,
+    "s2_arith": 36,
+    "s2_csv_group": 36,
+    "s2_head_tail_sort": 17,
+    "s2_sort_flag": 2
+   },
+   "pair_type": {
+    "state": 180,
+    "action": 120
+   },
+   "output_bytes_mean": 31.77,
+   "output_bytes_max": 146,
+   "noncopy_bytes_mean (incl. terminator)": 18.273333333333333,
+   "noncopy_byte_frac": 0.5576238429457837,
+   "tokens_mean": 84.51666666666667,
+   "tokens_max": 189,
+   "n_steps_mean": 2.22,
+   "final_nonzero_rc_frac": 0.0,
+   "gap_hist": null
+  },
+  "S3": {
+   "n": 300,
+   "families": {
+    "s3_append_present": 32,
+    "s3_sed_present": 32,
+    "s3_mv_cp": 29,
+    "s3_cp_alias": 32,
+    "s3_multi_append": 32,
+    "s3_mkdir_mv_find": 27,
+    "s3_sed_count": 30,
+    "s3_sed_number_python": 31,
+    "s3_append_python": 28,
+    "s3_append_value": 27
+   },
+   "pair_type": {
+    "state": 300
+   },
+   "output_bytes_mean": 4.506666666666667,
+   "output_bytes_max": 31,
+   "noncopy_bytes_mean (incl. terminator)": 4.526666666666666,
+   "noncopy_byte_frac": 0.8220338983050848,
+   "tokens_mean": 115.16,
+   "tokens_max": 294,
+   "n_steps_mean": 7.73,
+   "final_nonzero_rc_frac": 0.14833333333333334,
+   "gap_hist": {
+    "5": 63,
+    "4": 62,
+    "2": 59,
+    "6": 57,
+    "3": 59
+   }
+  },
+  "S4": {
+   "n": 300,
+   "families": {
+    "s4_py_index": 29,
+    "s4_py_where": 28,
+    "s4_py_syntax": 21,
+    "s4_py_exc_type": 20,
+    "s4_py_keyerror": 27,
+    "s4_py_nameerror": 14,
+    "s4_json_decode": 27,
+    "s4_missing_file": 28,
+    "s4_py_missing_file": 28,
+    "s4_permission": 22,
+    "s4_mkdir_exists": 28,
+    "s4_exit_code": 28
+   },
+   "pair_type": {
+    "state": 244,
+    "action": 56
+   },
+   "output_bytes_mean": 142.63166666666666,
+   "output_bytes_max": 888,
+   "noncopy_bytes_mean (incl. terminator)": 124.89,
+   "noncopy_byte_frac": 0.8695157753048887,
+   "tokens_mean": 89.93333333333334,
+   "tokens_max": 335,
+   "n_steps_mean": 2.723333333333333,
+   "final_nonzero_rc_frac": 0.555,
+   "gap_hist": null
+  },
+  "S2h": {
+   "n": 300,
+   "families": {
+    "h_mod_loop": 61,
+    "h_mod_arith": 62,
+    "h_argv": 57,
+    "h_nested": 40,
+    "h_list_key": 59,
+    "h_csv_filter": 21
+   },
+   "pair_type": {
+    "state": 222,
+    "action": 78
+   },
+   "output_bytes_mean": 5.105,
+   "output_bytes_max": 9,
+   "noncopy_bytes_mean (incl. terminator)": 6.105,
+   "noncopy_byte_frac": 1.0,
+   "tokens_mean": 70.61,
+   "tokens_max": 179,
+   "n_steps_mean": 2.2666666666666666,
+   "final_nonzero_rc_frac": 0.0,
+   "gap_hist": null
+  },
+  "S3h": {
+   "n": 300,
+   "families": {
+    "h3_grep_net": 49,
+    "h3_config_mod": 98,
+    "h3_append_mod": 112,
+    "h3_mv_chain": 41
+   },
+   "pair_type": {
+    "state": 300
+   },
+   "output_bytes_mean": 2.8216666666666668,
+   "output_bytes_max": 5,
+   "noncopy_bytes_mean (incl. terminator)": 3.8216666666666668,
+   "noncopy_byte_frac": 1.0,
+   "tokens_mean": 203.035,
+   "tokens_max": 436,
+   "n_steps_mean": 13.16,
+   "final_nonzero_rc_frac": 0.011666666666666667,
+   "gap_hist": {
+    "2": 56,
+    "6": 67,
+    "3": 59,
+    "4": 61,
+    "5": 57
+   }
+  }
+ },
+ "rejects": {
+  "S1|s1_find_name|outputs differ only in copied words": 40,
+  "S1|s1_grep_flag|outputs equal": 2,
+  "S1|s1_grep_l|outputs differ only in copied words": 41,
+  "S1|s1_ls_dir|outputs differ only in copied words": 40,
+  "S1|s1_ls_dir|outputs equal": 1,
+  "S1|s1_test_state|duplicate": 3,
+  "S2|s2_argv|duplicate": 3,
+  "S2|s2_argv|outputs differ only in copied words": 10,
+  "S2|s2_argv|outputs equal": 1,
+  "S2|s2_data_line|outputs equal": 13,
+  "S2|s2_head_tail_sort|outputs differ only in copied words": 36,
+  "S2|s2_head_tail_sort|outputs equal": 3,
+  "S2|s2_loop_bound|duplicate": 3,
+  "S2|s2_loop_bound|outputs equal": 9,
+  "S2|s2_py_string|outputs differ only in copied words": 21,
+  "S2|s2_sort_flag|outputs differ only in copied words": 62,
+  "S2|s2_sort_flag|outputs equal": 17,
+  "S2|s2_uniq_count|outputs differ only in copied words": 3,
+  "S2|s2_uniq_state|outputs differ only in copied words": 5,
+  "S2|s2_uniq_state|outputs equal": 22,
+  "S3|s3_append_python|outputs equal": 7,
+  "S3|s3_append_value|outputs differ only in copied words": 1,
+  "S3|s3_append_value|outputs equal": 14,
+  "S3|s3_mkdir_mv_find|outputs equal": 23,
+  "S3|s3_mv_cp|outputs equal": 10,
+  "S3|s3_sed_count|outputs equal": 6,
+  "S4|s4_json_decode|duplicate": 2,
+  "S4|s4_permission|outputs equal": 7,
+  "S4|s4_py_exc_type|outputs differ only in copied words": 13,
+  "S4|s4_py_keyerror|duplicate": 1,
+  "S4|s4_py_nameerror|duplicate": 24,
+  "S4|s4_py_syntax|duplicate": 10,
+  "S2h|h_argv|duplicate": 1,
+  "S2h|h_argv|outputs equal": 10,
+  "S2h|h_csv_filter|outputs equal": 76,
+  "S2h|h_list_key|outputs equal": 4,
+  "S2h|h_mod_loop|duplicate": 1,
+  "S2h|h_mod_loop|outputs equal": 1,
+  "S2h|h_nested|duplicate": 32,
+  "S2h|h_nested|outputs equal": 23,
+  "S3h|h3_config_mod|outputs equal": 22,
+  "S3h|h3_grep_net|outputs equal": 91,
+  "S3h|h3_mv_chain|outputs equal": 85,
+  "S3h|h3_mv_chain|unexpected stderr in context": 28
+ },
+ "extension_batch": {
+  "n": 2400,
+  "per_stratum": {
+   "S2": {
+    "n": 600,
+    "families": {
+     "s2_loop_bound": 62,
+     "s2_argv": 59,
+     "s2_sort_key": 71,
+     "s2_uniq_count": 70,
+     "s2_uniq_state": 55,
+     "s2_py_string": 45,
+     "s2_arith": 72,
+     "s2_head_tail_sort": 33,
+     "s2_csv_group": 68,
+     "s2_data_line": 62,
+     "s2_sort_flag": 3
+    },
+    "pair_type": {
+     "state": 364,
+     "action": 236
+    },
+    "output_bytes_mean": 30.388333333333332,
+    "output_bytes_max": 143,
+    "noncopy_bytes_mean (incl. terminator)": 17.9275,
+    "noncopy_byte_frac": 0.5711517018000318,
+    "tokens_mean": 83.88333333333334,
+    "tokens_max": 194,
+    "n_steps_mean": 2.216666666666667,
+    "final_nonzero_rc_frac": 0.0,
+    "gap_hist": null
+   },
+   "S3": {
+    "n": 600,
+    "families": {
+     "s3_append_present": 63,
+     "s3_sed_present": 63,
+     "s3_mv_cp": 58,
+     "s3_append_value": 52,
+     "s3_cp_alias": 63,
+     "s3_multi_append": 63,
+     "s3_mkdir_mv_find": 54,
+     "s3_sed_number_python": 63,
+     "s3_append_python": 61,
+     "s3_sed_count": 60
+    },
+    "pair_type": {
+     "state": 600
+    },
+    "output_bytes_mean": 4.9975,
+    "output_bytes_max": 31,
+    "noncopy_bytes_mean (incl. terminator)": 4.730833333333333,
+    "noncopy_byte_frac": 0.7888008892594136,
+    "tokens_mean": 117.95083333333334,
+    "tokens_max": 319,
+    "n_steps_mean": 7.931666666666667,
+    "final_nonzero_rc_frac": 0.14083333333333334,
+    "gap_hist": {
+     "2": 114,
+     "3": 99,
+     "6": 141,
+     "5": 128,
+     "4": 118
+    }
+   },
+   "S2h": {
+    "n": 600,
+    "families": {
+     "h_mod_loop": 129,
+     "h_mod_arith": 132,
+     "h_argv": 118,
+     "h_nested": 42,
+     "h_list_key": 123,
+     "h_csv_filter": 56
+    },
+    "pair_type": {
+     "state": 426,
+     "action": 174
+    },
+    "output_bytes_mean": 5.435,
+    "output_bytes_max": 10,
+    "noncopy_bytes_mean (incl. terminator)": 6.435,
+    "noncopy_byte_frac": 1.0,
+    "tokens_mean": 73.47333333333333,
+    "tokens_max": 182,
+    "n_steps_mean": 2.2983333333333333,
+    "final_nonzero_rc_frac": 0.0,
+    "gap_hist": null
+   },
+   "S3h": {
+    "n": 600,
+    "families": {
+     "h3_config_mod": 206,
+     "h3_append_mod": 233,
+     "h3_mv_chain": 73,
+     "h3_grep_net": 88
+    },
+    "pair_type": {
+     "state": 600
+    },
+    "output_bytes_mean": 2.8325,
+    "output_bytes_max": 5,
+    "noncopy_bytes_mean (incl. terminator)": 3.8325,
+    "noncopy_byte_frac": 1.0,
+    "tokens_mean": 198.38416666666666,
+    "tokens_max": 436,
+    "n_steps_mean": 12.896666666666667,
+    "final_nonzero_rc_frac": 0.015833333333333335,
+    "gap_hist": {
+     "5": 124,
+     "2": 110,
+     "6": 119,
+     "3": 137,
+     "4": 110
+    }
+   }
+  },
+  "rejects": {
+   "S2|s2_argv|duplicate": 4,
+   "S2|s2_argv|outputs differ only in copied words": 14,
+   "S2|s2_argv|outputs equal": 1,
+   "S2|s2_csv_group|outputs differ only in copied words": 4,
+   "S2|s2_data_line|outputs equal": 15,
+   "S2|s2_head_tail_sort|outputs differ only in copied words": 42,
+   "S2|s2_head_tail_sort|outputs equal": 11,
+   "S2|s2_loop_bound|duplicate": 9,
+   "S2|s2_loop_bound|outputs equal": 9,
+   "S2|s2_py_string|outputs differ only in copied words": 34,
+   "S2|s2_py_string|outputs equal": 2,
+   "S2|s2_sort_flag|outputs differ only in copied words": 77,
+   "S2|s2_sort_flag|outputs equal": 18,
+   "S2|s2_sort_key|outputs equal": 1,
+   "S2|s2_uniq_count|outputs differ only in copied words": 2,
+   "S2|s2_uniq_state|outputs differ only in copied words": 5,
+   "S2|s2_uniq_state|outputs equal": 18,
+   "S2h|h_argv|duplicate": 9,
+   "S2h|h_argv|outputs equal": 10,
+   "S2h|h_csv_filter|outputs equal": 110,
+   "S2h|h_list_key|outputs equal": 10,
+   "S2h|h_mod_loop|duplicate": 3,
+   "S2h|h_mod_loop|outputs equal": 1,
+   "S2h|h_nested|duplicate": 105,
+   "S2h|h_nested|outputs equal": 30,
+   "S3|s3_append_python|outputs equal": 6,
+   "S3|s3_append_value|outputs equal": 22,
+   "S3|s3_mkdir_mv_find|outputs equal": 15,
+   "S3|s3_mv_cp|outputs equal": 12,
+   "S3|s3_sed_count|outputs equal": 7,
+   "S3h|h3_config_mod|outputs equal": 35,
+   "S3h|h3_grep_net|outputs equal": 173,
+   "S3h|h3_mv_chain|outputs equal": 131,
+   "S3h|h3_mv_chain|unexpected stderr in context": 56
+  }
+ }
+}

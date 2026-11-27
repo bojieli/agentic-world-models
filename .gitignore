@@ -1,0 +1,16 @@
+.DS_Store
+.venv/
+__pycache__/
+*.pyc
+*.npz
+*.pkl
+weights/
+data/raw/
+work/
+runs/
+tok/
+*.parquet
+terminal/data/*
+!terminal/data/README.md
+terminal/prep.json
+swe/data/*.jsonl.gz

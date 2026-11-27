@@ -1,0 +1,79 @@
+{
+ "model": "Qwen3-4B-Base",
+ "name": "Qwen3-4B-Base",
+ "split": "heldout",
+ "n_docs": 960,
+ "docs_unmatched": 0,
+ "docs_with_special_tokens_in_content": 0,
+ "forward_seconds": 341.9469997882843,
+ "tokens": 5961788,
+ "plain_ppl": 0.273310227428698,
+ "picks": {
+  "obsgain-easy": {
+   "agenticppl": -0.9672182321540475,
+   "combine": "capped_bits",
+   "n_ranges": 10568,
+   "n_ranges_in_set": 10568,
+   "ci": [
+    -1.0606389574109976,
+    -0.8773502873321362
+   ],
+   "alt_capped_bits": -0.9672182321540475,
+   "alt_prob_mean": 0.5490054708311655,
+   "mean_range_bits_uncapped": 1.977316051458495,
+   "mean_range_bits_uncapped_ci": [
+    1.7845687631549734,
+    2.176417778618363
+   ],
+   "bits_per_row": 1.7828065891829517,
+   "ent_per_row": 1.2178516824354024,
+   "gap_per_row": 0.5649549067475492
+  },
+  "obsgain-nothought": {
+   "agenticppl": 0.48460944227992214,
+   "combine": "prob_mean",
+   "n_ranges": 28123,
+   "n_ranges_in_set": 28123,
+   "ci": [
+    0.4650810498217541,
+    0.5067300542534603
+   ],
+   "alt_capped_bits": -1.0990641835296964,
+   "alt_prob_mean": 0.48460944227992214,
+   "mean_range_bits_uncapped": 2.5046008761797056,
+   "mean_range_bits_uncapped_ci": [
+    2.3843595021052892,
+    2.6190867460554763
+   ],
+   "bits_per_row": 2.320667186373282,
+   "ent_per_row": 1.4130379513210587,
+   "gap_per_row": 0.9076292350522233
+  },
+  "obsgain-taskgain": {
+   "agenticppl": 0.39389029067506476,
+   "combine": "prob_mean",
+   "n_ranges": 21492,
+   "n_ranges_in_set": 21492,
+   "ci": [
+    0.3648289150537605,
+    0.42552274560871667
+   ],
+   "alt_capped_bits": -1.296933642547398,
+   "alt_prob_mean": 0.39389029067506476,
+   "mean_range_bits_uncapped": 3.1221147895950923,
+   "mean_range_bits_uncapped_ci": [
+    2.9505441250131637,
+    3.289266880301936
+   ],
+   "bits_per_row": 2.879849401629945,
+   "ent_per_row": 1.590828314290273,
+   "gap_per_row": 1.289021087339672
+  }
+ },
+ "action_tokens": {
+  "n": 1157097,
+  "bits": 0.5002925992012024,
+  "ent": 0.45526573061943054,
+  "gap": 0.04502686858177185
+ }
+}

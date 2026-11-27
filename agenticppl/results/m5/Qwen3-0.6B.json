@@ -1,0 +1,79 @@
+{
+ "model": "Qwen3-0.6B",
+ "name": "Qwen3-0.6B",
+ "split": "heldout",
+ "n_docs": 960,
+ "docs_unmatched": 0,
+ "docs_with_special_tokens_in_content": 0,
+ "forward_seconds": 115.35513091087341,
+ "tokens": 5961788,
+ "plain_ppl": 0.4399906012830224,
+ "picks": {
+  "obsgain-easy": {
+   "agenticppl": -1.114624830284573,
+   "combine": "capped_bits",
+   "n_ranges": 10568,
+   "n_ranges_in_set": 10568,
+   "ci": [
+    -1.2125368391418936,
+    -1.0171595127928703
+   ],
+   "alt_capped_bits": -1.114624830284573,
+   "alt_prob_mean": 0.4684047535780679,
+   "mean_range_bits_uncapped": 3.5336487323034227,
+   "mean_range_bits_uncapped_ci": [
+    3.19519907349021,
+    3.8853802763602108
+   ],
+   "bits_per_row": 3.186042129765598,
+   "ent_per_row": 1.285920023097544,
+   "gap_per_row": 1.9001221066680538
+  },
+  "obsgain-nothought": {
+   "agenticppl": 0.386396163800917,
+   "combine": "prob_mean",
+   "n_ranges": 28123,
+   "n_ranges_in_set": 28123,
+   "ci": [
+    0.36518622385134153,
+    0.409684649813262
+   ],
+   "alt_capped_bits": -1.2829323874424343,
+   "alt_prob_mean": 0.386396163800917,
+   "mean_range_bits_uncapped": 4.344097660640635,
+   "mean_range_bits_uncapped_ci": [
+    4.158441210234687,
+    4.518802056442293
+   ],
+   "bits_per_row": 4.025074410588975,
+   "ent_per_row": 1.4952830890517506,
+   "gap_per_row": 2.5297913215372247
+  },
+  "obsgain-taskgain": {
+   "agenticppl": 0.32383525385772893,
+   "combine": "prob_mean",
+   "n_ranges": 21492,
+   "n_ranges_in_set": 21492,
+   "ci": [
+    0.2943800842001359,
+    0.3574364930525407
+   ],
+   "alt_capped_bits": -1.413414325556811,
+   "alt_prob_mean": 0.32383525385772893,
+   "mean_range_bits_uncapped": 5.011950729560755,
+   "mean_range_bits_uncapped_ci": [
+    4.74645377801267,
+    5.258870151825642
+   ],
+   "bits_per_row": 4.623040561361361,
+   "ent_per_row": 1.6660060197713338,
+   "gap_per_row": 2.9570345415900277
+  }
+ },
+ "action_tokens": {
+  "n": 1157097,
+  "bits": 1.0064690113067627,
+  "ent": 0.5774811506271362,
+  "gap": 0.42898786067962646
+ }
+}

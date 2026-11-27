@@ -1,0 +1,232 @@
+{
+ "swe_smith.jsonl.gz": {
+  "n": 300,
+  "teachers": {
+   "claude-3-7-sonnet-20250219": 300
+  },
+  "repos": 115,
+  "tasks": 300,
+  "tokens": {
+   "p10": 4518,
+   "p50": 12066,
+   "p90": 28191,
+   "max": 83864,
+   "frac_gt_32k": 0.07
+  },
+  "span_byte_share": {
+   "observation": 0.552,
+   "thought": 0.204,
+   "action": 0.147,
+   "task": 0.075,
+   "markup": 0.021
+  },
+  "n_observations": 4273,
+  "obs_kind": {
+   "file_view": {
+    "n": 1009,
+    "byte_share": 0.492,
+    "error_rate": 0.021
+   },
+   "tool_ack": {
+    "n": 187,
+    "byte_share": 0.166,
+    "error_rate": 0.059
+   },
+   "edit_ack": {
+    "n": 1211,
+    "byte_share": 0.126,
+    "error_rate": 0.034
+   },
+   "python_exec": {
+    "n": 1118,
+    "byte_share": 0.102,
+    "error_rate": 0.289
+   },
+   "search": {
+    "n": 458,
+    "byte_share": 0.092,
+    "error_rate": 0.0
+   },
+   "test_run": {
+    "n": 76,
+    "byte_share": 0.013,
+    "error_rate": 0.079
+   },
+   "shell_other": {
+    "n": 214,
+    "byte_share": 0.009,
+    "error_rate": 0.023
+   }
+  },
+  "error_rate": 0.095,
+  "error_regex_raw_rate": 0.285,
+  "test_runs": {
+   "n": 76,
+   "tests_pass_true": 69,
+   "tests_pass_false": 5,
+   "tests_pass_null": 2
+  },
+  "truncated_obs": {
+   "n": 51,
+   "rate": 0.0119,
+   "markers": {
+    "<response clipped>": 51
+   }
+  },
+  "empty_obs": 0
+ },
+ "swe_rebench.jsonl.gz": {
+  "n": 150,
+  "teachers": {
+   "claude-opus-4.6": 30,
+   "deepseek-v4-pro": 30,
+   "glm-5.1": 30,
+   "gpt-5.4": 30,
+   "gemini-3.1-pro-preview": 30
+  },
+  "repos": 66,
+  "tasks": 86,
+  "tokens": {
+   "p10": 14921,
+   "p50": 32711,
+   "p90": 76600,
+   "max": 177818,
+   "frac_gt_32k": 0.487
+  },
+  "span_byte_share": {
+   "observation": 0.744,
+   "action": 0.118,
+   "task": 0.079,
+   "thought": 0.039,
+   "markup": 0.019
+  },
+  "n_observations": 5942,
+  "obs_kind": {
+   "file_view": {
+    "n": 1740,
+    "byte_share": 0.447,
+    "error_rate": 0.03
+   },
+   "test_run": {
+    "n": 785,
+    "byte_share": 0.172,
+    "error_rate": 0.22
+   },
+   "search": {
+    "n": 1288,
+    "byte_share": 0.116,
+    "error_rate": 0.023
+   },
+   "python_exec": {
+    "n": 1313,
+    "byte_share": 0.106,
+    "error_rate": 0.181
+   },
+   "edit_ack": {
+    "n": 350,
+    "byte_share": 0.089,
+    "error_rate": 0.091
+   },
+   "shell_other": {
+    "n": 466,
+    "byte_share": 0.071,
+    "error_rate": 0.107
+   }
+  },
+  "error_rate": 0.096,
+  "error_regex_raw_rate": 0.291,
+  "test_runs": {
+   "n": 785,
+   "tests_pass_true": 428,
+   "tests_pass_false": 130,
+   "tests_pass_null": 227
+  },
+  "truncated_obs": {
+   "n": 10,
+   "rate": 0.0017,
+   "markers": {
+    "output truncated": 4,
+    "<... tool result truncated ...>": 6
+   }
+  },
+  "empty_obs": 162
+ },
+ "swe_rebench_openhands.jsonl.gz": {
+  "n": 150,
+  "teachers": {
+   "Qwen3-Coder-480B-A35B-Instruct or nebius fine-tune (per-row model not released)": 150
+  },
+  "repos": 126,
+  "tasks": 150,
+  "tokens": {
+   "p10": 32817,
+   "p50": 48181,
+   "p90": 69166,
+   "max": 117201,
+   "frac_gt_32k": 0.907
+  },
+  "span_byte_share": {
+   "observation": 0.67,
+   "action": 0.166,
+   "task": 0.072,
+   "thought": 0.046,
+   "markup": 0.045
+  },
+  "n_observations": 9186,
+  "obs_kind": {
+   "test_run": {
+    "n": 1174,
+    "byte_share": 0.515,
+    "error_rate": 0.214
+   },
+   "file_view": {
+    "n": 1996,
+    "byte_share": 0.244,
+    "error_rate": 0.046
+   },
+   "search": {
+    "n": 1701,
+    "byte_share": 0.083,
+    "error_rate": 0.008
+   },
+   "python_exec": {
+    "n": 1752,
+    "byte_share": 0.08,
+    "error_rate": 0.23
+   },
+   "edit_ack": {
+    "n": 1542,
+    "byte_share": 0.048,
+    "error_rate": 0.031
+   },
+   "shell_other": {
+    "n": 502,
+    "byte_share": 0.029,
+    "error_rate": 0.034
+   },
+   "tool_ack": {
+    "n": 519,
+    "byte_share": 0.001,
+    "error_rate": 0.0
+   }
+  },
+  "error_rate": 0.09,
+  "error_regex_raw_rate": 0.176,
+  "test_runs": {
+   "n": 1174,
+   "tests_pass_true": 735,
+   "tests_pass_false": 133,
+   "tests_pass_null": 306
+  },
+  "truncated_obs": {
+   "n": 249,
+   "rate": 0.0271,
+   "markers": {
+    "<response clipped>": 60,
+    "Observation truncated": 187,
+    "output truncated": 2
+   }
+  },
+  "empty_obs": 289
+ }
+}

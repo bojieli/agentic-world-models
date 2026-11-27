@@ -1,0 +1,79 @@
+{
+ "model": "Qwen3-1.7B-Base",
+ "name": "Qwen3-1.7B-Base",
+ "split": "heldout",
+ "n_docs": 960,
+ "docs_unmatched": 0,
+ "docs_with_special_tokens_in_content": 0,
+ "forward_seconds": 181.53462839126587,
+ "tokens": 5961788,
+ "plain_ppl": 0.3107874819021461,
+ "picks": {
+  "obsgain-easy": {
+   "agenticppl": -1.0523740662364025,
+   "combine": "capped_bits",
+   "n_ranges": 10568,
+   "n_ranges_in_set": 10568,
+   "ci": [
+    -1.1517959756881262,
+    -0.9575803598866653
+   ],
+   "alt_capped_bits": -1.0523740662364025,
+   "alt_prob_mean": 0.5067780274927963,
+   "mean_range_bits_uncapped": 2.3475438437303007,
+   "mean_range_bits_uncapped_ci": [
+    2.1260490114894743,
+    2.5770047524928406
+   ],
+   "bits_per_row": 2.116614908330502,
+   "ent_per_row": 1.4826550481915863,
+   "gap_per_row": 0.6339598601389158
+  },
+  "obsgain-nothought": {
+   "agenticppl": 0.4326806635216819,
+   "combine": "prob_mean",
+   "n_ranges": 28123,
+   "n_ranges_in_set": 28123,
+   "ci": [
+    0.4121952127467916,
+    0.45510446392354925
+   ],
+   "alt_capped_bits": -1.2064538850801947,
+   "alt_prob_mean": 0.4326806635216819,
+   "mean_range_bits_uncapped": 2.940960602065181,
+   "mean_range_bits_uncapped_ci": [
+    2.8063855505509547,
+    3.0654511284382893
+   ],
+   "bits_per_row": 2.7249813854730855,
+   "ent_per_row": 1.7277695161702067,
+   "gap_per_row": 0.9972118693028789
+  },
+  "obsgain-taskgain": {
+   "agenticppl": 0.3576346319229222,
+   "combine": "prob_mean",
+   "n_ranges": 21492,
+   "n_ranges_in_set": 21492,
+   "ci": [
+    0.32859434138824745,
+    0.3902510655733852
+   ],
+   "alt_capped_bits": -1.3677209126512322,
+   "alt_prob_mean": 0.3576346319229222,
+   "mean_range_bits_uncapped": 3.519713313889406,
+   "mean_range_bits_uncapped_ci": [
+    3.331935356500985,
+    3.6979050013087003
+   ],
+   "bits_per_row": 3.246595645584168,
+   "ent_per_row": 1.8995142054247045,
+   "gap_per_row": 1.3470814401594635
+  }
+ },
+ "action_tokens": {
+  "n": 1157097,
+  "bits": 0.6230695843696594,
+  "ent": 0.6031618714332581,
+  "gap": 0.019907712936401367
+ }
+}

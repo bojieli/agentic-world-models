@@ -1,0 +1,70 @@
+{
+ "n": 600,
+ "per_stratum": {
+  "S2h": {
+   "n": 300,
+   "families": {
+    "h_mod_loop": 61,
+    "h_mod_arith": 62,
+    "h_argv": 57,
+    "h_nested": 40,
+    "h_list_key": 59,
+    "h_csv_filter": 21
+   },
+   "pair_type": {
+    "state": 222,
+    "action": 78
+   },
+   "output_bytes_mean": 5.105,
+   "output_bytes_max": 9,
+   "noncopy_bytes_mean (incl. terminator)": 6.105,
+   "noncopy_byte_frac": 1.0,
+   "tokens_mean": 70.61,
+   "tokens_max": 179,
+   "n_steps_mean": 2.2666666666666666,
+   "final_nonzero_rc_frac": 0.0,
+   "gap_hist": null
+  },
+  "S3h": {
+   "n": 300,
+   "families": {
+    "h3_grep_net": 49,
+    "h3_config_mod": 98,
+    "h3_append_mod": 112,
+    "h3_mv_chain": 41
+   },
+   "pair_type": {
+    "state": 300
+   },
+   "output_bytes_mean": 2.8216666666666668,
+   "output_bytes_max": 5,
+   "noncopy_bytes_mean (incl. terminator)": 3.8216666666666668,
+   "noncopy_byte_frac": 1.0,
+   "tokens_mean": 203.035,
+   "tokens_max": 436,
+   "n_steps_mean": 13.16,
+   "final_nonzero_rc_frac": 0.011666666666666667,
+   "gap_hist": {
+    "2": 56,
+    "6": 67,
+    "3": 59,
+    "4": 61,
+    "5": 57
+   }
+  }
+ },
+ "rejects": {
+  "S2h|h_argv|duplicate": 1,
+  "S2h|h_argv|outputs equal": 10,
+  "S2h|h_csv_filter|outputs equal": 76,
+  "S2h|h_list_key|outputs equal": 4,
+  "S2h|h_mod_loop|duplicate": 1,
+  "S2h|h_mod_loop|outputs equal": 1,
+  "S2h|h_nested|duplicate": 32,
+  "S2h|h_nested|outputs equal": 23,
+  "S3h|h3_config_mod|outputs equal": 22,
+  "S3h|h3_grep_net|outputs equal": 91,
+  "S3h|h3_mv_chain|outputs equal": 85,
+  "S3h|h3_mv_chain|unexpected stderr in context": 28
+ }
+}

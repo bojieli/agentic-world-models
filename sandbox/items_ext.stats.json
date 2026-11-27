@@ -1,0 +1,154 @@
+{
+ "n": 2400,
+ "per_stratum": {
+  "S2": {
+   "n": 600,
+   "families": {
+    "s2_loop_bound": 62,
+    "s2_argv": 59,
+    "s2_sort_key": 71,
+    "s2_uniq_count": 70,
+    "s2_uniq_state": 55,
+    "s2_py_string": 45,
+    "s2_arith": 72,
+    "s2_head_tail_sort": 33,
+    "s2_csv_group": 68,
+    "s2_data_line": 62,
+    "s2_sort_flag": 3
+   },
+   "pair_type": {
+    "state": 364,
+    "action": 236
+   },
+   "output_bytes_mean": 30.388333333333332,
+   "output_bytes_max": 143,
+   "noncopy_bytes_mean (incl. terminator)": 17.9275,
+   "noncopy_byte_frac": 0.5711517018000318,
+   "tokens_mean": 83.88333333333334,
+   "tokens_max": 194,
+   "n_steps_mean": 2.216666666666667,
+   "final_nonzero_rc_frac": 0.0,
+   "gap_hist": null
+  },
+  "S3": {
+   "n": 600,
+   "families": {
+    "s3_append_present": 63,
+    "s3_sed_present": 63,
+    "s3_mv_cp": 58,
+    "s3_append_value": 52,
+    "s3_cp_alias": 63,
+    "s3_multi_append": 63,
+    "s3_mkdir_mv_find": 54,
+    "s3_sed_number_python": 63,
+    "s3_append_python": 61,
+    "s3_sed_count": 60
+   },
+   "pair_type": {
+    "state": 600
+   },
+   "output_bytes_mean": 4.9975,
+   "output_bytes_max": 31,
+   "noncopy_bytes_mean (incl. terminator)": 4.730833333333333,
+   "noncopy_byte_frac": 0.7888008892594136,
+   "tokens_mean": 117.95083333333334,
+   "tokens_max": 319,
+   "n_steps_mean": 7.931666666666667,
+   "final_nonzero_rc_frac": 0.14083333333333334,
+   "gap_hist": {
+    "2": 114,
+    "3": 99,
+    "6": 141,
+    "5": 128,
+    "4": 118
+   }
+  },
+  "S2h": {
+   "n": 600,
+   "families": {
+    "h_mod_loop": 129,
+    "h_mod_arith": 132,
+    "h_argv": 118,
+    "h_nested": 42,
+    "h_list_key": 123,
+    "h_csv_filter": 56
+   },
+   "pair_type": {
+    "state": 426,
+    "action": 174
+   },
+   "output_bytes_mean": 5.435,
+   "output_bytes_max": 10,
+   "noncopy_bytes_mean (incl. terminator)": 6.435,
+   "noncopy_byte_frac": 1.0,
+   "tokens_mean": 73.47333333333333,
+   "tokens_max": 182,
+   "n_steps_mean": 2.2983333333333333,
+   "final_nonzero_rc_frac": 0.0,
+   "gap_hist": null
+  },
+  "S3h": {
+   "n": 600,
+   "families": {
+    "h3_config_mod": 206,
+    "h3_append_mod": 233,
+    "h3_mv_chain": 73,
+    "h3_grep_net": 88
+   },
+   "pair_type": {
+    "state": 600
+   },
+   "output_bytes_mean": 2.8325,
+   "output_bytes_max": 5,
+   "noncopy_bytes_mean (incl. terminator)": 3.8325,
+   "noncopy_byte_frac": 1.0,
+   "tokens_mean": 198.38416666666666,
+   "tokens_max": 436,
+   "n_steps_mean": 12.896666666666667,
+   "final_nonzero_rc_frac": 0.015833333333333335,
+   "gap_hist": {
+    "5": 124,
+    "2": 110,
+    "6": 119,
+    "3": 137,
+    "4": 110
+   }
+  }
+ },
+ "rejects": {
+  "S2|s2_argv|duplicate": 4,
+  "S2|s2_argv|outputs differ only in copied words": 14,
+  "S2|s2_argv|outputs equal": 1,
+  "S2|s2_csv_group|outputs differ only in copied words": 4,
+  "S2|s2_data_line|outputs equal": 15,
+  "S2|s2_head_tail_sort|outputs differ only in copied words": 42,
+  "S2|s2_head_tail_sort|outputs equal": 11,
+  "S2|s2_loop_bound|duplicate": 9,
+  "S2|s2_loop_bound|outputs equal": 9,
+  "S2|s2_py_string|outputs differ only in copied words": 34,
+  "S2|s2_py_string|outputs equal": 2,
+  "S2|s2_sort_flag|outputs differ only in copied words": 77,
+  "S2|s2_sort_flag|outputs equal": 18,
+  "S2|s2_sort_key|outputs equal": 1,
+  "S2|s2_uniq_count|outputs differ only in copied words": 2,
+  "S2|s2_uniq_state|outputs differ only in copied words": 5,
+  "S2|s2_uniq_state|outputs equal": 18,
+  "S2h|h_argv|duplicate": 9,
+  "S2h|h_argv|outputs equal": 10,
+  "S2h|h_csv_filter|outputs equal": 110,
+  "S2h|h_list_key|outputs equal": 10,
+  "S2h|h_mod_loop|duplicate": 3,
+  "S2h|h_mod_loop|outputs equal": 1,
+  "S2h|h_nested|duplicate": 105,
+  "S2h|h_nested|outputs equal": 30,
+  "S3|s3_append_python|outputs equal": 6,
+  "S3|s3_append_value|outputs equal": 22,
+  "S3|s3_mkdir_mv_find|outputs equal": 15,
+  "S3|s3_mv_cp|outputs equal": 12,
+  "S3|s3_sed_count|outputs equal": 7,
+  "S3h|h3_config_mod|outputs equal": 35,
+  "S3h|h3_grep_net|outputs equal": 173,
+  "S3h|h3_mv_chain|outputs equal": 131,
+  "S3h|h3_mv_chain|unexpected stderr in context": 56
+ }
+}

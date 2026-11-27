@@ -1,0 +1,551 @@
+# Size-equivalent multipliers, counterfactual benchmark (plain_nocopy_T1; joint env-cluster bootstrap)
+
+| metric | ladder | b [95% CI] | points |
+|---|---|---|---|
+| binding acc/S2+S3 | base | +0.0377 [+0.0331,+0.0421] | 0.6B: 0.734, 1.7B: 0.817, 4B: 0.903, 8B: 0.903, 14B: 0.911 |
+| binding acc/S2+S3 | inst | +0.0360 [+0.0322,+0.0399] | 0.6B: 0.691, 1.7B: 0.756, 4B: 0.826, 8B: 0.842, 14B: 0.866, 32B: 0.917 |
+| binding acc/S2h+S3h | base | +0.0263 [+0.0202,+0.0317] | 0.6B: 0.538, 1.7B: 0.555, 4B: 0.611, 8B: 0.640, 14B: 0.657 |
+| binding acc/S2h+S3h | inst | +0.0260 [+0.0217,+0.0305] | 0.6B: 0.518, 1.7B: 0.537, 4B: 0.549, 8B: 0.593, 14B: 0.640, 32B: 0.669 |
+| binding acc/primary | base | +0.0320 [+0.0283,+0.0356] | 0.6B: 0.636, 1.7B: 0.686, 4B: 0.757, 8B: 0.771, 14B: 0.784 |
+| binding acc/primary | inst | +0.0310 [+0.0281,+0.0339] | 0.6B: 0.604, 1.7B: 0.646, 4B: 0.687, 8B: 0.717, 14B: 0.753, 32B: 0.793 |
+| info gain/S2+S3 | base | +0.0814 [+0.0787,+0.0842] | 0.6B: 0.235, 1.7B: 0.409, 4B: 0.523, 8B: 0.559, 14B: 0.646 |
+| info gain/S2+S3 | inst | +0.0988 [+0.0961,+0.1014] | 0.6B: 0.144, 1.7B: 0.357, 4B: 0.508, 8B: 0.559, 14B: 0.700, 32B: 0.738 |
+| info gain/S2h+S3h | base | +0.0193 [+0.0176,+0.0211] | 0.6B: 0.009, 1.7B: 0.026, 4B: 0.047, 8B: 0.062, 14B: 0.113 |
+| info gain/S2h+S3h | inst | +0.0252 [+0.0233,+0.0272] | 0.6B: 0.006, 1.7B: 0.026, 4B: 0.026, 8B: 0.045, 14B: 0.121, 32B: 0.163 |
+| info gain/primary | base | +0.0533 [+0.0512,+0.0555] | 0.6B: 0.134, 1.7B: 0.229, 4B: 0.303, 8B: 0.332, 14B: 0.405 |
+| info gain/primary | inst | +0.0680 [+0.0658,+0.0703] | 0.6B: 0.078, 1.7B: 0.239, 4B: 0.312, 8B: 0.346, 14B: 0.459, 32B: 0.499 |
+| interaction bits/byte/S2+S3 | base | +0.0685 [+0.0639,+0.0735] | 0.6B: 0.259, 1.7B: 0.390, 4B: 0.497, 8B: 0.514, 14B: 0.608 |
+| interaction bits/byte/S2+S3 | inst | +0.1007 [+0.0942,+0.1079] | 0.6B: 0.222, 1.7B: 0.583, 4B: 0.713, 8B: 0.739, 14B: 0.893, 32B: 0.837 |
+| interaction bits/byte/S2h+S3h | base | +0.0330 [+0.0297,+0.0362] | 0.6B: 0.017, 1.7B: 0.049, 4B: 0.086, 8B: 0.106, 14B: 0.197 |
+| interaction bits/byte/S2h+S3h | inst | +0.0462 [+0.0422,+0.0504] | 0.6B: 0.019, 1.7B: 0.052, 4B: 0.057, 8B: 0.094, 14B: 0.248, 32B: 0.294 |
+| interaction bits/byte/primary | base | +0.0575 [+0.0541,+0.0610] | 0.6B: 0.184, 1.7B: 0.285, 4B: 0.370, 8B: 0.388, 14B: 0.481 |
+| interaction bits/byte/primary | inst | +0.0838 [+0.0794,+0.0886] | 0.6B: 0.159, 1.7B: 0.419, 4B: 0.510, 8B: 0.540, 14B: 0.693, 32B: 0.669 |
+| null binding/S2+S3 | base | -0.0003 [-0.0059,+0.0055] | 0.6B: 0.502, 1.7B: 0.479, 4B: 0.495, 8B: 0.494, 14B: 0.494 |
+| null binding/S2+S3 | inst | -0.0017 [-0.0064,+0.0030] | 0.6B: 0.508, 1.7B: 0.491, 4B: 0.515, 8B: 0.497, 14B: 0.498, 32B: 0.493 |
+| null binding/S2h+S3h | base | -0.0027 [-0.0088,+0.0027] | 0.6B: 0.506, 1.7B: 0.491, 4B: 0.507, 8B: 0.494, 14B: 0.487 |
+| null binding/S2h+S3h | inst | -0.0025 [-0.0073,+0.0020] | 0.6B: 0.514, 1.7B: 0.492, 4B: 0.480, 8B: 0.504, 14B: 0.490, 32B: 0.493 |
+| null binding/primary | base | -0.0015 [-0.0055,+0.0024] | 0.6B: 0.504, 1.7B: 0.485, 4B: 0.501, 8B: 0.494, 14B: 0.491 |
+| null binding/primary | inst | -0.0021 [-0.0055,+0.0013] | 0.6B: 0.511, 1.7B: 0.491, 4B: 0.497, 8B: 0.500, 14B: 0.494, 32B: 0.493 |
+
+log2 n is censored to the ladder range (start size .. ladder end); '>'/'<' = point estimate censored; cens = share of bootstrap draws censored; slope? = ladder slope CI excludes 0.
+
+| metric | model | start (ladder) | Δ [95% CI] | log2 n [95% CI] | n [95% CI] | cens | slope? |
+|---|---|---|---|---|---|---|---|
+| binding acc/S2+S3 | Nemotron-Terminal-8B | Qwen3-8B (inst) | +0.0528 [+0.0346,+0.0708] | +1.46 [+0.94,+2.02] | 2.76 [1.92,4.06] | 0.01 | yes |
+| binding acc/S2+S3 | Nemotron-Terminal-14B | Qwen3-14B (inst) | +0.0383 [+0.0239,+0.0536] | +1.06 [+0.65,+1.24] | 2.09 [1.56,2.36] | 0.23 | yes |
+| binding acc/S2+S3 | Nemotron-Terminal-32B | Qwen3-32B (inst) | +0.0200 [+0.0069,+0.0335] | >+0.00 [+0.00,+0.00] | >1.00 [1.00,1.00] | 1.00 | yes |
+| binding acc/S2+S3 | tmax-sft-8b | Qwen3-8B (inst) | +0.0444 [+0.0256,+0.0622] | +1.23 [+0.71,+1.80] | 2.35 [1.64,3.47] | 0.00 | yes |
+| binding acc/S2+S3 | tmax-8b | Qwen3-8B (inst) | +0.0511 [+0.0332,+0.0691] | +1.42 [+0.92,+1.97] | 2.67 [1.89,3.93] | 0.01 | yes |
+| binding acc/S2+S3 | tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | +0.0067 [-0.0027,+0.0156] | +0.18 [-0.07,+0.43] | 1.14 [0.95,1.35] | 0.00 | yes |
+| binding acc/S2+S3 | CodeScout-14B | Qwen3-14B (inst) | -0.0083 [-0.0155,-0.0016] | -0.23 [-0.43,-0.04] | 0.85 [0.74,0.97] | 0.00 | yes |
+| binding acc/S2+S3 | Light-IF-8B | Qwen3-8B (inst) | +0.0161 [+0.0022,+0.0301] | +0.45 [+0.06,+0.85] | 1.36 [1.04,1.81] | 0.00 | yes |
+| binding acc/S2+S3 | Light-IF-14B | Qwen3-14B (inst) | +0.0244 [+0.0142,+0.0351] | +0.68 [+0.39,+1.01] | 1.60 [1.31,2.02] | 0.00 | yes |
+| binding acc/S2+S3 | Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0794 [-0.1006,-0.0585] | -2.11 [-2.70,-1.57] | 0.23 [0.15,0.34] | 0.00 | yes |
+| binding acc/S2+S3 | WebWorld-8B | Qwen3-8B (inst) | +0.0133 [-0.0044,+0.0310] | +0.37 [-0.11,+0.87] | 1.29 [0.93,1.83] | 0.00 | yes |
+| binding acc/S2+S3 | WebWorld-8B|vs Base | Qwen3-8B-Base (base) | -0.0478 [-0.0647,-0.0303] | -1.27 [-1.72,-0.83] | 0.42 [0.30,0.56] | 0.00 | yes |
+| binding acc/S2+S3 | SERA-8B | Qwen3-8B (inst) | +0.0078 [-0.0098,+0.0254] | +0.22 [-0.28,+0.72] | 1.16 [0.82,1.64] | 0.00 | yes |
+| binding acc/S2+S3 | Arctic-AWM-8B | Qwen3-8B (inst) | +0.0056 [-0.0029,+0.0149] | +0.15 [-0.08,+0.43] | 1.11 [0.94,1.34] | 0.00 | yes |
+| binding acc/S2+S3 | FrogMini-14B-2510 | Qwen3-14B (inst) | +0.0200 [+0.0049,+0.0341] | +0.55 [+0.13,+0.99] | 1.47 [1.09,1.98] | 0.00 | yes |
+| binding acc/S2+S3 | OpenThinkerAgent-32B | Qwen3-32B (inst) | +0.0089 [-0.0049,+0.0224] | >+0.00 [-0.13,+0.00] | >1.00 [0.91,1.00] | 0.89 | yes |
+| binding acc/S2+S3 | Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0183 [-0.0409,+0.0040] | -0.51 [-1.13,+0.12] | 0.70 [0.46,1.09] | 0.00 | yes |
+| binding acc/S2+S3 | Qwen3-0.6B|instruct vs base | Qwen3-0.6B-Base (base) | -0.0433 [-0.0673,-0.0192] | <+0.00 [+0.00,+0.00] | <1.00 [1.00,1.00] | 1.00 | yes |
+| binding acc/S2+S3 | Qwen3-1.7B|instruct vs base | Qwen3-1.7B-Base (base) | -0.0611 [-0.0829,-0.0388] | -1.62 [-1.68,-1.00] | 0.33 [0.31,0.50] | 0.44 | yes |
+| binding acc/S2+S3 | Qwen3-4B|instruct vs base | Qwen3-4B-Base (base) | -0.0772 [-0.0963,-0.0586] | -2.05 [-2.61,-1.56] | 0.24 [0.16,0.34] | 0.00 | yes |
+| binding acc/S2+S3 | Qwen3-8B|instruct vs base | Qwen3-8B-Base (base) | -0.0611 [-0.0788,-0.0424] | -1.62 [-2.14,-1.14] | 0.33 [0.23,0.45] | 0.00 | yes |
+| binding acc/S2+S3 | Qwen3-14B|instruct vs base | Qwen3-14B-Base (base) | -0.0444 [-0.0595,-0.0290] | -1.18 [-1.59,-0.80] | 0.44 [0.33,0.58] | 0.00 | yes |
+| binding acc/S2h+S3h | Nemotron-Terminal-8B | Qwen3-8B (inst) | +0.0083 [-0.0177,+0.0368] | +0.32 [-0.69,+1.47] | 1.25 [0.62,2.78] | 0.00 | yes |
+| binding acc/S2h+S3h | Nemotron-Terminal-14B | Qwen3-14B (inst) | +0.0300 [+0.0023,+0.0555] | +1.15 [+0.09,+1.24] | 2.22 [1.06,2.36] | 0.44 | yes |
+| binding acc/S2h+S3h | Nemotron-Terminal-32B | Qwen3-32B (inst) | +0.0389 [+0.0127,+0.0646] | >+0.00 [+0.00,+0.00] | >1.00 [1.00,1.00] | 1.00 | yes |
+| binding acc/S2h+S3h | tmax-sft-8b | Qwen3-8B (inst) | +0.0272 [-0.0017,+0.0556] | +1.05 [-0.07,+2.16] | 2.07 [0.95,4.46] | 0.02 | yes |
+| binding acc/S2h+S3h | tmax-8b | Qwen3-8B (inst) | +0.0122 [-0.0157,+0.0407] | +0.47 [-0.63,+1.56] | 1.38 [0.64,2.94] | 0.00 | yes |
+| binding acc/S2h+S3h | tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0150 [-0.0350,+0.0039] | -0.58 [-1.35,+0.15] | 0.67 [0.39,1.11] | 0.00 | yes |
+| binding acc/S2h+S3h | CodeScout-14B | Qwen3-14B (inst) | +0.0033 [-0.0148,+0.0222] | +0.13 [-0.57,+0.88] | 1.09 [0.67,1.84] | 0.00 | yes |
+| binding acc/S2h+S3h | Light-IF-8B | Qwen3-8B (inst) | +0.0133 [-0.0095,+0.0361] | +0.51 [-0.37,+1.43] | 1.43 [0.77,2.70] | 0.00 | yes |
+| binding acc/S2h+S3h | Light-IF-14B | Qwen3-14B (inst) | +0.0089 [-0.0127,+0.0288] | +0.34 [-0.47,+1.17] | 1.27 [0.72,2.25] | 0.02 | yes |
+| binding acc/S2h+S3h | Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0994 [-0.1298,-0.0703] | -3.78 [-3.98,-2.59] | 0.07 [0.06,0.17] | 0.39 | yes |
+| binding acc/S2h+S3h | WebWorld-8B | Qwen3-8B (inst) | -0.0144 [-0.0415,+0.0131] | -0.56 [-1.58,+0.50] | 0.68 [0.33,1.41] | 0.00 | yes |
+| binding acc/S2h+S3h | WebWorld-8B|vs Base | Qwen3-8B-Base (base) | -0.0617 [-0.0893,-0.0319] | -2.34 [-3.50,-1.22] | 0.20 [0.09,0.43] | 0.01 | yes |
+| binding acc/S2h+S3h | SERA-8B | Qwen3-8B (inst) | +0.0194 [-0.0072,+0.0478] | +0.75 [-0.27,+1.93] | 1.68 [0.83,3.81] | 0.01 | yes |
+| binding acc/S2h+S3h | Arctic-AWM-8B | Qwen3-8B (inst) | -0.0106 [-0.0284,+0.0078] | -0.41 [-1.14,+0.31] | 0.75 [0.45,1.24] | 0.00 | yes |
+| binding acc/S2h+S3h | FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0089 [-0.0347,+0.0156] | -0.34 [-1.30,+0.62] | 0.79 [0.40,1.54] | 0.00 | yes |
+| binding acc/S2h+S3h | OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0194 [-0.0467,+0.0081] | -0.75 [-1.74,+0.00] | 0.60 [0.30,1.00] | 0.08 | yes |
+| binding acc/S2h+S3h | Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0522 [-0.0829,-0.0217] | -2.01 [-3.26,-0.85] | 0.25 [0.10,0.55] | 0.00 | yes |
+| binding acc/S2h+S3h | Qwen3-0.6B|instruct vs base | Qwen3-0.6B-Base (base) | -0.0206 [-0.0498,+0.0096] | <+0.00 [+0.00,+0.34] | <1.00 [1.00,1.27] | 0.91 | yes |
+| binding acc/S2h+S3h | Qwen3-1.7B|instruct vs base | Qwen3-1.7B-Base (base) | -0.0183 [-0.0480,+0.0095] | -0.70 [-1.68,+0.36] | 0.62 [0.31,1.28] | 0.07 | yes |
+| binding acc/S2h+S3h | Qwen3-4B|instruct vs base | Qwen3-4B-Base (base) | -0.0622 [-0.0923,-0.0312] | -2.36 [-3.04,-1.21] | 0.19 [0.12,0.43] | 0.15 | yes |
+| binding acc/S2h+S3h | Qwen3-8B|instruct vs base | Qwen3-8B-Base (base) | -0.0472 [-0.0749,-0.0184] | -1.79 [-2.91,-0.75] | 0.29 [0.13,0.60] | 0.00 | yes |
+| binding acc/S2h+S3h | Qwen3-14B|instruct vs base | Qwen3-14B-Base (base) | -0.0172 [-0.0441,+0.0100] | -0.65 [-1.63,+0.00] | 0.64 [0.32,1.00] | 0.11 | yes |
+| binding acc/primary | Nemotron-Terminal-8B | Qwen3-8B (inst) | +0.0306 [+0.0141,+0.0476] | +0.98 [+0.45,+1.56] | 1.98 [1.36,2.96] | 0.00 | yes |
+| binding acc/primary | Nemotron-Terminal-14B | Qwen3-14B (inst) | +0.0342 [+0.0191,+0.0490] | +1.10 [+0.60,+1.24] | 2.15 [1.52,2.36] | 0.31 | yes |
+| binding acc/primary | Nemotron-Terminal-32B | Qwen3-32B (inst) | +0.0294 [+0.0145,+0.0442] | >+0.00 [+0.00,+0.00] | >1.00 [1.00,1.00] | 1.00 | yes |
+| binding acc/primary | tmax-sft-8b | Qwen3-8B (inst) | +0.0358 [+0.0194,+0.0534] | +1.15 [+0.61,+1.75] | 2.23 [1.53,3.36] | 0.00 | yes |
+| binding acc/primary | tmax-8b | Qwen3-8B (inst) | +0.0317 [+0.0151,+0.0484] | +1.02 [+0.49,+1.59] | 2.03 [1.40,3.00] | 0.00 | yes |
+| binding acc/primary | tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0042 [-0.0150,+0.0067] | -0.13 [-0.48,+0.21] | 0.91 [0.72,1.16] | 0.00 | yes |
+| binding acc/primary | CodeScout-14B | Qwen3-14B (inst) | -0.0025 [-0.0123,+0.0075] | -0.08 [-0.40,+0.24] | 0.95 [0.76,1.18] | 0.00 | yes |
+| binding acc/primary | Light-IF-8B | Qwen3-8B (inst) | +0.0147 [+0.0011,+0.0285] | +0.47 [+0.04,+0.93] | 1.39 [1.03,1.91] | 0.00 | yes |
+| binding acc/primary | Light-IF-14B | Qwen3-14B (inst) | +0.0167 [+0.0049,+0.0286] | +0.54 [+0.15,+0.95] | 1.45 [1.11,1.93] | 0.00 | yes |
+| binding acc/primary | Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0894 [-0.1067,-0.0706] | -2.79 [-3.41,-2.19] | 0.14 [0.09,0.22] | 0.00 | yes |
+| binding acc/primary | WebWorld-8B | Qwen3-8B (inst) | -0.0006 [-0.0174,+0.0161] | -0.02 [-0.55,+0.52] | 0.99 [0.68,1.44] | 0.00 | yes |
+| binding acc/primary | WebWorld-8B|vs Base | Qwen3-8B-Base (base) | -0.0547 [-0.0706,-0.0376] | -1.71 [-2.21,-1.18] | 0.31 [0.22,0.44] | 0.00 | yes |
+| binding acc/primary | SERA-8B | Qwen3-8B (inst) | +0.0136 [-0.0025,+0.0308] | +0.44 [-0.08,+1.00] | 1.36 [0.95,2.00] | 0.00 | yes |
+| binding acc/primary | Arctic-AWM-8B | Qwen3-8B (inst) | -0.0025 [-0.0125,+0.0077] | -0.08 [-0.40,+0.25] | 0.95 [0.76,1.19] | 0.00 | yes |
+| binding acc/primary | FrogMini-14B-2510 | Qwen3-14B (inst) | +0.0056 [-0.0095,+0.0196] | +0.18 [-0.30,+0.65] | 1.13 [0.81,1.57] | 0.00 | yes |
+| binding acc/primary | OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0053 [-0.0201,+0.0110] | -0.17 [-0.64,+0.00] | 0.89 [0.64,1.00] | 0.26 | yes |
+| binding acc/primary | Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0353 [-0.0535,-0.0161] | -1.14 [-1.75,-0.52] | 0.45 [0.30,0.70] | 0.00 | yes |
+| binding acc/primary | Qwen3-0.6B|instruct vs base | Qwen3-0.6B-Base (base) | -0.0319 [-0.0515,-0.0136] | <+0.00 [+0.00,+0.00] | <1.00 [1.00,1.00] | 1.00 | yes |
+| binding acc/primary | Qwen3-1.7B|instruct vs base | Qwen3-1.7B-Base (base) | -0.0397 [-0.0581,-0.0216] | -1.24 [-1.68,-0.65] | 0.42 [0.31,0.64] | 0.10 | yes |
+| binding acc/primary | Qwen3-4B|instruct vs base | Qwen3-4B-Base (base) | -0.0697 [-0.0877,-0.0519] | -2.18 [-2.81,-1.63] | 0.22 [0.14,0.32] | 0.00 | yes |
+| binding acc/primary | Qwen3-8B|instruct vs base | Qwen3-8B-Base (base) | -0.0542 [-0.0696,-0.0363] | -1.69 [-2.22,-1.16] | 0.31 [0.22,0.45] | 0.00 | yes |
+| binding acc/primary | Qwen3-14B|instruct vs base | Qwen3-14B-Base (base) | -0.0308 [-0.0464,-0.0144] | -0.96 [-1.43,-0.48] | 0.51 [0.37,0.72] | 0.00 | yes |
+| info gain/S2+S3 | Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.0577 [-0.0672,-0.0484] | -0.58 [-0.68,-0.49] | 0.67 [0.62,0.71] | 0.00 | yes |
+| info gain/S2+S3 | Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.0392 [-0.0463,-0.0320] | -0.40 [-0.47,-0.33] | 0.76 [0.72,0.80] | 0.00 | yes |
+| info gain/S2+S3 | Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.0526 [-0.0588,-0.0463] | -0.53 [-0.60,-0.47] | 0.69 [0.66,0.72] | 0.00 | yes |
+| info gain/S2+S3 | tmax-sft-8b | Qwen3-8B (inst) | -0.0544 [-0.0657,-0.0438] | -0.55 [-0.67,-0.44] | 0.68 [0.63,0.74] | 0.00 | yes |
+| info gain/S2+S3 | tmax-8b | Qwen3-8B (inst) | -0.0720 [-0.0832,-0.0616] | -0.73 [-0.84,-0.62] | 0.60 [0.56,0.65] | 0.00 | yes |
+| info gain/S2+S3 | tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0177 [-0.0194,-0.0160] | -0.18 [-0.20,-0.16] | 0.88 [0.87,0.89] | 0.00 | yes |
+| info gain/S2+S3 | CodeScout-14B | Qwen3-14B (inst) | -0.0023 [-0.0036,-0.0009] | -0.02 [-0.04,-0.01] | 0.98 [0.97,0.99] | 0.00 | yes |
+| info gain/S2+S3 | Light-IF-8B | Qwen3-8B (inst) | -0.0403 [-0.0470,-0.0340] | -0.41 [-0.47,-0.35] | 0.75 [0.72,0.79] | 0.00 | yes |
+| info gain/S2+S3 | Light-IF-14B | Qwen3-14B (inst) | -0.0361 [-0.0397,-0.0326] | -0.37 [-0.40,-0.33] | 0.78 [0.76,0.80] | 0.00 | yes |
+| info gain/S2+S3 | Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.2033 [-0.2172,-0.1895] | -2.50 [-2.66,-2.34] | 0.18 [0.16,0.20] | 0.00 | yes |
+| info gain/S2+S3 | WebWorld-8B | Qwen3-8B (inst) | -0.0577 [-0.0671,-0.0487] | -0.58 [-0.68,-0.49] | 0.67 [0.62,0.71] | 0.00 | yes |
+| info gain/S2+S3 | WebWorld-8B|vs Base | Qwen3-8B-Base (base) | -0.0572 [-0.0640,-0.0508] | -0.70 [-0.78,-0.63] | 0.61 [0.58,0.65] | 0.00 | yes |
+| info gain/S2+S3 | SERA-8B | Qwen3-8B (inst) | -0.1106 [-0.1199,-0.1016] | -1.12 [-1.21,-1.03] | 0.46 [0.43,0.49] | 0.00 | yes |
+| info gain/S2+S3 | Arctic-AWM-8B | Qwen3-8B (inst) | -0.0021 [-0.0039,-0.0002] | -0.02 [-0.04,-0.00] | 0.99 [0.97,1.00] | 0.00 | yes |
+| info gain/S2+S3 | FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0739 [-0.0809,-0.0668] | -0.75 [-0.82,-0.68] | 0.60 [0.57,0.63] | 0.00 | yes |
+| info gain/S2+S3 | OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0711 [-0.0788,-0.0638] | -0.72 [-0.79,-0.64] | 0.61 [0.58,0.64] | 0.00 | yes |
+| info gain/S2+S3 | Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.2037 [-0.2184,-0.1890] | -2.06 [-2.21,-1.92] | 0.24 [0.22,0.26] | 0.00 | yes |
+| info gain/S2+S3 | Qwen3-0.6B|instruct vs base | Qwen3-0.6B-Base (base) | -0.0905 [-0.0974,-0.0835] | <+0.00 [+0.00,+0.00] | <1.00 [1.00,1.00] | 1.00 | yes |
+| info gain/S2+S3 | Qwen3-1.7B|instruct vs base | Qwen3-1.7B-Base (base) | -0.0513 [-0.0633,-0.0392] | -0.63 [-0.77,-0.49] | 0.65 [0.59,0.71] | 0.00 | yes |
+| info gain/S2+S3 | Qwen3-4B|instruct vs base | Qwen3-4B-Base (base) | -0.0152 [-0.0277,-0.0030] | -0.19 [-0.34,-0.04] | 0.88 [0.79,0.97] | 0.00 | yes |
+| info gain/S2+S3 | Qwen3-8B|instruct vs base | Qwen3-8B-Base (base) | +0.0005 [-0.0099,+0.0109] | +0.01 [-0.12,+0.13] | 1.00 [0.92,1.10] | 0.00 | yes |
+| info gain/S2+S3 | Qwen3-14B|instruct vs base | Qwen3-14B-Base (base) | +0.0542 [+0.0466,+0.0616] | >+0.00 [+0.00,+0.00] | >1.00 [1.00,1.00] | 1.00 | yes |
+| info gain/S2h+S3h | Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.0068 [-0.0113,-0.0022] | -0.27 [-0.45,-0.09] | 0.83 [0.73,0.94] | 0.00 | yes |
+| info gain/S2h+S3h | Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.0112 [-0.0176,-0.0051] | -0.44 [-0.68,-0.21] | 0.74 [0.62,0.86] | 0.00 | yes |
+| info gain/S2h+S3h | Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.0073 [-0.0145,+0.0000] | -0.29 [-0.56,+0.00] | 0.82 [0.68,1.00] | 0.03 | yes |
+| info gain/S2h+S3h | tmax-sft-8b | Qwen3-8B (inst) | +0.0016 [-0.0027,+0.0064] | +0.06 [-0.11,+0.25] | 1.05 [0.93,1.19] | 0.00 | yes |
+| info gain/S2h+S3h | tmax-8b | Qwen3-8B (inst) | -0.0011 [-0.0055,+0.0036] | -0.04 [-0.22,+0.15] | 0.97 [0.86,1.11] | 0.00 | yes |
+| info gain/S2h+S3h | tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0027 [-0.0037,-0.0017] | -0.11 [-0.15,-0.07] | 0.93 [0.90,0.95] | 0.00 | yes |
+| info gain/S2h+S3h | CodeScout-14B | Qwen3-14B (inst) | +0.0016 [+0.0007,+0.0025] | +0.06 [+0.03,+0.10] | 1.05 [1.02,1.07] | 0.00 | yes |
+| info gain/S2h+S3h | Light-IF-8B | Qwen3-8B (inst) | -0.0033 [-0.0060,-0.0007] | -0.13 [-0.24,-0.03] | 0.91 [0.85,0.98] | 0.00 | yes |
+| info gain/S2h+S3h | Light-IF-14B | Qwen3-14B (inst) | -0.0159 [-0.0184,-0.0135] | -0.63 [-0.72,-0.55] | 0.65 [0.61,0.68] | 0.00 | yes |
+| info gain/S2h+S3h | Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0422 [-0.0489,-0.0357] | -2.18 [-2.45,-1.91] | 0.22 [0.18,0.27] | 0.00 | yes |
+| info gain/S2h+S3h | WebWorld-8B | Qwen3-8B (inst) | -0.0077 [-0.0121,-0.0033] | -0.30 [-0.48,-0.13] | 0.81 [0.72,0.91] | 0.00 | yes |
+| info gain/S2h+S3h | WebWorld-8B|vs Base | Qwen3-8B-Base (base) | -0.0242 [-0.0283,-0.0201] | -1.25 [-1.44,-1.06] | 0.42 [0.37,0.48] | 0.00 | yes |
+| info gain/S2h+S3h | SERA-8B | Qwen3-8B (inst) | -0.0057 [-0.0101,-0.0013] | -0.23 [-0.40,-0.05] | 0.86 [0.76,0.97] | 0.00 | yes |
+| info gain/S2h+S3h | Arctic-AWM-8B | Qwen3-8B (inst) | -0.0016 [-0.0025,-0.0006] | -0.06 [-0.10,-0.02] | 0.96 [0.93,0.98] | 0.00 | yes |
+| info gain/S2h+S3h | FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0238 [-0.0283,-0.0192] | -0.94 [-1.11,-0.78] | 0.52 [0.46,0.58] | 0.00 | yes |
+| info gain/S2h+S3h | OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0259 [-0.0329,-0.0188] | -1.02 [-1.29,-0.76] | 0.49 [0.41,0.59] | 0.00 | yes |
+| info gain/S2h+S3h | Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0257 [-0.0319,-0.0190] | -1.02 [-1.25,-0.77] | 0.49 [0.42,0.58] | 0.00 | yes |
+| info gain/S2h+S3h | Qwen3-0.6B|instruct vs base | Qwen3-0.6B-Base (base) | -0.0027 [-0.0051,-0.0005] | <+0.00 [+0.00,+0.00] | <1.00 [1.00,1.00] | 0.99 | yes |
+| info gain/S2h+S3h | Qwen3-1.7B|instruct vs base | Qwen3-1.7B-Base (base) | -0.0002 [-0.0046,+0.0042] | -0.01 [-0.24,+0.21] | 0.99 [0.85,1.16] | 0.00 | yes |
+| info gain/S2h+S3h | Qwen3-4B|instruct vs base | Qwen3-4B-Base (base) | -0.0204 [-0.0256,-0.0151] | -1.06 [-1.30,-0.81] | 0.48 [0.40,0.57] | 0.00 | yes |
+| info gain/S2h+S3h | Qwen3-8B|instruct vs base | Qwen3-8B-Base (base) | -0.0165 [-0.0227,-0.0106] | -0.85 [-1.14,-0.56] | 0.55 [0.45,0.68] | 0.00 | yes |
+| info gain/S2h+S3h | Qwen3-14B|instruct vs base | Qwen3-14B-Base (base) | +0.0081 [+0.0019,+0.0146] | >+0.00 [+0.00,+0.00] | >1.00 [1.00,1.00] | 1.00 | yes |
+| info gain/primary | Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.0517 [-0.0581,-0.0452] | -0.76 [-0.85,-0.67] | 0.59 [0.55,0.63] | 0.00 | yes |
+| info gain/primary | Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.0331 [-0.0384,-0.0278] | -0.49 [-0.56,-0.41] | 0.71 [0.68,0.75] | 0.00 | yes |
+| info gain/primary | Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.0381 [-0.0435,-0.0332] | -0.56 [-0.63,-0.49] | 0.68 [0.64,0.71] | 0.00 | yes |
+| info gain/primary | tmax-sft-8b | Qwen3-8B (inst) | -0.0500 [-0.0573,-0.0426] | -0.73 [-0.84,-0.63] | 0.60 [0.56,0.65] | 0.00 | yes |
+| info gain/primary | tmax-8b | Qwen3-8B (inst) | -0.0620 [-0.0693,-0.0546] | -0.91 [-1.02,-0.80] | 0.53 [0.49,0.57] | 0.00 | yes |
+| info gain/primary | tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0120 [-0.0132,-0.0109] | -0.18 [-0.19,-0.16] | 0.88 [0.87,0.89] | 0.00 | yes |
+| info gain/primary | CodeScout-14B | Qwen3-14B (inst) | +0.0024 [+0.0015,+0.0033] | +0.04 [+0.02,+0.05] | 1.03 [1.02,1.04] | 0.00 | yes |
+| info gain/primary | Light-IF-8B | Qwen3-8B (inst) | -0.0428 [-0.0471,-0.0386] | -0.63 [-0.69,-0.57] | 0.65 [0.62,0.67] | 0.00 | yes |
+| info gain/primary | Light-IF-14B | Qwen3-14B (inst) | -0.0416 [-0.0447,-0.0388] | -0.61 [-0.65,-0.57] | 0.65 [0.64,0.67] | 0.00 | yes |
+| info gain/primary | Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.1192 [-0.1292,-0.1091] | -2.23 [-2.39,-2.08] | 0.21 [0.19,0.24] | 0.00 | yes |
+| info gain/primary | WebWorld-8B | Qwen3-8B (inst) | -0.0639 [-0.0703,-0.0577] | -0.94 [-1.04,-0.84] | 0.52 [0.49,0.56] | 0.00 | yes |
+| info gain/primary | WebWorld-8B|vs Base | Qwen3-8B-Base (base) | -0.0495 [-0.0538,-0.0453] | -0.93 [-1.00,-0.86] | 0.53 [0.50,0.55] | 0.00 | yes |
+| info gain/primary | SERA-8B | Qwen3-8B (inst) | -0.0836 [-0.0903,-0.0771] | -1.23 [-1.32,-1.14] | 0.43 [0.40,0.45] | 0.00 | yes |
+| info gain/primary | Arctic-AWM-8B | Qwen3-8B (inst) | -0.0032 [-0.0043,-0.0021] | -0.05 [-0.06,-0.03] | 0.97 [0.96,0.98] | 0.00 | yes |
+| info gain/primary | FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0642 [-0.0695,-0.0594] | -0.94 [-1.01,-0.88] | 0.52 [0.50,0.54] | 0.00 | yes |
+| info gain/primary | OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0570 [-0.0627,-0.0515] | -0.84 [-0.92,-0.76] | 0.56 [0.53,0.59] | 0.00 | yes |
+| info gain/primary | Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.1336 [-0.1437,-0.1232] | -1.96 [-2.10,-1.82] | 0.26 [0.23,0.28] | 0.00 | yes |
+| info gain/primary | Qwen3-0.6B|instruct vs base | Qwen3-0.6B-Base (base) | -0.0557 [-0.0606,-0.0509] | <+0.00 [+0.00,+0.00] | <1.00 [1.00,1.00] | 1.00 | yes |
+| info gain/primary | Qwen3-1.7B|instruct vs base | Qwen3-1.7B-Base (base) | +0.0105 [+0.0024,+0.0186] | +0.20 [+0.04,+0.35] | 1.15 [1.03,1.28] | 0.00 | yes |
+| info gain/primary | Qwen3-4B|instruct vs base | Qwen3-4B-Base (base) | +0.0087 [+0.0002,+0.0167] | +0.16 [+0.00,+0.32] | 1.12 [1.00,1.25] | 0.00 | yes |
+| info gain/primary | Qwen3-8B|instruct vs base | Qwen3-8B-Base (base) | +0.0144 [+0.0073,+0.0217] | +0.27 [+0.13,+0.41] | 1.21 [1.10,1.33] | 0.00 | yes |
+| info gain/primary | Qwen3-14B|instruct vs base | Qwen3-14B-Base (base) | +0.0536 [+0.0478,+0.0591] | >+0.00 [+0.00,+0.00] | >1.00 [1.00,1.00] | 1.00 | yes |
+| interaction bits/byte/S2+S3 | Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.1840 [-0.2028,-0.1653] | -1.83 [-2.01,-1.65] | 0.28 [0.25,0.32] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.1928 [-0.2124,-0.1754] | -1.91 [-2.06,-1.77] | 0.27 [0.24,0.29] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.1128 [-0.1255,-0.1006] | -1.12 [-1.23,-1.01] | 0.46 [0.43,0.49] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | tmax-sft-8b | Qwen3-8B (inst) | -0.1889 [-0.2103,-0.1686] | -1.88 [-2.09,-1.67] | 0.27 [0.23,0.31] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | tmax-8b | Qwen3-8B (inst) | -0.1820 [-0.2032,-0.1621] | -1.81 [-2.02,-1.61] | 0.29 [0.25,0.33] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | +0.0069 [+0.0048,+0.0090] | +0.07 [+0.05,+0.09] | 1.05 [1.03,1.06] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | CodeScout-14B | Qwen3-14B (inst) | +0.0516 [+0.0475,+0.0562] | +0.51 [+0.48,+0.55] | 1.43 [1.39,1.46] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | Light-IF-8B | Qwen3-8B (inst) | -0.1354 [-0.1477,-0.1233] | -1.34 [-1.46,-1.23] | 0.39 [0.36,0.43] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | Light-IF-14B | Qwen3-14B (inst) | -0.0037 [-0.0113,+0.0036] | -0.04 [-0.11,+0.04] | 0.97 [0.93,1.03] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0579 [-0.0785,-0.0377] | -0.85 [-1.10,-0.57] | 0.56 [0.47,0.67] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | WebWorld-8B | Qwen3-8B (inst) | -0.2576 [-0.2795,-0.2368] | -2.56 [-2.77,-2.35] | 0.17 [0.15,0.20] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | WebWorld-8B|vs Base | Qwen3-8B-Base (base) | -0.0328 [-0.0409,-0.0251] | -0.48 [-0.59,-0.37] | 0.72 [0.67,0.77] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | SERA-8B | Qwen3-8B (inst) | -0.2074 [-0.2274,-0.1888] | -2.06 [-2.25,-1.88] | 0.24 [0.21,0.27] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | Arctic-AWM-8B | Qwen3-8B (inst) | -0.0196 [-0.0225,-0.0168] | -0.20 [-0.22,-0.17] | 0.87 [0.86,0.89] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | FrogMini-14B-2510 | Qwen3-14B (inst) | -0.1002 [-0.1155,-0.0870] | -0.99 [-1.12,-0.88] | 0.50 [0.46,0.54] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | OpenThinkerAgent-32B | Qwen3-32B (inst) | +0.0002 [-0.0115,+0.0119] | >+0.00 [-0.11,+0.00] | >1.00 [0.93,1.00] | 0.53 | yes |
+| interaction bits/byte/S2+S3 | Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.2826 [-0.3120,-0.2538] | -2.81 [-3.05,-2.57] | 0.14 [0.12,0.17] | 0.00 | yes |
+| interaction bits/byte/S2+S3 | Qwen3-0.6B|instruct vs base | Qwen3-0.6B-Base (base) | -0.0369 [-0.0462,-0.0270] | <+0.00 [+0.00,+0.00] | <1.00 [1.00,1.00] | 1.00 | yes |
+| interaction bits/byte/S2+S3 | Qwen3-1.7B|instruct vs base | Qwen3-1.7B-Base (base) | +0.1922 [+0.1659,+0.2202] | +2.81 [+2.40,+3.23] | 6.99 [5.28,9.37] | 0.03 | yes |
+| interaction bits/byte/S2+S3 | Qwen3-4B|instruct vs base | Qwen3-4B-Base (base) | +0.2153 [+0.1929,+0.2380] | >+1.86 [+1.86,+1.86] | >3.64 [3.64,3.64] | 1.00 | yes |
+| interaction bits/byte/S2+S3 | Qwen3-8B|instruct vs base | Qwen3-8B-Base (base) | +0.2247 [+0.2034,+0.2463] | >+0.93 [+0.93,+0.93] | >1.90 [1.90,1.90] | 1.00 | yes |
+| interaction bits/byte/S2+S3 | Qwen3-14B|instruct vs base | Qwen3-14B-Base (base) | +0.2845 [+0.2617,+0.3100] | >+0.00 [+0.00,+0.00] | >1.00 [1.00,1.00] | 1.00 | yes |
+| interaction bits/byte/S2h+S3h | Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.0177 [-0.0272,-0.0083] | -0.38 [-0.58,-0.18] | 0.77 [0.67,0.88] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.0529 [-0.0679,-0.0390] | -1.14 [-1.43,-0.88] | 0.45 [0.37,0.54] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.0234 [-0.0370,-0.0097] | -0.51 [-0.78,-0.22] | 0.70 [0.58,0.86] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | tmax-sft-8b | Qwen3-8B (inst) | +0.0009 [-0.0082,+0.0111] | +0.02 [-0.18,+0.24] | 1.01 [0.88,1.18] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | tmax-8b | Qwen3-8B (inst) | +0.0008 [-0.0085,+0.0110] | +0.02 [-0.18,+0.24] | 1.01 [0.88,1.18] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0001 [-0.0021,+0.0019] | -0.00 [-0.05,+0.04] | 1.00 [0.97,1.03] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | CodeScout-14B | Qwen3-14B (inst) | +0.0129 [+0.0106,+0.0152] | +0.28 [+0.23,+0.32] | 1.21 [1.18,1.25] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | Light-IF-8B | Qwen3-8B (inst) | -0.0047 [-0.0104,+0.0010] | -0.10 [-0.23,+0.02] | 0.93 [0.85,1.01] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | Light-IF-14B | Qwen3-14B (inst) | +0.0025 [-0.0019,+0.0070] | +0.05 [-0.04,+0.15] | 1.04 [0.97,1.11] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0653 [-0.0775,-0.0532] | -1.98 [-2.29,-1.66] | 0.25 [0.20,0.32] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | WebWorld-8B | Qwen3-8B (inst) | -0.0224 [-0.0315,-0.0129] | -0.48 [-0.68,-0.28] | 0.71 [0.62,0.82] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | WebWorld-8B|vs Base | Qwen3-8B-Base (base) | -0.0346 [-0.0420,-0.0272] | -1.05 [-1.26,-0.85] | 0.48 [0.42,0.56] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | SERA-8B | Qwen3-8B (inst) | -0.0073 [-0.0168,+0.0022] | -0.16 [-0.36,+0.05] | 0.90 [0.78,1.03] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | Arctic-AWM-8B | Qwen3-8B (inst) | -0.0044 [-0.0065,-0.0023] | -0.10 [-0.14,-0.05] | 0.94 [0.91,0.97] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0322 [-0.0418,-0.0229] | -0.70 [-0.89,-0.51] | 0.62 [0.54,0.70] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0101 [-0.0244,+0.0039] | -0.22 [-0.52,+0.00] | 0.86 [0.69,1.00] | 0.08 | yes |
+| interaction bits/byte/S2h+S3h | Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0531 [-0.0662,-0.0388] | -1.15 [-1.42,-0.87] | 0.45 [0.37,0.55] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | Qwen3-0.6B|instruct vs base | Qwen3-0.6B-Base (base) | +0.0018 [-0.0044,+0.0081] | +0.06 [+0.00,+0.24] | 1.04 [1.00,1.18] | 0.29 | yes |
+| interaction bits/byte/S2h+S3h | Qwen3-1.7B|instruct vs base | Qwen3-1.7B-Base (base) | +0.0027 [-0.0064,+0.0116] | +0.08 [-0.19,+0.36] | 1.06 [0.87,1.28] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | Qwen3-4B|instruct vs base | Qwen3-4B-Base (base) | -0.0286 [-0.0391,-0.0178] | -0.87 [-1.18,-0.56] | 0.55 [0.44,0.68] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | Qwen3-8B|instruct vs base | Qwen3-8B-Base (base) | -0.0122 [-0.0243,-0.0009] | -0.37 [-0.72,-0.03] | 0.77 [0.61,0.98] | 0.00 | yes |
+| interaction bits/byte/S2h+S3h | Qwen3-14B|instruct vs base | Qwen3-14B-Base (base) | +0.0507 [+0.0371,+0.0654] | >+0.00 [+0.00,+0.00] | >1.00 [1.00,1.00] | 1.00 | yes |
+| interaction bits/byte/primary | Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.1326 [-0.1459,-0.1194] | -1.58 [-1.74,-1.43] | 0.33 [0.30,0.37] | 0.00 | yes |
+| interaction bits/byte/primary | Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.1496 [-0.1635,-0.1368] | -1.78 [-1.91,-1.66] | 0.29 [0.27,0.32] | 0.00 | yes |
+| interaction bits/byte/primary | Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.0852 [-0.0949,-0.0755] | -1.02 [-1.12,-0.92] | 0.49 [0.46,0.53] | 0.00 | yes |
+| interaction bits/byte/primary | tmax-sft-8b | Qwen3-8B (inst) | -0.1303 [-0.1451,-0.1159] | -1.55 [-1.73,-1.38] | 0.34 [0.30,0.38] | 0.00 | yes |
+| interaction bits/byte/primary | tmax-8b | Qwen3-8B (inst) | -0.1255 [-0.1403,-0.1115] | -1.50 [-1.68,-1.32] | 0.35 [0.31,0.40] | 0.00 | yes |
+| interaction bits/byte/primary | tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | +0.0047 [+0.0032,+0.0063] | +0.06 [+0.04,+0.08] | 1.04 [1.03,1.05] | 0.00 | yes |
+| interaction bits/byte/primary | CodeScout-14B | Qwen3-14B (inst) | +0.0397 [+0.0369,+0.0426] | +0.47 [+0.44,+0.50] | 1.39 [1.36,1.42] | 0.00 | yes |
+| interaction bits/byte/primary | Light-IF-8B | Qwen3-8B (inst) | -0.0950 [-0.1041,-0.0863] | -1.13 [-1.23,-1.04] | 0.46 [0.43,0.49] | 0.00 | yes |
+| interaction bits/byte/primary | Light-IF-14B | Qwen3-14B (inst) | -0.0018 [-0.0074,+0.0033] | -0.02 [-0.09,+0.04] | 0.99 [0.94,1.03] | 0.00 | yes |
+| interaction bits/byte/primary | Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0602 [-0.0751,-0.0453] | -1.05 [-1.27,-0.81] | 0.48 [0.41,0.57] | 0.00 | yes |
+| interaction bits/byte/primary | WebWorld-8B | Qwen3-8B (inst) | -0.1849 [-0.1998,-0.1706] | -2.21 [-2.39,-2.03] | 0.22 [0.19,0.25] | 0.00 | yes |
+| interaction bits/byte/primary | WebWorld-8B|vs Base | Qwen3-8B-Base (base) | -0.0334 [-0.0393,-0.0274] | -0.58 [-0.67,-0.49] | 0.67 [0.63,0.71] | 0.00 | yes |
+| interaction bits/byte/primary | SERA-8B | Qwen3-8B (inst) | -0.1456 [-0.1601,-0.1323] | -1.74 [-1.90,-1.58] | 0.30 [0.27,0.33] | 0.00 | yes |
+| interaction bits/byte/primary | Arctic-AWM-8B | Qwen3-8B (inst) | -0.0149 [-0.0171,-0.0129] | -0.18 [-0.20,-0.15] | 0.88 [0.87,0.90] | 0.00 | yes |
+| interaction bits/byte/primary | FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0792 [-0.0904,-0.0695] | -0.94 [-1.06,-0.84] | 0.52 [0.48,0.56] | 0.00 | yes |
+| interaction bits/byte/primary | OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0030 [-0.0121,+0.0062] | -0.04 [-0.14,+0.00] | 0.98 [0.91,1.00] | 0.26 | yes |
+| interaction bits/byte/primary | Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.2117 [-0.2320,-0.1913] | -2.52 [-2.73,-2.32] | 0.17 [0.15,0.20] | 0.00 | yes |
+| interaction bits/byte/primary | Qwen3-0.6B|instruct vs base | Qwen3-0.6B-Base (base) | -0.0250 [-0.0317,-0.0181] | <+0.00 [+0.00,+0.00] | <1.00 [1.00,1.00] | 1.00 | yes |
+| interaction bits/byte/primary | Qwen3-1.7B|instruct vs base | Qwen3-1.7B-Base (base) | +0.1337 [+0.1145,+0.1540] | +2.32 [+1.98,+2.69] | 5.01 [3.95,6.47] | 0.00 | yes |
+| interaction bits/byte/primary | Qwen3-4B|instruct vs base | Qwen3-4B-Base (base) | +0.1399 [+0.1241,+0.1561] | >+1.86 [+1.86,+1.86] | >3.64 [3.64,3.64] | 1.00 | yes |
+| interaction bits/byte/primary | Qwen3-8B|instruct vs base | Qwen3-8B-Base (base) | +0.1515 [+0.1359,+0.1672] | >+0.93 [+0.93,+0.93] | >1.90 [1.90,1.90] | 1.00 | yes |
+| interaction bits/byte/primary | Qwen3-14B|instruct vs base | Qwen3-14B-Base (base) | +0.2123 [+0.1963,+0.2304] | >+0.00 [+0.00,+0.00] | >1.00 [1.00,1.00] | 1.00 | yes |
+| null binding/S2+S3 | Nemotron-Terminal-8B | Qwen3-8B (inst) | +0.0078 [-0.0174,+0.0337] | <-3.98 [-3.98,+2.17] | <0.06 [0.06,4.49] | 0.62 | NO |
+| null binding/S2+S3 | Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.0056 [-0.0289,+0.0179] | >+1.24 [-4.91,+1.24] | >2.36 [0.03,2.36] | 0.65 | NO |
+| null binding/S2+S3 | Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.0028 [-0.0258,+0.0198] | >+0.00 [-6.15,+0.00] | >1.00 [0.01,1.00] | 0.66 | NO |
+| null binding/S2+S3 | tmax-sft-8b | Qwen3-8B (inst) | -0.0167 [-0.0419,+0.0078] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.82 | NO |
+| null binding/S2+S3 | tmax-8b | Qwen3-8B (inst) | -0.0239 [-0.0496,+0.0006] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.92 | NO |
+| null binding/S2+S3 | tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0072 [-0.0215,+0.0073] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.60 | NO |
+| null binding/S2+S3 | CodeScout-14B | Qwen3-14B (inst) | +0.0028 [-0.0089,+0.0145] | -1.68 [-4.91,+1.24] | 0.31 [0.03,2.36] | 0.40 | NO |
+| null binding/S2+S3 | Light-IF-8B | Qwen3-8B (inst) | -0.0094 [-0.0280,+0.0108] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.68 | NO |
+| null binding/S2+S3 | Light-IF-14B | Qwen3-14B (inst) | -0.0117 [-0.0275,+0.0045] | >+1.24 [-4.91,+1.24] | >2.36 [0.03,2.36] | 0.82 | NO |
+| null binding/S2+S3 | Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0228 [-0.0515,+0.0068] | >+0.93 [-3.98,+0.93] | >1.90 [0.06,1.90] | 0.90 | NO |
+| null binding/S2+S3 | WebWorld-8B | Qwen3-8B (inst) | -0.0050 [-0.0281,+0.0181] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.61 | NO |
+| null binding/S2+S3 | WebWorld-8B|vs Base | Qwen3-8B-Base (base) | -0.0028 [-0.0287,+0.0230] | >+0.93 [-3.98,+0.93] | >1.90 [0.06,1.90] | 0.69 | NO |
+| null binding/S2+S3 | SERA-8B | Qwen3-8B (inst) | -0.0144 [-0.0375,+0.0102] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.77 | NO |
+| null binding/S2+S3 | Arctic-AWM-8B | Qwen3-8B (inst) | -0.0100 [-0.0213,+0.0011] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.73 | NO |
+| null binding/S2+S3 | FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0050 [-0.0249,+0.0159] | >+1.24 [-4.91,+1.24] | >2.36 [0.03,2.36] | 0.62 | NO |
+| null binding/S2+S3 | OpenThinkerAgent-32B | Qwen3-32B (inst) | +0.0039 [-0.0189,+0.0258] | -2.36 [-6.15,+0.00] | 0.20 [0.01,1.00] | 0.57 | NO |
+| null binding/S2+S3 | Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0250 [-0.0527,+0.0040] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.91 | NO |
+| null binding/S2+S3 | Qwen3-0.6B|instruct vs base | Qwen3-0.6B-Base (base) | +0.0067 [-0.0204,+0.0342] | <+0.00 [+0.00,+4.91] | <1.00 [1.00,30.00] | 0.72 | NO |
+| null binding/S2+S3 | Qwen3-1.7B|instruct vs base | Qwen3-1.7B-Base (base) | +0.0111 [-0.0172,+0.0374] | <-1.68 [-1.68,+3.23] | <0.31 [0.31,9.37] | 0.79 | NO |
+| null binding/S2+S3 | Qwen3-4B|instruct vs base | Qwen3-4B-Base (base) | +0.0200 [-0.0054,+0.0475] | <-3.04 [-3.04,+1.86] | <0.12 [0.12,3.64] | 0.89 | NO |
+| null binding/S2+S3 | Qwen3-8B|instruct vs base | Qwen3-8B-Base (base) | +0.0022 [-0.0240,+0.0278] | <-3.98 [-3.98,+0.93] | <0.06 [0.06,1.90] | 0.67 | NO |
+| null binding/S2+S3 | Qwen3-14B|instruct vs base | Qwen3-14B-Base (base) | +0.0033 [-0.0196,+0.0281] | <-4.91 [-4.91,+0.00] | <0.03 [0.03,1.00] | 0.67 | NO |
+| null binding/S2h+S3h | Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.0172 [-0.0471,+0.0110] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.80 | NO |
+| null binding/S2h+S3h | Nemotron-Terminal-14B | Qwen3-14B (inst) | +0.0089 [-0.0187,+0.0380] | -3.53 [-4.91,+1.24] | 0.09 [0.03,2.36] | 0.56 | NO |
+| null binding/S2h+S3h | Nemotron-Terminal-32B | Qwen3-32B (inst) | +0.0067 [-0.0216,+0.0370] | -2.65 [-6.15,+0.00] | 0.16 [0.01,1.00] | 0.56 | NO |
+| null binding/S2h+S3h | tmax-sft-8b | Qwen3-8B (inst) | +0.0078 [-0.0213,+0.0364] | -3.09 [-3.98,+2.17] | 0.12 [0.06,4.49] | 0.59 | NO |
+| null binding/S2h+S3h | tmax-8b | Qwen3-8B (inst) | +0.0128 [-0.0164,+0.0400] | <-3.98 [-3.98,+2.17] | <0.06 [0.06,4.49] | 0.64 | NO |
+| null binding/S2h+S3h | tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | +0.0050 [-0.0154,+0.0255] | -1.99 [-3.98,+2.17] | 0.25 [0.06,4.49] | 0.47 | NO |
+| null binding/S2h+S3h | CodeScout-14B | Qwen3-14B (inst) | +0.0000 [-0.0187,+0.0194] | -0.00 [-4.91,+1.24] | 1.00 [0.03,2.36] | 0.48 | NO |
+| null binding/S2h+S3h | Light-IF-8B | Qwen3-8B (inst) | +0.0056 [-0.0165,+0.0289] | -2.21 [-3.98,+2.17] | 0.22 [0.06,4.49] | 0.51 | NO |
+| null binding/S2h+S3h | Light-IF-14B | Qwen3-14B (inst) | +0.0133 [-0.0081,+0.0353] | <-4.91 [-4.91,+1.24] | <0.03 [0.03,2.36] | 0.55 | NO |
+| null binding/S2h+S3h | Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0061 [-0.0385,+0.0265] | >+0.93 [-3.98,+0.93] | >1.90 [0.06,1.90] | 0.70 | NO |
+| null binding/S2h+S3h | WebWorld-8B | Qwen3-8B (inst) | +0.0361 [+0.0071,+0.0630] | <-3.98 [-3.98,+2.17] | <0.06 [0.06,4.49] | 0.94 | NO |
+| null binding/S2h+S3h | WebWorld-8B|vs Base | Qwen3-8B-Base (base) | +0.0461 [+0.0167,+0.0762] | <-3.98 [-3.98,+0.93] | <0.06 [0.06,1.90] | 0.98 | NO |
+| null binding/S2h+S3h | SERA-8B | Qwen3-8B (inst) | +0.0017 [-0.0260,+0.0282] | -0.66 [-3.98,+2.17] | 0.63 [0.06,4.49] | 0.57 | NO |
+| null binding/S2h+S3h | Arctic-AWM-8B | Qwen3-8B (inst) | +0.0006 [-0.0193,+0.0210] | -0.22 [-3.98,+2.17] | 0.86 [0.06,4.49] | 0.46 | NO |
+| null binding/S2h+S3h | FrogMini-14B-2510 | Qwen3-14B (inst) | +0.0133 [-0.0128,+0.0391] | <-4.91 [-4.91,+1.24] | <0.03 [0.03,2.36] | 0.60 | NO |
+| null binding/S2h+S3h | OpenThinkerAgent-32B | Qwen3-32B (inst) | +0.0150 [-0.0125,+0.0443] | -5.96 [-6.15,+0.00] | 0.02 [0.01,1.00] | 0.59 | NO |
+| null binding/S2h+S3h | Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0161 [-0.0480,+0.0134] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.77 | NO |
+| null binding/S2h+S3h | Qwen3-0.6B|instruct vs base | Qwen3-0.6B-Base (base) | +0.0078 [-0.0215,+0.0364] | <+0.00 [+0.00,+4.91] | <1.00 [1.00,30.00] | 0.73 | NO |
+| null binding/S2h+S3h | Qwen3-1.7B|instruct vs base | Qwen3-1.7B-Base (base) | +0.0017 [-0.0301,+0.0311] | -0.62 [-1.68,+3.23] | 0.65 [0.31,9.37] | 0.62 | NO |
+| null binding/S2h+S3h | Qwen3-4B|instruct vs base | Qwen3-4B-Base (base) | -0.0267 [-0.0569,+0.0045] | >+1.86 [-3.04,+1.86] | >3.64 [0.12,3.64] | 0.89 | NO |
+| null binding/S2h+S3h | Qwen3-8B|instruct vs base | Qwen3-8B-Base (base) | +0.0100 [-0.0182,+0.0402] | -3.72 [-3.98,+0.93] | 0.08 [0.06,1.90] | 0.64 | NO |
+| null binding/S2h+S3h | Qwen3-14B|instruct vs base | Qwen3-14B-Base (base) | +0.0028 [-0.0260,+0.0319] | -1.03 [-4.91,+0.00] | 0.49 [0.03,1.00] | 0.61 | NO |
+| null binding/primary | Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.0047 [-0.0248,+0.0135] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.59 | NO |
+| null binding/primary | Nemotron-Terminal-14B | Qwen3-14B (inst) | +0.0017 [-0.0156,+0.0215] | -0.80 [-4.91,+1.24] | 0.57 [0.03,2.36] | 0.50 | NO |
+| null binding/primary | Nemotron-Terminal-32B | Qwen3-32B (inst) | +0.0019 [-0.0159,+0.0207] | -0.93 [-6.15,+0.00] | 0.52 [0.01,1.00] | 0.54 | NO |
+| null binding/primary | tmax-sft-8b | Qwen3-8B (inst) | -0.0044 [-0.0241,+0.0142] | +2.13 [-3.98,+2.17] | 4.38 [0.06,4.49] | 0.58 | NO |
+| null binding/primary | tmax-8b | Qwen3-8B (inst) | -0.0056 [-0.0250,+0.0123] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.59 | NO |
+| null binding/primary | tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0011 [-0.0132,+0.0114] | +0.53 [-3.98,+2.17] | 1.45 [0.06,4.49] | 0.41 | NO |
+| null binding/primary | CodeScout-14B | Qwen3-14B (inst) | +0.0014 [-0.0097,+0.0122] | -0.67 [-4.91,+1.24] | 0.63 [0.03,2.36] | 0.37 | NO |
+| null binding/primary | Light-IF-8B | Qwen3-8B (inst) | -0.0019 [-0.0165,+0.0131] | +0.93 [-3.98,+2.17] | 1.91 [0.06,4.49] | 0.47 | NO |
+| null binding/primary | Light-IF-14B | Qwen3-14B (inst) | +0.0008 [-0.0129,+0.0145] | -0.40 [-4.91,+1.24] | 0.76 [0.03,2.36] | 0.45 | NO |
+| null binding/primary | Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0144 [-0.0359,+0.0072] | >+0.93 [-3.98,+0.93] | >1.90 [0.06,1.90] | 0.88 | NO |
+| null binding/primary | WebWorld-8B | Qwen3-8B (inst) | +0.0156 [-0.0030,+0.0333] | <-3.98 [-3.98,+2.17] | <0.06 [0.06,4.49] | 0.77 | NO |
+| null binding/primary | WebWorld-8B|vs Base | Qwen3-8B-Base (base) | +0.0217 [+0.0036,+0.0413] | <-3.98 [-3.98,+0.93] | <0.06 [0.06,1.90] | 0.92 | NO |
+| null binding/primary | SERA-8B | Qwen3-8B (inst) | -0.0064 [-0.0242,+0.0114] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.60 | NO |
+| null binding/primary | Arctic-AWM-8B | Qwen3-8B (inst) | -0.0047 [-0.0158,+0.0069] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.51 | NO |
+| null binding/primary | FrogMini-14B-2510 | Qwen3-14B (inst) | +0.0042 [-0.0119,+0.0206] | -2.00 [-4.91,+1.24] | 0.25 [0.03,2.36] | 0.47 | NO |
+| null binding/primary | OpenThinkerAgent-32B | Qwen3-32B (inst) | +0.0094 [-0.0084,+0.0279] | -4.53 [-6.15,+0.00] | 0.04 [0.01,1.00] | 0.51 | NO |
+| null binding/primary | Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0206 [-0.0417,-0.0008] | >+2.17 [-3.98,+2.17] | >4.49 [0.06,4.49] | 0.91 | NO |
+| null binding/primary | Qwen3-0.6B|instruct vs base | Qwen3-0.6B-Base (base) | +0.0072 [-0.0129,+0.0274] | <+0.00 [+0.00,+4.91] | <1.00 [1.00,30.00] | 0.79 | NO |
+| null binding/primary | Qwen3-1.7B|instruct vs base | Qwen3-1.7B-Base (base) | +0.0064 [-0.0151,+0.0275] | <-1.68 [-1.68,+3.23] | <0.31 [0.31,9.37] | 0.72 | NO |
+| null binding/primary | Qwen3-4B|instruct vs base | Qwen3-4B-Base (base) | -0.0033 [-0.0232,+0.0173] | >+1.86 [-3.04,+1.86] | >3.64 [0.12,3.64] | 0.65 | NO |
+| null binding/primary | Qwen3-8B|instruct vs base | Qwen3-8B-Base (base) | +0.0061 [-0.0128,+0.0259] | <-3.98 [-3.98,+0.93] | <0.06 [0.06,1.90] | 0.65 | NO |
+| null binding/primary | Qwen3-14B|instruct vs base | Qwen3-14B-Base (base) | +0.0031 [-0.0161,+0.0224] | -2.07 [-4.91,+0.00] | 0.24 [0.03,1.00] | 0.61 | NO |
+
+## Forest table: each post-trained model against (a) its own start (size multiplier) and (b) the same-size base
+
+### binding acc/S2+S3
+
+| model | start | Δ vs start [95% CI] | (a) log2 n, ladder interpolation [95% CI] | n [95% CI] | sensitivity: log2 n, global OLS [95% CI] | n (OLS) | same-size base | (b) Δ vs base [95% CI] | vs base |
+|---|---|---|---|---|---|---|---|---|---|
+| Nemotron-Terminal-8B | Qwen3-8B (inst) | +0.0528 [+0.0346,+0.0708] | +1.62 [+1.21,+2.03] | 3.08 [2.32,4.09] | +1.46 [+0.94,+2.02] | 2.76 | Qwen3-8B-Base | -0.0083 [-0.0243,+0.0077] | n.s. |
+| Nemotron-Terminal-14B | Qwen3-14B (inst) | +0.0383 [+0.0239,+0.0536] | +0.94 [+0.63,+1.24] | 1.92 [1.55,2.36] | +1.06 [+0.65,+1.24] | 2.09 | Qwen3-14B-Base | -0.0061 [-0.0196,+0.0073] | n.s. |
+| Nemotron-Terminal-32B | Qwen3-32B (inst) | +0.0200 [+0.0069,+0.0335] | >+0.00 [+0.00,+0.00] | >1.00 [1.00,1.00] | >+0.00 [+0.00,+0.00] | >1.00 | Qwen3-32B-Base | n/a | n/a |
+| tmax-sft-8b | Qwen3-8B (inst) | +0.0444 [+0.0256,+0.0622] | +1.42 [+0.97,+1.82] | 2.67 [1.95,3.54] | +1.23 [+0.71,+1.80] | 2.35 | Qwen3-8B-Base | -0.0167 [-0.0315,-0.0021] | below base |
+| tmax-8b | Qwen3-8B (inst) | +0.0511 [+0.0332,+0.0691] | +1.58 [+1.17,+2.00] | 2.99 [2.25,4.01] | +1.42 [+0.92,+1.97] | 2.67 | Qwen3-8B-Base | -0.0100 [-0.0251,+0.0056] | n.s. |
+| tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | +0.0067 [-0.0027,+0.0156] | +1.58 [+1.17,+2.00] | 2.99 [2.25,4.01] | +0.18 [-0.07,+0.43] | 1.14 | - | - | - |
+| CodeScout-14B | Qwen3-14B (inst) | -0.0083 [-0.0155,-0.0016] | -0.32 [-1.09,-0.06] | 0.80 [0.47,0.96] | -0.23 [-0.43,-0.04] | 0.85 | Qwen3-14B-Base | -0.0528 [-0.0684,-0.0374] | below base |
+| Light-IF-8B | Qwen3-8B (inst) | +0.0161 [+0.0022,+0.0301] | +0.61 [+0.09,+1.18] | 1.53 [1.06,2.27] | +0.45 [+0.06,+0.85] | 1.36 | Qwen3-8B-Base | -0.0450 [-0.0620,-0.0280] | below base |
+| Light-IF-14B | Qwen3-14B (inst) | +0.0244 [+0.0142,+0.0351] | +0.60 [+0.36,+0.89] | 1.52 [1.28,1.86] | +0.68 [+0.39,+1.01] | 1.60 | Qwen3-14B-Base | -0.0200 [-0.0342,-0.0057] | below base |
+| Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0794 [-0.1006,-0.0585] | not computed (base ladder flat above 4B) | - | - | - | Qwen3-8B-Base | -0.0794 [-0.1006,-0.0585] | below base |
+| WebWorld-8B | Qwen3-8B (inst) | +0.0133 [-0.0044,+0.0310] | +0.51 [-0.17,+1.11] | 1.42 [0.89,2.16] | +0.37 [-0.11,+0.87] | 1.29 | Qwen3-8B-Base | -0.0478 [-0.0647,-0.0303] | below base |
+| SERA-8B | Qwen3-8B (inst) | +0.0078 [-0.0098,+0.0254] | +0.30 [-0.53,+1.01] | 1.23 [0.69,2.01] | +0.22 [-0.28,+0.72] | 1.16 | Qwen3-8B-Base | -0.0533 [-0.0706,-0.0356] | below base |
+| Arctic-AWM-8B | Qwen3-8B (inst) | +0.0056 [-0.0029,+0.0149] | +0.21 [-0.33,+0.96] | 1.16 [0.79,1.95] | +0.15 [-0.08,+0.43] | 1.11 | Qwen3-8B-Base | -0.0556 [-0.0730,-0.0369] | below base |
+| FrogMini-14B-2510 | Qwen3-14B (inst) | +0.0200 [+0.0049,+0.0341] | +0.49 [+0.14,+0.82] | 1.40 [1.10,1.77] | +0.55 [+0.13,+0.99] | 1.47 | Qwen3-14B-Base | -0.0244 [-0.0408,-0.0090] | below base |
+| OpenThinkerAgent-32B | Qwen3-32B (inst) | +0.0089 [-0.0049,+0.0224] | >+0.00 [-0.10,+0.00] | >1.00 [0.93,1.00] | >+0.00 [-0.13,+0.00] | >1.00 | Qwen3-32B-Base | n/a | n/a |
+| Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0183 [-0.0409,+0.0040] | -0.98 [-1.39,+0.09] | 0.51 [0.38,1.06] | -0.51 [-1.13,+0.12] | 0.70 | - | - | - |
+
+### binding acc/S2h+S3h
+
+| model | start | Δ vs start [95% CI] | (a) log2 n, ladder interpolation [95% CI] | n [95% CI] | sensitivity: log2 n, global OLS [95% CI] | n (OLS) | same-size base | (b) Δ vs base [95% CI] | vs base |
+|---|---|---|---|---|---|---|---|---|---|
+| Nemotron-Terminal-8B | Qwen3-8B (inst) | +0.0083 [-0.0177,+0.0368] | +0.16 [-0.35,+0.64] | 1.12 [0.79,1.56] | +0.32 [-0.69,+1.47] | 1.25 | Qwen3-8B-Base | -0.0389 [-0.0677,-0.0110] | below base |
+| Nemotron-Terminal-14B | Qwen3-14B (inst) | +0.0300 [+0.0023,+0.0555] | >+1.24 [+0.19,+1.24] | >2.36 [1.14,2.36] | +1.15 [+0.09,+1.24] | 2.22 | Qwen3-14B-Base | +0.0128 [-0.0143,+0.0403] | n.s. |
+| Nemotron-Terminal-32B | Qwen3-32B (inst) | +0.0389 [+0.0127,+0.0646] | >+0.00 [+0.00,+0.00] | >1.00 [1.00,1.00] | >+0.00 [+0.00,+0.00] | >1.00 | Qwen3-32B-Base | n/a | n/a |
+| tmax-sft-8b | Qwen3-8B (inst) | +0.0272 [-0.0017,+0.0556] | +0.53 [-0.03,+1.19] | 1.45 [0.98,2.29] | +1.05 [-0.07,+2.16] | 2.07 | Qwen3-8B-Base | -0.0200 [-0.0502,+0.0087] | n.s. |
+| tmax-8b | Qwen3-8B (inst) | +0.0122 [-0.0157,+0.0407] | +0.24 [-0.30,+0.75] | 1.18 [0.81,1.68] | +0.47 [-0.63,+1.56] | 1.38 | Qwen3-8B-Base | -0.0350 [-0.0632,-0.0072] | below base |
+| tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0150 [-0.0350,+0.0039] | +0.24 [-0.30,+0.75] | 1.18 [0.81,1.68] | -0.58 [-1.35,+0.15] | 0.67 | - | - | - |
+| CodeScout-14B | Qwen3-14B (inst) | +0.0033 [-0.0148,+0.0222] | +0.14 [-0.29,+1.24] | 1.10 [0.82,2.36] | +0.13 [-0.57,+0.88] | 1.09 | Qwen3-14B-Base | -0.0139 [-0.0419,+0.0134] | n.s. |
+| Light-IF-8B | Qwen3-8B (inst) | +0.0133 [-0.0095,+0.0361] | +0.26 [-0.19,+0.76] | 1.20 [0.87,1.69] | +0.51 [-0.37,+1.43] | 1.43 | Qwen3-8B-Base | -0.0339 [-0.0609,-0.0062] | below base |
+| Light-IF-14B | Qwen3-14B (inst) | +0.0089 [-0.0127,+0.0288] | +0.37 [-0.23,+1.24] | 1.30 [0.85,2.36] | +0.34 [-0.47,+1.17] | 1.27 | Qwen3-14B-Base | -0.0083 [-0.0354,+0.0189] | n.s. |
+| Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0994 [-0.1298,-0.0703] | not computed (base ladder flat above 4B) | - | - | - | Qwen3-8B-Base | -0.0994 [-0.1298,-0.0703] | below base |
+| WebWorld-8B | Qwen3-8B (inst) | -0.0144 [-0.0415,+0.0131] | -0.31 [-1.01,+0.21] | 0.81 [0.50,1.16] | -0.56 [-1.58,+0.50] | 0.68 | Qwen3-8B-Base | -0.0617 [-0.0893,-0.0319] | below base |
+| SERA-8B | Qwen3-8B (inst) | +0.0194 [-0.0072,+0.0478] | +0.38 [-0.13,+0.99] | 1.30 [0.92,1.99] | +0.75 [-0.27,+1.93] | 1.68 | Qwen3-8B-Base | -0.0278 [-0.0557,+0.0011] | n.s. |
+| Arctic-AWM-8B | Qwen3-8B (inst) | -0.0106 [-0.0284,+0.0078] | -0.22 [-0.82,+0.14] | 0.86 [0.56,1.10] | -0.41 [-1.14,+0.31] | 0.75 | Qwen3-8B-Base | -0.0578 [-0.0853,-0.0297] | below base |
+| FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0089 [-0.0347,+0.0156] | -0.17 [-0.64,+0.57] | 0.89 [0.64,1.49] | -0.34 [-1.30,+0.62] | 0.79 | Qwen3-14B-Base | -0.0261 [-0.0535,+0.0022] | n.s. |
+| OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0194 [-0.0467,+0.0081] | -0.82 [-1.53,+0.00] | 0.57 [0.35,1.00] | -0.75 [-1.74,+0.00] | 0.60 | Qwen3-32B-Base | n/a | n/a |
+| Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0522 [-0.0829,-0.0217] | -1.87 [-3.98,-0.58] | 0.27 [0.06,0.67] | -2.01 [-3.26,-0.85] | 0.25 | - | - | - |
+
+### binding acc/primary
+
+| model | start | Δ vs start [95% CI] | (a) log2 n, ladder interpolation [95% CI] | n [95% CI] | sensitivity: log2 n, global OLS [95% CI] | n (OLS) | same-size base | (b) Δ vs base [95% CI] | vs base |
+|---|---|---|---|---|---|---|---|---|---|
+| Nemotron-Terminal-8B | Qwen3-8B (inst) | +0.0306 [+0.0141,+0.0476] | +0.79 [+0.42,+1.24] | 1.73 [1.34,2.37] | +0.98 [+0.45,+1.56] | 1.98 | Qwen3-8B-Base | -0.0236 [-0.0399,-0.0074] | below base |
+| Nemotron-Terminal-14B | Qwen3-14B (inst) | +0.0342 [+0.0191,+0.0490] | +1.06 [+0.66,+1.24] | 2.08 [1.58,2.36] | +1.10 [+0.60,+1.24] | 2.15 | Qwen3-14B-Base | +0.0033 [-0.0120,+0.0185] | n.s. |
+| Nemotron-Terminal-32B | Qwen3-32B (inst) | +0.0294 [+0.0145,+0.0442] | >+0.00 [+0.00,+0.00] | >1.00 [1.00,1.00] | >+0.00 [+0.00,+0.00] | >1.00 | Qwen3-32B-Base | n/a | n/a |
+| tmax-sft-8b | Qwen3-8B (inst) | +0.0358 [+0.0194,+0.0534] | +0.93 [+0.55,+1.39] | 1.90 [1.46,2.61] | +1.15 [+0.61,+1.75] | 2.23 | Qwen3-8B-Base | -0.0183 [-0.0346,-0.0020] | below base |
+| tmax-8b | Qwen3-8B (inst) | +0.0317 [+0.0151,+0.0484] | +0.82 [+0.45,+1.27] | 1.77 [1.36,2.42] | +1.02 [+0.49,+1.59] | 2.03 | Qwen3-8B-Base | -0.0225 [-0.0381,-0.0072] | below base |
+| tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0042 [-0.0150,+0.0067] | +0.82 [+0.45,+1.27] | 1.77 [1.36,2.42] | -0.13 [-0.48,+0.21] | 0.91 | - | - | - |
+| CodeScout-14B | Qwen3-14B (inst) | -0.0025 [-0.0123,+0.0075] | -0.06 [-0.31,+0.22] | 0.96 [0.80,1.16] | -0.08 [-0.40,+0.24] | 0.95 | Qwen3-14B-Base | -0.0333 [-0.0492,-0.0174] | below base |
+| Light-IF-8B | Qwen3-8B (inst) | +0.0147 [+0.0011,+0.0285] | +0.38 [+0.03,+0.78] | 1.30 [1.02,1.72] | +0.47 [+0.04,+0.93] | 1.39 | Qwen3-8B-Base | -0.0394 [-0.0554,-0.0224] | below base |
+| Light-IF-14B | Qwen3-14B (inst) | +0.0167 [+0.0049,+0.0286] | +0.52 [+0.17,+0.90] | 1.43 [1.12,1.87] | +0.54 [+0.15,+0.95] | 1.45 | Qwen3-14B-Base | -0.0142 [-0.0297,+0.0011] | n.s. |
+| Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0894 [-0.1067,-0.0706] | not computed (base ladder flat above 4B) | - | - | - | Qwen3-8B-Base | -0.0894 [-0.1067,-0.0706] | below base |
+| WebWorld-8B | Qwen3-8B (inst) | -0.0006 [-0.0174,+0.0161] | -0.02 [-0.47,+0.37] | 0.99 [0.72,1.30] | -0.02 [-0.55,+0.52] | 0.99 | Qwen3-8B-Base | -0.0547 [-0.0706,-0.0376] | below base |
+| SERA-8B | Qwen3-8B (inst) | +0.0136 [-0.0025,+0.0308] | +0.35 [-0.07,+0.78] | 1.28 [0.96,1.72] | +0.44 [-0.08,+1.00] | 1.36 | Qwen3-8B-Base | -0.0406 [-0.0569,-0.0232] | below base |
+| Arctic-AWM-8B | Qwen3-8B (inst) | -0.0025 [-0.0125,+0.0077] | -0.08 [-0.43,+0.19] | 0.95 [0.74,1.14] | -0.08 [-0.40,+0.25] | 0.95 | Qwen3-8B-Base | -0.0567 [-0.0729,-0.0395] | below base |
+| FrogMini-14B-2510 | Qwen3-14B (inst) | +0.0056 [-0.0095,+0.0196] | +0.17 [-0.21,+0.56] | 1.13 [0.86,1.48] | +0.18 [-0.30,+0.65] | 1.13 | Qwen3-14B-Base | -0.0253 [-0.0414,-0.0093] | below base |
+| OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0053 [-0.0201,+0.0110] | -0.16 [-0.57,+0.00] | 0.89 [0.67,1.00] | -0.17 [-0.64,+0.00] | 0.89 | Qwen3-32B-Base | n/a | n/a |
+| Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0353 [-0.0535,-0.0161] | -1.11 [-1.69,-0.58] | 0.46 [0.31,0.67] | -1.14 [-1.75,-0.52] | 0.45 | - | - | - |
+
+### info gain/S2+S3
+
+| model | start | Δ vs start [95% CI] | (a) log2 n, ladder interpolation [95% CI] | n [95% CI] | sensitivity: log2 n, global OLS [95% CI] | n (OLS) | same-size base | (b) Δ vs base [95% CI] | vs base |
+|---|---|---|---|---|---|---|---|---|---|
+| Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.0577 [-0.0672,-0.0484] | -0.99 [-1.09,-0.85] | 0.50 [0.47,0.55] | -0.58 [-0.68,-0.49] | 0.67 | Qwen3-8B-Base | -0.0572 [-0.0669,-0.0477] | below base |
+| Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.0392 [-0.0463,-0.0320] | -0.26 [-0.31,-0.21] | 0.84 [0.81,0.86] | -0.40 [-0.47,-0.33] | 0.76 | Qwen3-14B-Base | +0.0150 [+0.0081,+0.0219] | above base |
+| Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.0526 [-0.0588,-0.0463] | -1.33 [-1.39,-1.27] | 0.40 [0.38,0.41] | -0.53 [-0.60,-0.47] | 0.69 | Qwen3-32B-Base | n/a | n/a |
+| tmax-sft-8b | Qwen3-8B (inst) | -0.0544 [-0.0657,-0.0438] | -0.96 [-1.08,-0.77] | 0.51 [0.47,0.59] | -0.55 [-0.67,-0.44] | 0.68 | Qwen3-8B-Base | -0.0539 [-0.0616,-0.0459] | below base |
+| tmax-8b | Qwen3-8B (inst) | -0.0720 [-0.0832,-0.0616] | -1.12 [-1.24,-1.00] | 0.46 [0.42,0.50] | -0.73 [-0.84,-0.62] | 0.60 | Qwen3-8B-Base | -0.0716 [-0.0789,-0.0636] | below base |
+| tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0177 [-0.0194,-0.0160] | -1.12 [-1.24,-1.00] | 0.46 [0.42,0.50] | -0.18 [-0.20,-0.16] | 0.88 | - | - | - |
+| CodeScout-14B | Qwen3-14B (inst) | -0.0023 [-0.0036,-0.0009] | -0.01 [-0.02,-0.01] | 0.99 [0.98,1.00] | -0.02 [-0.04,-0.01] | 0.98 | Qwen3-14B-Base | +0.0519 [+0.0438,+0.0598] | above base |
+| Light-IF-8B | Qwen3-8B (inst) | -0.0403 [-0.0470,-0.0340] | -0.73 [-0.94,-0.59] | 0.60 [0.52,0.67] | -0.41 [-0.47,-0.35] | 0.75 | Qwen3-8B-Base | -0.0398 [-0.0493,-0.0302] | below base |
+| Light-IF-14B | Qwen3-14B (inst) | -0.0361 [-0.0397,-0.0326] | -0.24 [-0.27,-0.21] | 0.85 [0.83,0.86] | -0.37 [-0.40,-0.33] | 0.78 | Qwen3-14B-Base | +0.0181 [+0.0111,+0.0253] | above base |
+| Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.2033 [-0.2172,-0.1895] | not computed (base ladder flat above 4B) | - | - | - | Qwen3-8B-Base | -0.2033 [-0.2172,-0.1895] | below base |
+| WebWorld-8B | Qwen3-8B (inst) | -0.0577 [-0.0671,-0.0487] | -0.99 [-1.09,-0.84] | 0.50 [0.47,0.56] | -0.58 [-0.68,-0.49] | 0.67 | Qwen3-8B-Base | -0.0572 [-0.0640,-0.0508] | below base |
+| SERA-8B | Qwen3-8B (inst) | -0.1106 [-0.1199,-0.1016] | -1.47 [-1.58,-1.37] | 0.36 [0.33,0.39] | -1.12 [-1.21,-1.03] | 0.46 | Qwen3-8B-Base | -0.1102 [-0.1207,-0.1001] | below base |
+| Arctic-AWM-8B | Qwen3-8B (inst) | -0.0021 [-0.0039,-0.0002] | -0.04 [-0.07,-0.00] | 0.97 [0.95,1.00] | -0.02 [-0.04,-0.00] | 0.99 | Qwen3-8B-Base | -0.0016 [-0.0119,+0.0090] | n.s. |
+| FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0739 [-0.0809,-0.0668] | -0.49 [-0.54,-0.44] | 0.71 [0.69,0.74] | -0.75 [-0.82,-0.68] | 0.60 | Qwen3-14B-Base | -0.0197 [-0.0285,-0.0113] | below base |
+| OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0711 [-0.0788,-0.0638] | -1.46 [-1.52,-1.39] | 0.36 [0.35,0.38] | -0.72 [-0.79,-0.64] | 0.61 | Qwen3-32B-Base | n/a | n/a |
+| Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.2037 [-0.2184,-0.1890] | -2.31 [-2.46,-2.15] | 0.20 [0.18,0.22] | -2.06 [-2.21,-1.92] | 0.24 | - | - | - |
+
+### info gain/S2h+S3h
+
+| model | start | Δ vs start [95% CI] | (a) log2 n, ladder interpolation [95% CI] | n [95% CI] | sensitivity: log2 n, global OLS [95% CI] | n (OLS) | same-size base | (b) Δ vs base [95% CI] | vs base |
+|---|---|---|---|---|---|---|---|---|---|
+| Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.0068 [-0.0113,-0.0022] | -0.34 [-0.57,-0.14] | 0.79 [0.67,0.91] | -0.27 [-0.45,-0.09] | 0.83 | Qwen3-8B-Base | -0.0233 [-0.0280,-0.0187] | below base |
+| Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.0112 [-0.0176,-0.0051] | -0.14 [-0.20,-0.06] | 0.91 [0.87,0.96] | -0.44 [-0.68,-0.21] | 0.74 | Qwen3-14B-Base | -0.0031 [-0.0091,+0.0029] | n.s. |
+| Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.0073 [-0.0145,+0.0000] | -0.22 [-0.40,+0.00] | 0.86 [0.76,1.00] | -0.29 [-0.56,+0.00] | 0.82 | Qwen3-32B-Base | n/a | n/a |
+| tmax-sft-8b | Qwen3-8B (inst) | +0.0016 [-0.0027,+0.0064] | +0.02 [-0.13,+0.07] | 1.01 [0.92,1.05] | +0.06 [-0.11,+0.25] | 1.05 | Qwen3-8B-Base | -0.0149 [-0.0192,-0.0107] | below base |
+| tmax-8b | Qwen3-8B (inst) | -0.0011 [-0.0055,+0.0036] | -0.05 [-0.26,+0.04] | 0.96 [0.84,1.03] | -0.04 [-0.22,+0.15] | 0.97 | Qwen3-8B-Base | -0.0176 [-0.0219,-0.0134] | below base |
+| tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0027 [-0.0037,-0.0017] | -0.05 [-0.26,+0.04] | 0.96 [0.84,1.03] | -0.11 [-0.15,-0.07] | 0.93 | - | - | - |
+| CodeScout-14B | Qwen3-14B (inst) | +0.0016 [+0.0007,+0.0025] | +0.05 [+0.02,+0.08] | 1.03 [1.01,1.06] | +0.06 [+0.03,+0.10] | 1.05 | Qwen3-14B-Base | +0.0097 [+0.0032,+0.0165] | above base |
+| Light-IF-8B | Qwen3-8B (inst) | -0.0033 [-0.0060,-0.0007] | -0.17 [-0.31,-0.04] | 0.89 [0.81,0.97] | -0.13 [-0.24,-0.03] | 0.91 | Qwen3-8B-Base | -0.0198 [-0.0248,-0.0149] | below base |
+| Light-IF-14B | Qwen3-14B (inst) | -0.0159 [-0.0184,-0.0135] | -0.19 [-0.22,-0.17] | 0.87 [0.86,0.89] | -0.63 [-0.72,-0.55] | 0.65 | Qwen3-14B-Base | -0.0079 [-0.0133,-0.0022] | below base |
+| Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0422 [-0.0489,-0.0357] | not computed (base ladder flat above 4B) | - | - | - | Qwen3-8B-Base | -0.0422 [-0.0489,-0.0357] | below base |
+| WebWorld-8B | Qwen3-8B (inst) | -0.0077 [-0.0121,-0.0033] | -0.39 [-0.61,-0.21] | 0.76 [0.66,0.86] | -0.30 [-0.48,-0.13] | 0.81 | Qwen3-8B-Base | -0.0242 [-0.0283,-0.0201] | below base |
+| SERA-8B | Qwen3-8B (inst) | -0.0057 [-0.0101,-0.0013] | -0.29 [-0.49,-0.08] | 0.82 [0.71,0.95] | -0.23 [-0.40,-0.05] | 0.86 | Qwen3-8B-Base | -0.0222 [-0.0272,-0.0173] | below base |
+| Arctic-AWM-8B | Qwen3-8B (inst) | -0.0016 [-0.0025,-0.0006] | -0.08 [-0.14,-0.04] | 0.95 [0.90,0.98] | -0.06 [-0.10,-0.02] | 0.96 | Qwen3-8B-Base | -0.0181 [-0.0240,-0.0125] | below base |
+| FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0238 [-0.0283,-0.0192] | -0.29 [-0.34,-0.24] | 0.82 [0.79,0.85] | -0.94 [-1.11,-0.78] | 0.52 | Qwen3-14B-Base | -0.0158 [-0.0212,-0.0099] | below base |
+| OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0259 [-0.0329,-0.0188] | -0.77 [-1.02,-0.57] | 0.59 [0.49,0.67] | -1.02 [-1.29,-0.76] | 0.49 | Qwen3-32B-Base | n/a | n/a |
+| Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0257 [-0.0319,-0.0190] | -2.85 [-3.27,-2.32] | 0.14 [0.10,0.20] | -1.02 [-1.25,-0.77] | 0.49 | - | - | - |
+
+### info gain/primary
+
+| model | start | Δ vs start [95% CI] | (a) log2 n, ladder interpolation [95% CI] | n [95% CI] | sensitivity: log2 n, global OLS [95% CI] | n (OLS) | same-size base | (b) Δ vs base [95% CI] | vs base |
+|---|---|---|---|---|---|---|---|---|---|
+| Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.0517 [-0.0581,-0.0452] | -1.26 [-1.38,-1.12] | 0.42 [0.38,0.46] | -0.76 [-0.85,-0.67] | 0.59 | Qwen3-8B-Base | -0.0372 [-0.0433,-0.0313] | below base |
+| Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.0331 [-0.0384,-0.0278] | -0.27 [-0.31,-0.23] | 0.83 [0.80,0.85] | -0.49 [-0.56,-0.41] | 0.71 | Qwen3-14B-Base | +0.0205 [+0.0155,+0.0256] | above base |
+| Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.0381 [-0.0435,-0.0332] | -1.17 [-1.28,-0.99] | 0.44 [0.41,0.50] | -0.56 [-0.63,-0.49] | 0.68 | Qwen3-32B-Base | n/a | n/a |
+| tmax-sft-8b | Qwen3-8B (inst) | -0.0500 [-0.0573,-0.0426] | -1.23 [-1.39,-1.06] | 0.43 [0.38,0.48] | -0.73 [-0.84,-0.63] | 0.60 | Qwen3-8B-Base | -0.0355 [-0.0407,-0.0303] | below base |
+| tmax-8b | Qwen3-8B (inst) | -0.0620 [-0.0693,-0.0546] | -1.45 [-1.62,-1.30] | 0.37 [0.33,0.41] | -0.91 [-1.02,-0.80] | 0.53 | Qwen3-8B-Base | -0.0475 [-0.0526,-0.0425] | below base |
+| tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0120 [-0.0132,-0.0109] | -1.45 [-1.62,-1.30] | 0.37 [0.33,0.41] | -0.18 [-0.19,-0.16] | 0.88 | - | - | - |
+| CodeScout-14B | Qwen3-14B (inst) | +0.0024 [+0.0015,+0.0033] | +0.07 [+0.04,+0.11] | 1.05 [1.03,1.08] | +0.04 [+0.02,+0.05] | 1.03 | Qwen3-14B-Base | +0.0560 [+0.0499,+0.0618] | above base |
+| Light-IF-8B | Qwen3-8B (inst) | -0.0428 [-0.0471,-0.0386] | -1.09 [-1.22,-0.95] | 0.47 [0.43,0.52] | -0.63 [-0.69,-0.57] | 0.65 | Qwen3-8B-Base | -0.0284 [-0.0343,-0.0223] | below base |
+| Light-IF-14B | Qwen3-14B (inst) | -0.0416 [-0.0447,-0.0388] | -0.34 [-0.38,-0.31] | 0.79 [0.77,0.80] | -0.61 [-0.65,-0.57] | 0.65 | Qwen3-14B-Base | +0.0120 [+0.0069,+0.0171] | above base |
+| Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.1192 [-0.1292,-0.1091] | not computed (base ladder flat above 4B) | - | - | - | Qwen3-8B-Base | -0.1192 [-0.1292,-0.1091] | below base |
+| WebWorld-8B | Qwen3-8B (inst) | -0.0639 [-0.0703,-0.0577] | -1.49 [-1.64,-1.35] | 0.36 [0.32,0.39] | -0.94 [-1.04,-0.84] | 0.52 | Qwen3-8B-Base | -0.0495 [-0.0538,-0.0453] | below base |
+| SERA-8B | Qwen3-8B (inst) | -0.0836 [-0.0903,-0.0771] | -1.86 [-2.05,-1.71] | 0.28 [0.24,0.31] | -1.23 [-1.32,-1.14] | 0.43 | Qwen3-8B-Base | -0.0691 [-0.0759,-0.0622] | below base |
+| Arctic-AWM-8B | Qwen3-8B (inst) | -0.0032 [-0.0043,-0.0021] | -0.09 [-0.12,-0.05] | 0.94 [0.92,0.96] | -0.05 [-0.06,-0.03] | 0.97 | Qwen3-8B-Base | +0.0113 [+0.0040,+0.0184] | above base |
+| FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0642 [-0.0695,-0.0594] | -0.53 [-0.58,-0.48] | 0.69 [0.67,0.71] | -0.94 [-1.01,-0.88] | 0.52 | Qwen3-14B-Base | -0.0106 [-0.0160,-0.0050] | below base |
+| OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0570 [-0.0627,-0.0515] | -1.38 [-1.43,-1.32] | 0.39 [0.37,0.40] | -0.84 [-0.92,-0.76] | 0.56 | Qwen3-32B-Base | n/a | n/a |
+| Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.1336 [-0.1437,-0.1232] | -2.58 [-2.69,-2.46] | 0.17 [0.15,0.18] | -1.96 [-2.10,-1.82] | 0.26 | - | - | - |
+
+### interaction bits/byte/S2+S3
+
+| model | start | Δ vs start [95% CI] | (a) log2 n, ladder interpolation [95% CI] | n [95% CI] | sensitivity: log2 n, global OLS [95% CI] | n (OLS) | same-size base | (b) Δ vs base [95% CI] | vs base |
+|---|---|---|---|---|---|---|---|---|---|
+| Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.1840 [-0.2028,-0.1653] | -2.43 [-2.55,-2.29] | 0.19 [0.17,0.20] | -1.83 [-2.01,-1.65] | 0.28 | Qwen3-8B-Base | +0.0408 [+0.0291,+0.0525] | above base |
+| Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.1928 [-0.2124,-0.1754] | -2.00 [-2.23,-1.57] | 0.25 [0.21,0.34] | -1.91 [-2.06,-1.77] | 0.27 | Qwen3-14B-Base | +0.0917 [+0.0801,+0.1043] | above base |
+| Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.1128 [-0.1255,-0.1006] | -2.69 [-3.24,-2.12] | 0.16 [0.11,0.23] | -1.12 [-1.23,-1.01] | 0.46 | Qwen3-32B-Base | n/a | n/a |
+| tmax-sft-8b | Qwen3-8B (inst) | -0.1889 [-0.2103,-0.1686] | -2.45 [-2.60,-2.30] | 0.18 [0.17,0.20] | -1.88 [-2.09,-1.67] | 0.27 | Qwen3-8B-Base | +0.0358 [+0.0258,+0.0459] | above base |
+| tmax-8b | Qwen3-8B (inst) | -0.1820 [-0.2032,-0.1621] | -2.42 [-2.57,-2.24] | 0.19 [0.17,0.21] | -1.81 [-2.02,-1.61] | 0.29 | Qwen3-8B-Base | +0.0427 [+0.0328,+0.0528] | above base |
+| tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | +0.0069 [+0.0048,+0.0090] | -2.42 [-2.57,-2.24] | 0.19 [0.17,0.21] | +0.07 [+0.05,+0.09] | 1.05 | - | - | - |
+| CodeScout-14B | Qwen3-14B (inst) | +0.0516 [+0.0475,+0.0562] | >+1.24 [+1.24,+1.24] | >2.36 [2.36,2.36] | +0.51 [+0.48,+0.55] | 1.43 | Qwen3-14B-Base | +0.3362 [+0.3098,+0.3653] | above base |
+| Light-IF-8B | Qwen3-8B (inst) | -0.1354 [-0.1477,-0.1233] | -2.08 [-2.33,-1.87] | 0.24 [0.20,0.27] | -1.34 [-1.46,-1.23] | 0.39 | Qwen3-8B-Base | +0.0894 [+0.0743,+0.1041] | above base |
+| Light-IF-14B | Qwen3-14B (inst) | -0.0037 [-0.0113,+0.0036] | -0.02 [-0.07,+1.24] | 0.98 [0.96,2.36] | -0.04 [-0.11,+0.04] | 0.97 | Qwen3-14B-Base | +0.2808 [+0.2601,+0.3042] | above base |
+| Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0579 [-0.0785,-0.0377] | not computed (base ladder flat above 4B) | - | - | - | Qwen3-8B-Base | -0.0579 [-0.0785,-0.0377] | below base |
+| WebWorld-8B | Qwen3-8B (inst) | -0.2576 [-0.2795,-0.2368] | -2.77 [-2.89,-2.65] | 0.15 [0.14,0.16] | -2.56 [-2.77,-2.35] | 0.17 | Qwen3-8B-Base | -0.0328 [-0.0409,-0.0251] | below base |
+| SERA-8B | Qwen3-8B (inst) | -0.2074 [-0.2274,-0.1888] | -2.54 [-2.66,-2.39] | 0.17 [0.16,0.19] | -2.06 [-2.25,-1.88] | 0.24 | Qwen3-8B-Base | +0.0173 [+0.0043,+0.0311] | above base |
+| Arctic-AWM-8B | Qwen3-8B (inst) | -0.0196 [-0.0225,-0.0168] | -0.70 [-1.06,-0.39] | 0.62 [0.48,0.76] | -0.20 [-0.22,-0.17] | 0.87 | Qwen3-8B-Base | +0.2051 [+0.1845,+0.2255] | above base |
+| FrogMini-14B-2510 | Qwen3-14B (inst) | -0.1002 [-0.1155,-0.0870] | -0.60 [-0.71,-0.52] | 0.66 [0.61,0.70] | -0.99 [-1.12,-0.88] | 0.50 | Qwen3-14B-Base | +0.1844 [+0.1670,+0.2026] | above base |
+| OpenThinkerAgent-32B | Qwen3-32B (inst) | +0.0002 [-0.0115,+0.0119] | -1.57 [-1.69,-1.46] | 0.34 [0.31,0.36] | >+0.00 [-0.11,+0.00] | >1.00 | Qwen3-32B-Base | n/a | n/a |
+| Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.2826 [-0.3120,-0.2538] | -2.89 [-3.01,-2.76] | 0.14 [0.12,0.15] | -2.81 [-3.05,-2.57] | 0.14 | - | - | - |
+
+### interaction bits/byte/S2h+S3h
+
+| model | start | Δ vs start [95% CI] | (a) log2 n, ladder interpolation [95% CI] | n [95% CI] | sensitivity: log2 n, global OLS [95% CI] | n (OLS) | same-size base | (b) Δ vs base [95% CI] | vs base |
+|---|---|---|---|---|---|---|---|---|---|
+| Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.0177 [-0.0272,-0.0083] | -0.45 [-0.70,-0.25] | 0.73 [0.61,0.84] | -0.38 [-0.58,-0.18] | 0.77 | Qwen3-8B-Base | -0.0299 [-0.0386,-0.0215] | below base |
+| Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.0529 [-0.0679,-0.0390] | -0.32 [-0.39,-0.25] | 0.80 [0.76,0.84] | -1.14 [-1.43,-0.88] | 0.45 | Qwen3-14B-Base | -0.0022 [-0.0131,+0.0087] | n.s. |
+| Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.0234 [-0.0370,-0.0097] | -0.62 [-1.03,-0.30] | 0.65 [0.49,0.81] | -0.51 [-0.78,-0.22] | 0.70 | Qwen3-32B-Base | n/a | n/a |
+| tmax-sft-8b | Qwen3-8B (inst) | +0.0009 [-0.0082,+0.0111] | +0.01 [-0.19,+0.06] | 1.00 [0.88,1.04] | +0.02 [-0.18,+0.24] | 1.01 | Qwen3-8B-Base | -0.0114 [-0.0195,-0.0033] | below base |
+| tmax-8b | Qwen3-8B (inst) | +0.0008 [-0.0085,+0.0110] | +0.00 [-0.20,+0.06] | 1.00 [0.87,1.05] | +0.02 [-0.18,+0.24] | 1.01 | Qwen3-8B-Base | -0.0115 [-0.0195,-0.0035] | below base |
+| tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0001 [-0.0021,+0.0019] | +0.00 [-0.20,+0.06] | 1.00 [0.87,1.05] | -0.00 [-0.05,+0.04] | 1.00 | - | - | - |
+| CodeScout-14B | Qwen3-14B (inst) | +0.0129 [+0.0106,+0.0152] | +0.34 [+0.23,+0.61] | 1.27 [1.17,1.52] | +0.28 [+0.23,+0.32] | 1.21 | Qwen3-14B-Base | +0.0636 [+0.0487,+0.0799] | above base |
+| Light-IF-8B | Qwen3-8B (inst) | -0.0047 [-0.0104,+0.0010] | -0.12 [-0.26,+0.01] | 0.92 [0.83,1.00] | -0.10 [-0.23,+0.02] | 0.93 | Qwen3-8B-Base | -0.0170 [-0.0265,-0.0077] | below base |
+| Light-IF-14B | Qwen3-14B (inst) | +0.0025 [-0.0019,+0.0070] | +0.07 [-0.01,+0.19] | 1.05 [0.99,1.14] | +0.05 [-0.04,+0.15] | 1.04 | Qwen3-14B-Base | +0.0532 [+0.0398,+0.0672] | above base |
+| Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0653 [-0.0775,-0.0532] | not computed (base ladder flat above 4B) | - | - | - | Qwen3-8B-Base | -0.0653 [-0.0775,-0.0532] | below base |
+| WebWorld-8B | Qwen3-8B (inst) | -0.0224 [-0.0315,-0.0129] | -0.57 [-0.83,-0.39] | 0.68 [0.56,0.76] | -0.48 [-0.68,-0.28] | 0.71 | Qwen3-8B-Base | -0.0346 [-0.0420,-0.0272] | below base |
+| SERA-8B | Qwen3-8B (inst) | -0.0073 [-0.0168,+0.0022] | -0.18 [-0.40,+0.01] | 0.88 [0.76,1.01] | -0.16 [-0.36,+0.05] | 0.90 | Qwen3-8B-Base | -0.0195 [-0.0293,-0.0104] | below base |
+| Arctic-AWM-8B | Qwen3-8B (inst) | -0.0044 [-0.0065,-0.0023] | -0.11 [-0.19,-0.06] | 0.92 [0.88,0.96] | -0.10 [-0.14,-0.05] | 0.94 | Qwen3-8B-Base | -0.0167 [-0.0278,-0.0057] | below base |
+| FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0322 [-0.0418,-0.0229] | -0.19 [-0.25,-0.14] | 0.87 [0.84,0.91] | -0.70 [-0.89,-0.51] | 0.62 | Qwen3-14B-Base | +0.0185 [+0.0064,+0.0313] | above base |
+| OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0101 [-0.0244,+0.0039] | -0.27 [-0.67,+0.00] | 0.83 [0.63,1.00] | -0.22 [-0.52,+0.00] | 0.86 | Qwen3-32B-Base | n/a | n/a |
+| Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0531 [-0.0662,-0.0388] | -2.86 [-3.40,-2.07] | 0.14 [0.09,0.24] | -1.15 [-1.42,-0.87] | 0.45 | - | - | - |
+
+### interaction bits/byte/primary
+
+| model | start | Δ vs start [95% CI] | (a) log2 n, ladder interpolation [95% CI] | n [95% CI] | sensitivity: log2 n, global OLS [95% CI] | n (OLS) | same-size base | (b) Δ vs base [95% CI] | vs base |
+|---|---|---|---|---|---|---|---|---|---|
+| Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.1326 [-0.1459,-0.1194] | -2.38 [-2.50,-2.19] | 0.19 [0.18,0.22] | -1.58 [-1.74,-1.43] | 0.33 | Qwen3-8B-Base | +0.0189 [+0.0104,+0.0274] | above base |
+| Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.1496 [-0.1635,-0.1368] | -0.90 [-1.28,-0.82] | 0.53 [0.41,0.57] | -1.78 [-1.91,-1.66] | 0.29 | Qwen3-14B-Base | +0.0627 [+0.0539,+0.0720] | above base |
+| Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.0852 [-0.0949,-0.0755] | -1.90 [-2.00,-1.81] | 0.27 [0.25,0.29] | -1.02 [-1.12,-0.92] | 0.49 | Qwen3-32B-Base | n/a | n/a |
+| tmax-sft-8b | Qwen3-8B (inst) | -0.1303 [-0.1451,-0.1159] | -2.36 [-2.51,-2.12] | 0.19 [0.18,0.23] | -1.55 [-1.73,-1.38] | 0.34 | Qwen3-8B-Base | +0.0212 [+0.0139,+0.0287] | above base |
+| tmax-8b | Qwen3-8B (inst) | -0.1255 [-0.1403,-0.1115] | -2.33 [-2.48,-2.07] | 0.20 [0.18,0.24] | -1.50 [-1.68,-1.32] | 0.35 | Qwen3-8B-Base | +0.0260 [+0.0187,+0.0334] | above base |
+| tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | +0.0047 [+0.0032,+0.0063] | -2.33 [-2.48,-2.07] | 0.20 [0.18,0.24] | +0.06 [+0.04,+0.08] | 1.04 | - | - | - |
+| CodeScout-14B | Qwen3-14B (inst) | +0.0397 [+0.0369,+0.0426] | >+1.24 [+1.24,+1.24] | >2.36 [2.36,2.36] | +0.47 [+0.44,+0.50] | 1.39 | Qwen3-14B-Base | +0.2519 [+0.2337,+0.2723] | above base |
+| Light-IF-8B | Qwen3-8B (inst) | -0.0950 [-0.1041,-0.0863] | -1.91 [-2.19,-1.71] | 0.27 [0.22,0.31] | -1.13 [-1.23,-1.04] | 0.46 | Qwen3-8B-Base | +0.0565 [+0.0458,+0.0674] | above base |
+| Light-IF-14B | Qwen3-14B (inst) | -0.0018 [-0.0074,+0.0033] | -0.01 [-0.04,+1.24] | 0.99 [0.97,2.36] | -0.02 [-0.09,+0.04] | 0.99 | Qwen3-14B-Base | +0.2105 [+0.1956,+0.2270] | above base |
+| Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0602 [-0.0751,-0.0453] | not computed (base ladder flat above 4B) | - | - | - | Qwen3-8B-Base | -0.0602 [-0.0751,-0.0453] | below base |
+| WebWorld-8B | Qwen3-8B (inst) | -0.1849 [-0.1998,-0.1706] | -2.71 [-2.83,-2.59] | 0.15 [0.14,0.17] | -2.21 [-2.39,-2.03] | 0.22 | Qwen3-8B-Base | -0.0334 [-0.0393,-0.0274] | below base |
+| SERA-8B | Qwen3-8B (inst) | -0.1456 [-0.1601,-0.1323] | -2.46 [-2.59,-2.31] | 0.18 [0.17,0.20] | -1.74 [-1.90,-1.58] | 0.30 | Qwen3-8B-Base | +0.0059 [-0.0036,+0.0163] | n.s. |
+| Arctic-AWM-8B | Qwen3-8B (inst) | -0.0149 [-0.0171,-0.0129] | -0.47 [-0.88,-0.31] | 0.72 [0.54,0.81] | -0.18 [-0.20,-0.15] | 0.88 | Qwen3-8B-Base | +0.1366 [+0.1218,+0.1516] | above base |
+| FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0792 [-0.0904,-0.0695] | -0.48 [-0.54,-0.42] | 0.72 [0.69,0.75] | -0.94 [-1.06,-0.84] | 0.52 | Qwen3-14B-Base | +0.1331 [+0.1209,+0.1462] | above base |
+| OpenThinkerAgent-32B | Qwen3-32B (inst) | -0.0030 [-0.0121,+0.0062] | -1.40 [-1.49,-1.31] | 0.38 [0.36,0.40] | -0.04 [-0.14,+0.00] | 0.98 | Qwen3-32B-Base | n/a | n/a |
+| Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.2117 [-0.2320,-0.1913] | -2.89 [-3.01,-2.76] | 0.14 [0.12,0.15] | -2.52 [-2.73,-2.32] | 0.17 | - | - | - |
+
+### null binding/S2+S3
+
+| model | start | Δ vs start [95% CI] | (a) log2 n, ladder interpolation [95% CI] | n [95% CI] | sensitivity: log2 n, global OLS [95% CI] | n (OLS) | same-size base | (b) Δ vs base [95% CI] | vs base |
+|---|---|---|---|---|---|---|---|---|---|
+| Nemotron-Terminal-8B | Qwen3-8B (inst) | +0.0078 [-0.0174,+0.0337] | <-2.30 [-3.98,+2.17] | <0.20 [0.06,4.49] | <-3.98 [-3.98,+2.17] | <0.06 | Qwen3-8B-Base | +0.0100 [-0.0174,+0.0363] | n.s. |
+| Nemotron-Terminal-14B | Qwen3-14B (inst) | -0.0056 [-0.0289,+0.0179] | <-3.23 [-4.91,+1.24] | <0.11 [0.03,2.36] | >+1.24 [-4.91,+1.24] | >2.36 | Qwen3-14B-Base | -0.0022 [-0.0269,+0.0225] | n.s. |
+| Nemotron-Terminal-32B | Qwen3-32B (inst) | -0.0028 [-0.0258,+0.0198] | <-4.47 [-6.15,+0.00] | <0.05 [0.01,1.00] | >+0.00 [-6.15,+0.00] | >1.00 | Qwen3-32B-Base | n/a | n/a |
+| tmax-sft-8b | Qwen3-8B (inst) | -0.0167 [-0.0419,+0.0078] | <-2.30 [-3.98,+2.17] | <0.20 [0.06,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | Qwen3-8B-Base | -0.0144 [-0.0392,+0.0107] | n.s. |
+| tmax-8b | Qwen3-8B (inst) | -0.0239 [-0.0496,+0.0006] | <-2.30 [-3.98,+2.17] | <0.20 [0.06,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | Qwen3-8B-Base | -0.0217 [-0.0471,+0.0034] | n.s. |
+| tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0072 [-0.0215,+0.0073] | <-2.30 [-3.98,+2.17] | <0.20 [0.06,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | - | - | - |
+| CodeScout-14B | Qwen3-14B (inst) | +0.0028 [-0.0089,+0.0145] | <-3.23 [-4.91,+1.24] | <0.11 [0.03,2.36] | -1.68 [-4.91,+1.24] | 0.31 | Qwen3-14B-Base | +0.0061 [-0.0168,+0.0302] | n.s. |
+| Light-IF-8B | Qwen3-8B (inst) | -0.0094 [-0.0280,+0.0108] | <-2.30 [-3.98,+2.17] | <0.20 [0.06,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | Qwen3-8B-Base | -0.0072 [-0.0337,+0.0185] | n.s. |
+| Light-IF-14B | Qwen3-14B (inst) | -0.0117 [-0.0275,+0.0045] | <-3.23 [-4.91,+1.24] | <0.11 [0.03,2.36] | >+1.24 [-4.91,+1.24] | >2.36 | Qwen3-14B-Base | -0.0083 [-0.0315,+0.0166] | n.s. |
+| Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0228 [-0.0515,+0.0068] | not computed (base ladder flat above 4B) | - | - | - | Qwen3-8B-Base | -0.0228 [-0.0515,+0.0068] | n.s. |
+| WebWorld-8B | Qwen3-8B (inst) | -0.0050 [-0.0281,+0.0181] | <-2.30 [-3.98,+2.17] | <0.20 [0.06,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | Qwen3-8B-Base | -0.0028 [-0.0287,+0.0230] | n.s. |
+| SERA-8B | Qwen3-8B (inst) | -0.0144 [-0.0375,+0.0102] | <-2.30 [-3.98,+2.17] | <0.20 [0.06,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | Qwen3-8B-Base | -0.0122 [-0.0393,+0.0153] | n.s. |
+| Arctic-AWM-8B | Qwen3-8B (inst) | -0.0100 [-0.0213,+0.0011] | <-2.30 [-3.98,+2.17] | <0.20 [0.06,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | Qwen3-8B-Base | -0.0078 [-0.0336,+0.0185] | n.s. |
+| FrogMini-14B-2510 | Qwen3-14B (inst) | -0.0050 [-0.0249,+0.0159] | <-3.23 [-4.91,+1.24] | <0.11 [0.03,2.36] | >+1.24 [-4.91,+1.24] | >2.36 | Qwen3-14B-Base | -0.0017 [-0.0266,+0.0236] | n.s. |
+| OpenThinkerAgent-32B | Qwen3-32B (inst) | +0.0039 [-0.0189,+0.0258] | <-4.47 [-6.15,+0.00] | <0.05 [0.01,1.00] | -2.36 [-6.15,+0.00] | 0.20 | Qwen3-32B-Base | n/a | n/a |
+| Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0250 [-0.0527,+0.0040] | <-2.30 [-3.98,+2.17] | <0.20 [0.06,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | - | - | - |
+
+### null binding/S2h+S3h
+
+| model | start | Δ vs start [95% CI] | (a) log2 n, ladder interpolation [95% CI] | n [95% CI] | sensitivity: log2 n, global OLS [95% CI] | n (OLS) | same-size base | (b) Δ vs base [95% CI] | vs base |
+|---|---|---|---|---|---|---|---|---|---|
+| Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.0172 [-0.0471,+0.0110] | <+2.17 [-3.98,+2.17] | <4.49 [0.06,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | Qwen3-8B-Base | -0.0072 [-0.0351,+0.0235] | n.s. |
+| Nemotron-Terminal-14B | Qwen3-14B (inst) | +0.0089 [-0.0187,+0.0380] | <+1.24 [-4.91,+1.24] | <2.36 [0.03,2.36] | -3.53 [-4.91,+1.24] | 0.09 | Qwen3-14B-Base | +0.0117 [-0.0170,+0.0409] | n.s. |
+| Nemotron-Terminal-32B | Qwen3-32B (inst) | +0.0067 [-0.0216,+0.0370] | <+0.00 [-6.15,+0.00] | <1.00 [0.01,1.00] | -2.65 [-6.15,+0.00] | 0.16 | Qwen3-32B-Base | n/a | n/a |
+| tmax-sft-8b | Qwen3-8B (inst) | +0.0078 [-0.0213,+0.0364] | <+2.17 [-2.57,+2.17] | <4.49 [0.17,4.49] | -3.09 [-3.98,+2.17] | 0.12 | Qwen3-8B-Base | +0.0178 [-0.0093,+0.0464] | n.s. |
+| tmax-8b | Qwen3-8B (inst) | +0.0128 [-0.0164,+0.0400] | >+2.17 [-0.93,+2.17] | >4.49 [0.52,4.49] | <-3.98 [-3.98,+2.17] | <0.06 | Qwen3-8B-Base | +0.0228 [-0.0049,+0.0507] | n.s. |
+| tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | +0.0050 [-0.0154,+0.0255] | >+2.17 [-0.93,+2.17] | >4.49 [0.52,4.49] | -1.99 [-3.98,+2.17] | 0.25 | - | - | - |
+| CodeScout-14B | Qwen3-14B (inst) | +0.0000 [-0.0187,+0.0194] | <+1.24 [-4.91,+1.24] | <2.36 [0.03,2.36] | -0.00 [-4.91,+1.24] | 1.00 | Qwen3-14B-Base | +0.0028 [-0.0273,+0.0331] | n.s. |
+| Light-IF-8B | Qwen3-8B (inst) | +0.0056 [-0.0165,+0.0289] | <+2.17 [-3.01,+2.17] | <4.49 [0.12,4.49] | -2.21 [-3.98,+2.17] | 0.22 | Qwen3-8B-Base | +0.0156 [-0.0130,+0.0483] | n.s. |
+| Light-IF-14B | Qwen3-14B (inst) | +0.0133 [-0.0081,+0.0353] | <+1.24 [-4.91,+1.24] | <2.36 [0.03,2.36] | <-4.91 [-4.91,+1.24] | <0.03 | Qwen3-14B-Base | +0.0161 [-0.0129,+0.0446] | n.s. |
+| Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0061 [-0.0385,+0.0265] | not computed (base ladder flat above 4B) | - | - | - | Qwen3-8B-Base | -0.0061 [-0.0385,+0.0265] | n.s. |
+| WebWorld-8B | Qwen3-8B (inst) | +0.0361 [+0.0071,+0.0630] | >+2.17 [+2.17,+2.17] | >4.49 [4.49,4.49] | <-3.98 [-3.98,+2.17] | <0.06 | Qwen3-8B-Base | +0.0461 [+0.0167,+0.0762] | above base |
+| SERA-8B | Qwen3-8B (inst) | +0.0017 [-0.0260,+0.0282] | <+2.17 [-3.88,+2.17] | <4.49 [0.07,4.49] | -0.66 [-3.98,+2.17] | 0.63 | Qwen3-8B-Base | +0.0117 [-0.0187,+0.0435] | n.s. |
+| Arctic-AWM-8B | Qwen3-8B (inst) | +0.0006 [-0.0193,+0.0210] | <+2.17 [-3.98,+2.17] | <4.49 [0.06,4.49] | -0.22 [-3.98,+2.17] | 0.86 | Qwen3-8B-Base | +0.0106 [-0.0188,+0.0419] | n.s. |
+| FrogMini-14B-2510 | Qwen3-14B (inst) | +0.0133 [-0.0128,+0.0391] | <+1.24 [-4.91,+1.24] | <2.36 [0.03,2.36] | <-4.91 [-4.91,+1.24] | <0.03 | Qwen3-14B-Base | +0.0161 [-0.0142,+0.0479] | n.s. |
+| OpenThinkerAgent-32B | Qwen3-32B (inst) | +0.0150 [-0.0125,+0.0443] | <+0.00 [-5.27,+0.00] | <1.00 [0.03,1.00] | -5.96 [-6.15,+0.00] | 0.02 | Qwen3-32B-Base | n/a | n/a |
+| Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0161 [-0.0480,+0.0134] | <+2.17 [-3.98,+2.17] | <4.49 [0.06,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | - | - | - |
+
+### null binding/primary
+
+| model | start | Δ vs start [95% CI] | (a) log2 n, ladder interpolation [95% CI] | n [95% CI] | sensitivity: log2 n, global OLS [95% CI] | n (OLS) | same-size base | (b) Δ vs base [95% CI] | vs base |
+|---|---|---|---|---|---|---|---|---|---|
+| Nemotron-Terminal-8B | Qwen3-8B (inst) | -0.0047 [-0.0248,+0.0135] | <+2.17 [-2.30,+2.17] | <4.49 [0.20,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | Qwen3-8B-Base | +0.0014 [-0.0173,+0.0210] | n.s. |
+| Nemotron-Terminal-14B | Qwen3-14B (inst) | +0.0017 [-0.0156,+0.0215] | <+1.24 [-3.23,+1.24] | <2.36 [0.11,2.36] | -0.80 [-4.91,+1.24] | 0.57 | Qwen3-14B-Base | +0.0047 [-0.0147,+0.0249] | n.s. |
+| Nemotron-Terminal-32B | Qwen3-32B (inst) | +0.0019 [-0.0159,+0.0207] | <+0.00 [-4.47,+0.00] | <1.00 [0.05,1.00] | -0.93 [-6.15,+0.00] | 0.52 | Qwen3-32B-Base | n/a | n/a |
+| tmax-sft-8b | Qwen3-8B (inst) | -0.0044 [-0.0241,+0.0142] | <+2.17 [-2.30,+2.17] | <4.49 [0.20,4.49] | +2.13 [-3.98,+2.17] | 4.38 | Qwen3-8B-Base | +0.0017 [-0.0180,+0.0211] | n.s. |
+| tmax-8b | Qwen3-8B (inst) | -0.0056 [-0.0250,+0.0123] | <+2.17 [-2.30,+2.17] | <4.49 [0.20,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | Qwen3-8B-Base | +0.0006 [-0.0181,+0.0196] | n.s. |
+| tmax-8b|vs tmax-sft | tmax-sft-8b (inst) | -0.0011 [-0.0132,+0.0114] | <+2.17 [-2.30,+2.17] | <4.49 [0.20,4.49] | +0.53 [-3.98,+2.17] | 1.45 | - | - | - |
+| CodeScout-14B | Qwen3-14B (inst) | +0.0014 [-0.0097,+0.0122] | <+1.24 [-3.23,+1.24] | <2.36 [0.11,2.36] | -0.67 [-4.91,+1.24] | 0.63 | Qwen3-14B-Base | +0.0044 [-0.0155,+0.0231] | n.s. |
+| Light-IF-8B | Qwen3-8B (inst) | -0.0019 [-0.0165,+0.0131] | <+2.17 [-2.30,+2.17] | <4.49 [0.20,4.49] | +0.93 [-3.98,+2.17] | 1.91 | Qwen3-8B-Base | +0.0042 [-0.0151,+0.0240] | n.s. |
+| Light-IF-14B | Qwen3-14B (inst) | +0.0008 [-0.0129,+0.0145] | <+1.24 [-3.23,+1.24] | <2.36 [0.11,2.36] | -0.40 [-4.91,+1.24] | 0.76 | Qwen3-14B-Base | +0.0039 [-0.0146,+0.0232] | n.s. |
+| Klear-Reasoner-8B-SFT | Qwen3-8B-Base (base) | -0.0144 [-0.0359,+0.0072] | not computed (base ladder flat above 4B) | - | - | - | Qwen3-8B-Base | -0.0144 [-0.0359,+0.0072] | n.s. |
+| WebWorld-8B | Qwen3-8B (inst) | +0.0156 [-0.0030,+0.0333] | >+2.17 [-0.67,+2.17] | >4.49 [0.63,4.49] | <-3.98 [-3.98,+2.17] | <0.06 | Qwen3-8B-Base | +0.0217 [+0.0036,+0.0413] | above base |
+| SERA-8B | Qwen3-8B (inst) | -0.0064 [-0.0242,+0.0114] | <+2.17 [-2.30,+2.17] | <4.49 [0.20,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | Qwen3-8B-Base | -0.0003 [-0.0205,+0.0199] | n.s. |
+| Arctic-AWM-8B | Qwen3-8B (inst) | -0.0047 [-0.0158,+0.0069] | <+2.17 [-2.30,+2.17] | <4.49 [0.20,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | Qwen3-8B-Base | +0.0014 [-0.0179,+0.0219] | n.s. |
+| FrogMini-14B-2510 | Qwen3-14B (inst) | +0.0042 [-0.0119,+0.0206] | <+1.24 [-3.23,+1.24] | <2.36 [0.11,2.36] | -2.00 [-4.91,+1.24] | 0.25 | Qwen3-14B-Base | +0.0072 [-0.0120,+0.0267] | n.s. |
+| OpenThinkerAgent-32B | Qwen3-32B (inst) | +0.0094 [-0.0084,+0.0279] | <+0.00 [-4.47,+0.00] | <1.00 [0.05,1.00] | -4.53 [-6.15,+0.00] | 0.04 | Qwen3-32B-Base | n/a | n/a |
+| Klear-Reasoner-8B-SFT|vs instruct | Qwen3-8B (inst) | -0.0206 [-0.0417,-0.0008] | <+2.17 [-3.98,+2.17] | <4.49 [0.06,4.49] | >+2.17 [-3.98,+2.17] | >4.49 | - | - | - |

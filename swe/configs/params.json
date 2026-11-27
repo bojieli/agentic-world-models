@@ -1,0 +1,38 @@
+{
+ "0.6B": {
+  "non_embedding": 440467456,
+  "embedding": 155582464,
+  "total": 596049920,
+  "tie": true
+ },
+ "1.7B": {
+  "non_embedding": 1409410048,
+  "embedding": 311164928,
+  "total": 1720574976,
+  "tie": true
+ },
+ "4B": {
+  "non_embedding": 3633511936,
+  "embedding": 388956160,
+  "total": 4022468096,
+  "tie": true
+ },
+ "8B": {
+  "non_embedding": 6946075648,
+  "embedding": 1244659712,
+  "total": 8190735360,
+  "tie": false
+ },
+ "14B": {
+  "non_embedding": 13212482560,
+  "embedding": 1555824640,
+  "total": 14768307200,
+  "tie": false
+ },
+ "32B": {
+  "non_embedding": 31206298624,
+  "embedding": 1555824640,
+  "total": 32762123264,
+  "tie": false
+ }
+}
