@@ -41,7 +41,7 @@ Inspiration: Wenhao Chai's "AgenticPPL" post (https://wenhaochai.com/blogs/agent
 - Swapping the command for a different one barely changes how well models predict the output — on real SWE logs, output is mostly determined by history, not the command.
 
 ## Experiment 3: terminal trajectories (the AgenticPPL dataset)
-- Only ~35% of the "surprise" in terminal output is real content; the rest is random strings (31%: hashes, timestamps), harness boilerplate (21%), and copy/echo (11%).
+- Only ~35% of the "surprise" in terminal output is real content; the rest is random strings (31%: hashes, timestamps), harness boilerplate (21%), and prompts, echoed commands and whitespace (11%).
 - Nemotron-Terminal (trained in this exact format) shifts probability toward its own role: on identical histories it gives the teacher's thoughts +0.77 and commands +0.26 bits/token more probability, and the terminal output −0.36 bits/token less. It learned to write like the agent, not to anticipate the terminal.
 - After calibration, Nemotron predicts terminal output worse than its starting model at 8B/14B/32B (≈0.6–0.8× size-equivalent).
 - Weird side effect: Nemotron can't copy a random hostname inside long agent transcripts (8B: 1.18 bits/char vs 0.02 for its parent) but copies fine in short terminal snippets.

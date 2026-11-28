@@ -1,0 +1,483 @@
+{
+  "_about": "Every number plotted by make_figures.py. 'src' fields give provenance: FACTS = writeups/article/FACTS.md (line numbers); BUNDLE = the study's raw result files (see the sandbox/, swe/ and terminal/ folders); HOST = the study's working copy of those results. Matching accuracy = sandbox 'binding acc/primary' (plain transcripts, copied words masked). Changes are percentage points vs the model's own Qwen3 chat (instruct) start unless noted.",
+  "sizes": [
+    "0.6B",
+    "1.7B",
+    "4B",
+    "8B",
+    "14B",
+    "32B"
+  ],
+  "non_embedding_params": {
+    "0.6B": 440467456,
+    "1.7B": 1409410048,
+    "4B": 3633511936,
+    "8B": 6946075648,
+    "14B": 13212482560,
+    "32B": 31206298624,
+    "src": "figures/dissociation_data.json (HOST p2/configs/params.json); used only for x positions"
+  },
+  "matching_accuracy": {
+    "pretrained": {
+      "0.6B": 63.6,
+      "1.7B": 68.6,
+      "4B": 75.7,
+      "8B": 77.1,
+      "14B": 78.4,
+      "src": "FACTS l.14, l.89"
+    },
+    "chat": {
+      "0.6B": 60.4,
+      "1.7B": 64.6,
+      "4B": 68.7,
+      "8B": 71.7,
+      "14B": 75.3,
+      "32B": 79.3,
+      "src": "FACTS l.13"
+    },
+    "note": "No 32B pretrained Qwen3 model exists (FACTS l.3)."
+  },
+  "coding_sessions_bits": {
+    "pretrained": {
+      "0.6B": 1.517,
+      "1.7B": 1.284,
+      "4B": 1.116,
+      "8B": 1.056,
+      "14B": 0.987,
+      "src": "FACTS l.88; figures/dissociation_data.json ladders.swe_m1_content_bits"
+    },
+    "chat": {
+      "0.6B": 1.821,
+      "1.7B": 1.556,
+      "4B": 1.318,
+      "8B": 1.203,
+      "14B": 1.089,
+      "32B": 1.016,
+      "src": "FACTS l.35, l.88; figures/dissociation_data.json ladders.swe_m1_content_bits (1.8212/1.5555/1.3179/1.2029/1.0892/1.0164)"
+    }
+  },
+  "training_stages_8b": {
+    "stages": [
+      {
+        "key": "pretrained",
+        "label": "Pretrained",
+        "model": "Qwen3-8B-Base",
+        "acc": 77.1,
+        "src": "FACTS l.14"
+      },
+      {
+        "key": "chat",
+        "label": "Chat model",
+        "model": "Qwen3-8B",
+        "acc": 71.7,
+        "src": "FACTS l.13"
+      },
+      {
+        "key": "agent_sup",
+        "label": "Agent (supervised training)",
+        "model": "TMax-8B (supervised)",
+        "acc": 75.3,
+        "src": "FACTS l.17: 71.7 + 3.6; article sec. 4 '75.3%'"
+      },
+      {
+        "key": "agent_rl",
+        "label": "Agent (reinforcement learning)",
+        "model": "TMax-8B (reinforcement)",
+        "acc": 74.9,
+        "src": "FACTS l.18: 71.7 + 3.2 = 74.9; vs pretrained -2.2"
+      }
+    ]
+  },
+  "surprise_breakdown_8b_pretrained": {
+    "_model": "Qwen3-8B-Base, terminal sessions (AgenticPPL dataset), neutral format, share of observation bits",
+    "segments": [
+      {
+        "key": "content",
+        "label": "Content a model could predict",
+        "pct": 35.4,
+        "src": "BUNDLE extra/token_classes/c_final_neutral.out [2] row CONTENT(novel output,non-rand) 35.4%; FACTS l.44/81 '~35%'"
+      },
+      {
+        "key": "random",
+        "label": "Random strings (hashes, timestamps)",
+        "pct": 30.8,
+        "src": "same file, row rand(all 3) 30.8%; FACTS '31%'"
+      },
+      {
+        "key": "boiler",
+        "label": "Fixed text from the evaluation framework",
+        "pct": 21.3,
+        "src": "same file, row boiler 21.3%; FACTS '21%'"
+      },
+      {
+        "key": "echo",
+        "label": "Prompts, echoed commands and whitespace",
+        "pct": 11.3,
+        "src": "same file, rows prompt 2.2% + cmd_echo 4.2% + ws 4.9% = 11.3%; FACTS calls this 'copy/echo (11%)'"
+      },
+      {
+        "key": "copied",
+        "label": "Command output copied from earlier",
+        "pct": 1.1,
+        "src": "remainder: output-class tokens that are copies (36.5% output-class bits - 35.4% content); partition per HOST ~/agentic-world-models-repo/terminal/extra/token_classes/c_tok_stats.py"
+      }
+    ],
+    "content_outcome": {
+      "label": "test results, error lines, numbers",
+      "pct": 11.1,
+      "src": "same file, row outcome-bearing 11.1% (subset of content: err_line/test_line/number, novel)"
+    }
+  },
+  "recalibration_8b": {
+    "_what": "terminal replies (content tokens), native format, bits per token, lower is better; temperatures cross-fitted on separate trajectory halves",
+    "chat": {
+      "as_is": 1.079,
+      "temp_set": 0.829
+    },
+    "nemotron8b": {
+      "as_is": 0.906,
+      "temp_set": 0.884
+    },
+    "pretrained_reference": 0.616,
+    "src": "BUNDLE extra/pilot_size_equiv/tables.md l.367 (raw: Qwen3-8B 1.0790, Nemo-8B 0.9059), l.379 (T_obs_cal: 0.8291, 0.8838), l.371/383 (Qwen3-8B-Base 0.6161, same raw and calibrated); NOTES.md l.20"
+  },
+  "pair_example": {
+    "item": "S2-0001",
+    "program": [
+      "import sys",
+      "word = sys.argv[1]",
+      "print(word[::-1].upper(), len(word))"
+    ],
+    "a": {
+      "cmd": "python calc.py olive",
+      "out": "EVILO 5"
+    },
+    "b": {
+      "cmd": "python calc.py garden",
+      "out": "NEDRAG 6"
+    },
+    "src": "BUNDLE sandbox/items.jsonl.gz item S2-0001 (executed outputs); 3,600 pairs, chance 50%: FACTS l.11-12"
+  },
+  "gains": {
+    "_fields": "vs_chat = points vs own chat start; sig = 95% range excludes 0 (HOST sandbox/results/chat_delta.json plain binding acc/primary); vs_pre = points vs same-size pretrained (null = no 32B pretrained)",
+    "doubling_band": {
+      "lo": 3.0,
+      "hi": 4.0,
+      "steps": {
+        "8B->14B": 3.6,
+        "14B->32B": 4.0
+      },
+      "src": "FACTS l.13 (+3-4 per doubling above 4B); 75.3-71.7, 79.3-75.3"
+    },
+    "groups": [
+      {
+        "role": "agent_sup",
+        "label": "Agent (supervised training)",
+        "models": [
+          {
+            "name": "Nemotron-Terminal-8B",
+            "vs_chat": 3.1,
+            "sig": true,
+            "vs_pre": -2.4,
+            "src": "FACTS l.16"
+          },
+          {
+            "name": "TMax-8B (supervised)",
+            "vs_chat": 3.6,
+            "sig": true,
+            "vs_pre": -1.8,
+            "src": "FACTS l.17"
+          },
+          {
+            "name": "SERA-8B",
+            "vs_chat": 1.4,
+            "sig": false,
+            "vs_pre": -4.1,
+            "src": "FACTS l.19"
+          },
+          {
+            "name": "Nemotron-Terminal-14B",
+            "vs_chat": 3.4,
+            "sig": true,
+            "vs_pre": 0.3,
+            "vs_pre_range": [
+              -1.1,
+              1.9
+            ],
+            "src": "FACTS l.21; article sec. 4 (95% range -1.1 to +1.9)"
+          },
+          {
+            "name": "FrogMini-14B",
+            "vs_chat": 0.6,
+            "sig": false,
+            "vs_pre": -2.5,
+            "src": "FACTS l.23"
+          },
+          {
+            "name": "Nemotron-Terminal-32B",
+            "vs_chat": 2.9,
+            "sig": true,
+            "vs_pre": null,
+            "src": "FACTS l.24"
+          },
+          {
+            "name": "OpenThinkerAgent-32B",
+            "vs_chat": -0.5,
+            "sig": false,
+            "vs_pre": null,
+            "src": "FACTS l.25"
+          }
+        ]
+      },
+      {
+        "role": "agent_rl",
+        "label": "Agent (reinforcement learning)",
+        "models": [
+          {
+            "name": "TMax-8B (reinforcement)",
+            "vs_chat": 3.2,
+            "sig": true,
+            "vs_pre": -2.2,
+            "src": "FACTS l.18"
+          },
+          {
+            "name": "Arctic-AWM-8B",
+            "vs_chat": -0.2,
+            "sig": false,
+            "vs_pre": -5.7,
+            "src": "FACTS l.20"
+          },
+          {
+            "name": "CodeScout-14B",
+            "vs_chat": -0.2,
+            "sig": false,
+            "vs_pre": -3.3,
+            "src": "FACTS l.22 (chat_delta.json gives -0.25, prints -0.3)"
+          }
+        ]
+      },
+      {
+        "role": "nonagent",
+        "label": "Fine-tune, not for agents",
+        "models": [
+          {
+            "name": "Light-IF-8B",
+            "vs_chat": 1.5,
+            "sig": true,
+            "vs_pre": -3.9,
+            "src": "FACTS l.26; 71.7+1.5 vs 77.1"
+          },
+          {
+            "name": "Light-IF-14B",
+            "vs_chat": 1.7,
+            "sig": true,
+            "vs_pre": -1.4,
+            "src": "FACTS l.26; 75.3+1.7 vs 78.4"
+          },
+          {
+            "name": "WebWorld-8B",
+            "vs_chat": -0.1,
+            "sig": false,
+            "vs_pre": -5.5,
+            "src": "FACTS l.28; 71.6 vs 77.1"
+          },
+          {
+            "name": "Klear-8B",
+            "vs_chat": -3.5,
+            "sig": true,
+            "vs_pre": -8.9,
+            "src": "FACTS l.27"
+          }
+        ]
+      }
+    ]
+  },
+  "margin": {
+    "_what": "bits per byte of output by which the correct matching beats the swapped one (sandbox interaction bits/byte, primary pool, plain)",
+    "rows": [
+      {
+        "name": "Nemotron-Terminal-8B",
+        "role": "agent_sup",
+        "chat": 0.54,
+        "agent": 0.407,
+        "acc_gain": 3.1
+      },
+      {
+        "name": "TMax-8B (supervised)",
+        "role": "agent_sup",
+        "chat": 0.54,
+        "agent": 0.409,
+        "acc_gain": 3.6
+      },
+      {
+        "name": "TMax-8B (reinforcement)",
+        "role": "agent_rl",
+        "chat": 0.54,
+        "agent": 0.414,
+        "acc_gain": 3.2
+      },
+      {
+        "name": "Nemotron-Terminal-14B",
+        "role": "agent_sup",
+        "chat": 0.693,
+        "agent": 0.544,
+        "acc_gain": 3.4
+      },
+      {
+        "name": "Nemotron-Terminal-32B",
+        "role": "agent_sup",
+        "chat": 0.669,
+        "agent": 0.584,
+        "acc_gain": 2.9
+      }
+    ],
+    "src": "FACTS l.94 (Addendum 2); deltas cross-checked in HOST sandbox/results/chat_delta.json (interaction bits/byte/primary: -0.133, -0.130, -0.126, -0.150, -0.085)"
+  },
+  "chat_format": {
+    "rows": [
+      {
+        "name": "Nemotron-Terminal-8B",
+        "role": "agent_sup",
+        "raw": 3.1,
+        "chat": -5.2,
+        "chat_sig": true
+      },
+      {
+        "name": "TMax-8B (supervised)",
+        "role": "agent_sup",
+        "raw": 3.6,
+        "chat": -6.4,
+        "chat_sig": true
+      },
+      {
+        "name": "TMax-8B (reinforcement)",
+        "role": "agent_rl",
+        "raw": 3.2,
+        "chat": -6.3,
+        "chat_sig": true
+      },
+      {
+        "name": "Nemotron-Terminal-14B",
+        "role": "agent_sup",
+        "raw": 3.4,
+        "chat": -10.3,
+        "chat_sig": true
+      },
+      {
+        "name": "Nemotron-Terminal-32B",
+        "role": "agent_sup",
+        "raw": 2.9,
+        "chat": -0.8,
+        "chat_sig": false
+      },
+      {
+        "name": "Light-IF-14B",
+        "role": "nonagent",
+        "raw": 1.7,
+        "chat": -4.3,
+        "chat_sig": true
+      }
+    ],
+    "absolute_8b": [
+      {
+        "name": "Chat model (Qwen3-8B)",
+        "raw": 71.7,
+        "chat": 69.8
+      },
+      {
+        "name": "Nemotron-Terminal-8B",
+        "raw": 74.8,
+        "chat": 64.6
+      },
+      {
+        "name": "TMax-8B (supervised)",
+        "raw": 75.3,
+        "chat": 63.5
+      }
+    ],
+    "src": "FACTS l.95 (deltas), l.30 (absolute chat-format 69.8/64.6/63.5); raw absolutes = 71.7 + 3.1 / + 3.6 (FACTS l.13, 16, 17); article sec. 5. Cross-checked HOST sandbox/results/chat_delta.json"
+  },
+  "dissociation": {
+    "src": "figures/dissociation_data.json and figures/DISSOCIATION_NOTES.md (numbers and exclusions unchanged)",
+    "pretrained_level": {
+      "8B": {
+        "matching": 2.8,
+        "coding": 2.83
+      },
+      "14B": {
+        "matching": 1.95,
+        "coding_lower_bound": 2.36
+      },
+      "32B": null
+    }
+  },
+  "roles": {
+    "_what": "change in log-probability vs chat start, bits per token, neutral format, raw (positive = model gives the recorded text more probability)",
+    "rows": [
+      {
+        "name": "Nemotron-Terminal-8B",
+        "role": "agent_sup",
+        "reasoning": 0.77,
+        "commands": 0.26,
+        "replies": -0.357,
+        "replies_copied": -0.565,
+        "replies_new": -0.197
+      },
+      {
+        "name": "Nemotron-Terminal-14B",
+        "role": "agent_sup",
+        "reasoning": 0.631,
+        "commands": 0.161,
+        "replies": -0.384,
+        "replies_copied": -0.592,
+        "replies_new": -0.224
+      },
+      {
+        "name": "Nemotron-Terminal-32B",
+        "role": "agent_sup",
+        "reasoning": 0.5,
+        "commands": 0.097,
+        "replies": -0.08,
+        "replies_copied": -0.102,
+        "replies_new": -0.063
+      },
+      {
+        "name": "SERA-8B",
+        "role": "agent_sup",
+        "reasoning": 0.11,
+        "commands": 0.155,
+        "replies": -0.11,
+        "replies_copied": -0.093,
+        "replies_new": -0.123
+      },
+      {
+        "name": "Arctic-AWM-8B",
+        "role": "agent_rl",
+        "reasoning": 0.02,
+        "commands": 0.009,
+        "replies": 0.009,
+        "replies_copied": 0.001,
+        "replies_new": 0.014
+      },
+      {
+        "name": "CodeScout-14B",
+        "role": "agent_rl",
+        "reasoning": -0.137,
+        "commands": -0.054,
+        "replies": -0.036,
+        "replies_copied": -0.011,
+        "replies_new": -0.055
+      },
+      {
+        "name": "Light-IF-8B",
+        "role": "nonagent",
+        "reasoning": 0.013,
+        "commands": 0.067,
+        "replies": 0.06,
+        "replies_copied": 0.002,
+        "replies_new": 0.105
+      }
+    ],
+    "src": "HOST p2/RESULTS_ROLES.md section 'neutral, raw' (columns Δ thought / Δ action / Δ obs (all) / Δ obs (copy) / Δ obs (novel)); FACTS l.45, l.96"
+  }
+}
