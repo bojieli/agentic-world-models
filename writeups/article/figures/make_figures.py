@@ -246,6 +246,53 @@ def cover(name, W, H):
     c.save(name)
 
 
+def cover52(name, W=2000, H=800):
+    """X article cover, 5:2 (X's recommended header ratio). Minimal text so it reads at thumbnail size."""
+    c = Canvas(H, W)
+    acc = D["matching_accuracy"]
+    x0 = 80
+    yb = c.lines(x0, 92, "Pretraining builds the world\nmodel of tool outputs.", 70, lh=1.13, weight="demibold")
+    yb = c.lines(x0, yb + 26, "Agentic post-training doesn't.", 70, weight="demibold", color=INK2)
+    c.lines(x0, yb + 56, "None of 14 public agent and fine-tuned Qwen3\nmodels beat the pretrained model of its size\nat predicting what a command will print.",
+            40, lh=1.3, color=INK2)
+    c.t(x0, H - 62, "Chart: share of command\u2013output pairs matched correctly (50% = random guessing)",
+        px=26, color=INK2, small=True)
+    L, T, Wd, Ht = 1210, 70, 730, H - 170
+    ax = c.axes(L, T, Wd, Ht)
+    style_ax(ax)
+    xs = [SX[k] for k in SIZES[:5]]
+    pre = [acc["pretrained"][k] for k in SIZES[:5]]
+    cha = [acc["chat"][k] for k in SIZES[:5]]
+    ax.fill_between(xs, cha, pre, color=ROLE["pretrained"], alpha=0.10, lw=0)
+    for ys, role in ((pre, "pretrained"), (cha, "chat")):
+        ax.plot(xs, ys, color=ROLE[role], lw=8, solid_capstyle="round", zorder=3)
+        ax.scatter(xs, ys, s=17 ** 2, color=ROLE[role], zorder=4, ec=SURF, lw=3)
+    for g in D["gains"]["groups"]:
+        if not g["role"].startswith("agent"):
+            continue
+        for m in g["models"]:
+            sz = "8B" if "8B" in m["name"] else ("14B" if "14B" in m["name"] else None)
+            if sz:
+                v = round(acc["chat"][sz] + m["vs_chat"], 1)
+                ax.scatter([SX[sz] * 1.17], [v], s=15 ** 2, color=ROLE[g["role"]], zorder=5, ec=SURF, lw=3)
+    ax.set_xscale("log"); ax.set_xlim(0.5, 22); ax.set_ylim(59, 81.5)
+    ax.set_xticks(xs); ax.set_xticklabels(SIZES[:5])
+    ax.set_yticks([60, 70, 80]); ax.set_yticklabels(["60%", "70%", "80%"])
+    ax.tick_params(labelsize=30 * PT); ax.minorticks_off()
+    px, py = c.d2p(ax, 1.15, 70.3)
+    c.t(px, py, "Pretrained", px=40, weight="demibold", ha="center", va="bottom", color=ROLE["pretrained"])
+    px, py = c.d2p(ax, 0.8, 60.9)
+    c.t(px, py, "Chat model", px=40, weight="demibold", ha="left", va="top", color=INK)
+    px, py = c.d2p(ax, 2.55, 65.4)
+    c.t(px, py, "Agents", px=38, weight="demibold", va="top")
+    for i, role in enumerate(("agent_sup", "agent_rl")):
+        yy = py + 50 + i * 46
+        c.ov.add_patch(Circle((px + 12, yy + 20), 12, fc=ROLE[role], ec="none", zorder=6))
+        c.t(px + 36, yy + 20, ["supervised training", "reinforcement learning"][i], px=38, va="center", color=INK2)
+    x1, y1 = c.d2p(ax, 14 * 1.17, 78.7)
+    c.t(x1 - 24, y1 - 30, "best agent only ties", px=38, color=INK, weight="medium", ha="right", va="bottom")
+    c.save(name)
+
 # ==========================================================================
 def training_stages():
     c = Canvas(1120)
@@ -914,7 +961,7 @@ def roles():
 
 
 FIGS = {
-    "cover": lambda: (cover("cover.png", 1600, 900), cover("cover_2x1.png", 1200, 600)),
+    "cover": lambda: (cover52("cover.png", 2000, 800), cover("cover_2x1.png", 1200, 600)),
     "training-stages": training_stages, "what-we-measure": what_we_measure,
     "surprise-breakdown": surprise_breakdown, "recalibration": recalibration, "pair": pair,
     "scale": scale_fig, "gains": gains, "margin": margin, "dissociation": dissociation,
