@@ -502,6 +502,61 @@ def recalibration():
     c.save("recalibration.png")
 
 
+def penalty_flip():
+    c = Canvas(1300)
+    pf = D["penalty_flip"]
+    y0 = c.header("How much a wrong answer costs\ndecides which model looks better",
+                  "Two tests, one pattern: confident models win when mistakes are cheap,\ncautious models win when mistakes are expensive")
+    conf, caut = ROLE["chat"], ROLE["pretrained"]
+    T = y0 + 200
+    Ht = 1300 - T - 330
+    # ---- left: IKP
+    L1, W1 = 150, 600
+    c.t(60, T - 150, "Factual questions (IKP)", px=36, weight="demibold")
+    c.t(60, T - 104, "Estimated model size, trillions of parameters", px=LABEL_PX, color=INK2)
+    ax = c.axes(L1, T, W1, Ht); style_ax(ax)
+    xs = list(range(5)); ik = pf["ikp"]
+    ax.set_yscale("log"); ax.set_ylim(0.42, 3.0); ax.set_xlim(-0.35, 4.35)
+    ax.set_yticks([0.5, 1, 2]); ax.set_yticklabels(["0.5T", "1T", "2T"]); ax.minorticks_off()
+    ax.set_xticks(xs); ax.set_xticklabels(["0", "\u22120.25", "\u22120.5", "\u22121", "\u22122"])
+    ax.tick_params(labelsize=LABEL_PX * PT)
+    for ys, col in ((ik["gpt41_T"], conf), (ik["opus47_T"], caut)):
+        ax.plot(xs, ys, color=col, lw=7, solid_capstyle="round", zorder=3)
+        ax.scatter(xs, ys, s=20 ** 2, color=col, ec=SURF, lw=3, zorder=4)
+    px, py = c.d2p(ax, 0, ik["gpt41_T"][0]); c.t(px + 26, py - 6, "GPT-4.1", px=LABEL_PX, weight="demibold", color=INK, va="bottom")
+    px, py = c.d2p(ax, 0, ik["opus47_T"][0]); c.t(px + 26, py + 8, "Claude Opus 4.7", px=LABEL_PX, weight="demibold", color=INK, va="top")
+    px, py = c.d2p(ax, 2, 0.42)
+    c.t(px, py + 62, "Penalty for a wrong answer", px=LABEL_PX, color=INK2, ha="center", va="top")
+    # ---- right: AgenticPPL
+    L2, W2 = 990, 480
+    c.t(870, T - 150, "Predicting the agent\u2019s next command", px=36, weight="demibold")
+    c.t(870, T - 104, "Error, bits per command span (lower is better)", px=LABEL_PX, color=INK2)
+    ax2 = c.axes(L2, T, W2, Ht); style_ax(ax2)
+    ag = pf["agenticppl_8b"]
+    ax2.set_xlim(-0.3, 1.3); ax2.set_ylim(0, 3.6); ax2.set_yticks([0, 1, 2, 3])
+    ax2.set_xticks([0, 1]); ax2.set_xticklabels(["each miss\ncapped at 2 bits", "no cap"])
+    ax2.tick_params(labelsize=LABEL_PX * PT)
+    for key, col, nm in (("chat", conf, "Chat model"), ("pretrained", caut, "Pretrained")):
+        a, b = ag["capped"][key], ag["uncapped"][key]
+        ax2.plot([0, 1], [a, b], color=col, lw=7, solid_capstyle="round", zorder=3)
+        ax2.scatter([0, 1], [a, b], s=20 ** 2, color=col, ec=SURF, lw=3, zorder=4)
+        px, py = c.d2p(ax2, 1, b)
+        c.t(px + 24, py, f"{b:.2f}", px=LABEL_PX, weight="demibold", va="center")
+        px, py = c.d2p(ax2, 0, a)
+        c.t(px - 24, py + (-22 if key == "pretrained" else 22), f"{a:.2f}", px=LABEL_PX, color=INK2, ha="right", va="center")
+    px, py = c.d2p(ax2, 0.42, 2.45); c.t(px, py, "Chat model\n(Qwen3-8B)", px=LABEL_PX, weight="demibold", ha="right", va="center", linespacing=0.95)
+    px, py = c.d2p(ax2, 0.6, 1.22); c.t(px, py, "Pretrained\n(Qwen3-8B)", px=LABEL_PX, weight="demibold", ha="left", va="top", linespacing=0.95)
+    # ---- key
+    ky = T + Ht + 150
+    for i, (col, txt) in enumerate(((conf, "Confident: GPT-4.1 (wrong on 77% of IKP\u2019s hardest questions); Qwen\u2019s chat model"),
+                                    (caut, "Cautious: Claude Opus 4.7 (wrong on 15%; says it doesn\u2019t know); Qwen\u2019s pretrained model"))):
+        c.ov.add_patch(Circle((74, ky + i * 48 + 2), 12, fc=col, ec="none", zorder=6))
+        c.t(98, ky + i * 48 + 2, txt, px=LABEL_PX, va="center")
+    c.footer("Left: IKP size estimates; a correct answer scores +1, \u201cI don\u2019t know\u201d 0, a wrong answer the penalty shown (1,311 questions).\n"
+             "Right: Qwen3-8B on 10,568 command spans picked by AgenticPPL; AgenticPPL caps each miss at 2 bits.")
+    c.save("penalty-flip.png")
+
+
 # ==========================================================================
 def pair():
     c = Canvas(1230)
@@ -963,7 +1018,7 @@ def roles():
 FIGS = {
     "cover": lambda: (cover52("cover.png", 2000, 800), cover("cover_2x1.png", 1200, 600)),
     "training-stages": training_stages, "what-we-measure": what_we_measure,
-    "surprise-breakdown": surprise_breakdown, "recalibration": recalibration, "pair": pair,
+    "surprise-breakdown": surprise_breakdown, "recalibration": recalibration, "penalty-flip": penalty_flip, "pair": pair,
     "scale": scale_fig, "gains": gains, "margin": margin, "dissociation": dissociation,
     "chat": chat, "roles": roles,
 }

@@ -98,3 +98,10 @@ Sources: sandbox/results/chat_delta.json; sandbox/results/<model>/plain/per_item
 - Not scored: positive control Qwen-AgentWorld-35B-A3B (anchor Qwen3.5-35B-A3B-Base scored 79.4%); OLMo-2 and Mistral pairs never ran.
 - Dissociation figure: within-paper benchmark multipliers 1.58× (tmax-sft), 2.42× (tmax), 5.00× (Nemotron-14B), 5.26× (Nemotron-8B), 8.13× (Nemotron-32B); see figures/DISSOCIATION_NOTES.md.
 - Removed from the article: the SWE edit-acknowledgement information-gain figures (34% vs 18%), because that measure failed the pre-registered ladder gate.
+
+## ADDENDUM 3 — IKP comparison (author's earlier study, https://01.me/research/ikp)
+Source: IKP paper, appendix table "lambda_sensitivity" and table "full_hallucination" (tier T7 = hardest).
+- Scoring: correct = +1, "I don't know" = 0, wrong = penalty λ.
+- Estimated size, GPT-4.1 / Claude Opus 4.7: λ=0 2.2T / 538B; λ=−0.25 1.6T / 761B; λ=−0.5 1.5T / 916B; λ=−1 1.2T / 1.2T; λ=−2 1.3T / 1.5T.
+- Hardest-tier (T7) wrong answers as a share of all answers: GPT-4.1 0.77, Claude Opus 4.7 0.15 (Opus 4.7 T7 accuracy 0.08, so it declined most of the rest).
+- AgenticPPL analogue (this study, Qwen3-8B, 960 held-out trajectories): capped at 2 bits per token, mean bits per picked span: chat 0.827, pretrained 0.929 (chat better); uncapped: chat 3.224, pretrained 1.807 (pretrained better).

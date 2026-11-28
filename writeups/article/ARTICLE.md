@@ -1,8 +1,12 @@
 # Pretraining builds the world model of tool outputs. Agentic post-training doesn't.
 
-OpenAI's chief scientist Jakub Pachocki reported that how well a pretrained model predicts text tracks what it can do, from holding a conversation to solving math problems. Wenhao Chai found something that seems to point the other way for agents: the models that best predicted the output of a terminal tended to rank lower on an agent benchmark. That raises a question. Does training a model to act as an agent make it better at predicting what its tools will return? In this article, a "world model of tool outputs" means exactly that: the ability to predict what a command will print before it runs.
+OpenAI's chief scientist Jakub Pachocki reported that how well a pretrained model predicts text tracks what it can do, from holding a conversation to solving math problems. Wenhao Chai found something that seems to point the other way for agents: the models that best predicted the output of a terminal tended to rank lower on an agent benchmark.
 
-**We tested 14 publicly released models that other teams fine-tuned from Alibaba's open Qwen3 models. None of them predicted tool outputs better than the pretrained Qwen3 model of the same size.** This held at every size for which Qwen released a pretrained version. Qwen's own chat versions scored 3 to 7 percentage points lower than the pretrained versions on our main test. Fine-tuning for agent work recovered part of that loss, but never more. The best agent model, NVIDIA's Nemotron-Terminal-14B, scored the same as the pretrained 14B model. Meanwhile, the teams behind these agents reported benchmark scores 1.6 to 8 times higher than their starting models. In Qwen3, the ability to predict tool outputs comes from pretraining. Agent training teaches the model to act on it.
+That raises a question. Does training a model to act as an agent make it better at predicting what its tools will return? In this article, a "**world model of tool outputs**" means exactly that: the ability to predict what a command will print before it runs.
+
+**We tested 14 publicly released models that other teams fine-tuned from Alibaba's open Qwen3 models. None of them predicted tool outputs better than the pretrained Qwen3 model of the same size.** This held at every size for which Qwen released a pretrained version. Qwen's own chat versions scored 3 to 7 percentage points lower than the pretrained versions on our main test.
+
+Fine-tuning for agent work recovered part of that loss, but never more. The best agent model, NVIDIA's Nemotron-Terminal-14B, scored the same as the pretrained 14B model. Meanwhile, the teams behind these agents reported benchmark scores 1.6 to 8 times higher than their starting models. In Qwen3, the ability to predict tool outputs comes from pretraining. Agent training teaches the model to act on it.
 
 ![At 8B, the pretrained model matched 77.1% of command–output pairs. The chat version matched 71.7%. Both stages of agent training scored below the pretrained model.](figures/training-stages.png)
 
@@ -10,7 +14,7 @@ OpenAI's chief scientist Jakub Pachocki reported that how well a pretrained mode
 
 Perplexity measures how surprised a model is by real text: the more probability a model gives to the words that actually come next, the lower its perplexity. On November 22, 2026, Pachocki published the log-perplexity of OpenAI's pretrained models on a set of OpenAI's internal code that the models were not trained on. His chart marks fluent conversation at about 0.99, useful step-by-step reasoning at about 0.91, and breakthrough math results at about 0.76. Lower is better. He also notes that letting a model reason step by step can make it more capable without lowering this number. [OpenAI, "Perplexity and Intelligence"](https://openai.com/index/perplexity-and-intelligence/)
 
-Chai's AgenticPPL applies perplexity to recorded agent sessions on terminal tasks. Suppose a directory listing shows a filename, and the agent then uses that filename in its next command. Having seen the listing, a model can predict that filename more easily. Chai used a reference model to find command tokens like this and scored each model on them. That score ordered models almost the same way Terminal-Bench, a benchmark of command-line tasks, did: a rank correlation of +0.79 on models not used to design the score, where +1 means the same order. Scoring the terminal's own output instead gave a correlation of −0.37, the opposite order. [Wenhao Chai, AgenticPPL](https://wenhaochai.com/blogs/agentic-ppl.html)
+Chai's AgenticPPL applies perplexity to recorded agent sessions on terminal tasks. Suppose a directory listing shows a filename, and the agent then uses that filename in its next command. Having seen the listing, a model can predict that filename more easily. Chai used a reference model to find command tokens like this and scored each model on them. That score ordered models almost the same way Terminal-Bench, a benchmark of command-line tasks, did: a rank correlation of +0.79 on models not used to design the score. Scoring the terminal's own output instead gave a correlation of −0.37, the opposite order. [Wenhao Chai, AgenticPPL](https://wenhaochai.com/blogs/agentic-ppl.html)
 
 AgenticPPL measures whether a model can use a tool's output after seeing it. We wanted to measure the step before that: before the directory listing appears, can the model predict which files it will show?
 
@@ -18,9 +22,7 @@ AgenticPPL measures whether a model can use a tool's output after seeing it. We 
 
 ## Raw perplexity misreads post-trained models because they are overconfident
 
-We report prediction in bits. Lower bits mean the model gave more probability to what actually happened.
-
-Pretraining trains a model to give accurate probabilities to the next piece of text. Qwen's pretrained models predicted our terminal sessions best at their default temperature of 1.0. Temperature is a single setting that makes a model's probabilities more spread out (higher) or more concentrated (lower) without changing which outcome it ranks first. Qwen's chat versions, which Qwen calls "instruct" models, were overconfident: on a separate set of sessions, their best temperature was between 1.2 and 1.8. Correcting the temperature alone closed about half of the difference between the pretrained and chat versions.
+Pretraining trains a model to give accurate probabilities to the next piece of text. Qwen's pretrained models predicted our terminal sessions best at their default temperature of 1.0. Qwen's chat versions, which Qwen calls "instruct" models, were overconfident: on a separate set of sessions, their best temperature was between 1.2 and 1.8. Correcting the temperature alone closed about half of the difference between the pretrained and chat versions.
 
 Much of a terminal's output cannot be predicted at all. For the 8B pretrained model, only about **35% of the prediction error** on terminal output came from content a model could in principle predict. About 31% came from random strings such as hashes and timestamps, and 21% from fixed text printed by the evaluation framework. A model can predict an error message correctly and still lose many bits on a random hash printed inside it.
 
@@ -31,6 +33,12 @@ This changes which model looks better. We compared NVIDIA's Nemotron-Terminal-8B
 ![On the same terminal replies, setting the temperature lowered the chat model's error from 1.079 to 0.829 bits per token, enough to do better than Nemotron-Terminal.](figures/recalibration.png)
 
 Confidence also explains part of AgenticPPL's result. Across the 20 models we scored, the more certain a model was about which command came next, the higher its AgenticPPL score (a rank correlation of −0.77 between the score and the model's uncertainty). AgenticPPL limits the penalty for any single token to 2 bits. At 8B, chat training raised the limited score from −0.929 to −0.827. Without the limit, the chat model's error on the same command tokens rose from 1.81 to 3.22 bits per selected span. AgenticPPL may still capture something useful about choosing the next action. To measure whether a model can predict a tool's reply, we have to score the reply itself.
+
+We ran into the same problem in an earlier study, [Incompressible Knowledge Probes (IKP)](https://01.me/research/ikp), which estimates a model's size from how many obscure facts it knows. Models differ in what they do when they don't know an answer. OpenAI's GPT-4.1 gave a wrong answer to 77% of IKP's hardest questions; Anthropic's Claude Opus 4.7 gave a wrong answer to 15% and said it did not know to most of the rest. How a wrong answer is scored decides which of them looks bigger. If a wrong answer costs nothing, GPT-4.1's guesses count in its favor, and IKP estimates it at 2.2 trillion parameters against 538 billion for Claude Opus 4.7. If a wrong answer costs 2 points, the order reverses: 1.3 trillion against 1.5 trillion.
+
+Neither choice is neutral. With no penalty, overconfident models gain from guessing. With a heavy penalty, cautious models gain from holding back, even on answers they could have given. Perplexity is the heavy-penalty case: a confidently wrong token can cost any number of bits, which favors cautious models such as the pretrained ones. AgenticPPL's 2-bit limit moves toward the no-penalty case, which favors confident ones such as the chat models. Setting each model's temperature, as above, removes the difference in confidence so that the comparison measures what each model knows.
+
+![Left: on IKP's factual questions, GPT-4.1 looks larger than Claude Opus 4.7 when wrong answers cost nothing, and smaller when they cost 2 points. Right: on AgenticPPL's command spans, Qwen's chat model beats its pretrained model when each miss is capped at 2 bits, and loses clearly without the cap.](figures/penalty-flip.png)
 
 ## Bigger pretrained models predict tool outputs better, and base beats chat
 
@@ -88,12 +96,14 @@ In a recorded session, we can measure how much probability a model gives to each
 
 The same pattern appears in Nemotron-Terminal-14B and 32B and in Ai2's SERA-8B. All four were fine-tuned on complete recorded agent sessions. It does not appear in the agents trained mainly with reinforcement learning (Snowflake's Arctic-AWM-8B, OpenHands' CodeScout-14B, and the reinforcement-learning stage of TMax-8B). It also does not appear in the fine-tuned models without agent training: none of them shifted probability away from tool output toward the agent's reasoning and commands. **Supervised fine-tuning on agent sessions mostly teaches a model to write the agent's part of the session. Reinforcement learning does not add to this.**
 
-This makes sense for a working agent. When a test fails, choosing a useful diagnostic command matters even if the model cannot predict the result, because running the command shows the result. Some teams build this into training: OpenHands excluded tool replies from CodeScout's training objective. Most teams do not report whether they did the same, so we cannot say how much this explains across models.
+This makes sense for a working agent. When a test fails, choosing a useful diagnostic command matters even if the model cannot predict the result, because running the command shows the result.
 
-## The limits, the bottom line, and a test for your own agent
+## Limitations
 
 Our tests cover one model family, a shell and Python test set, and a sample of successful coding sessions. The cost of chat training may be specific to Qwen3: in the one pair of Qwen3.5 models we tested, at 0.8B, the pretrained and chat versions scored the same (63.6% vs 63.5%). We also did not finish testing a model trained specifically to predict tool outputs, which would show what a real gain looks like on this test. Within Qwen3, across the whole sequence from pretrained model to chat model to agent model, we found **no detectable gain over the pretrained model**.
 
+## Conclusion
+
 **In Qwen3, the ability to predict tool outputs comes from pretraining. Agent training teaches models to act on that ability. The agents complete more tasks, but they do not predict their tools' outputs better than the pretrained model they were built from.**
 
-You can run this test on another model family. Make two copies of a real code repository, change one earlier edit in one copy, and run the same test in both. Show each model the two histories up to the test, and check whether it can match the first line of output that differs to the edit that caused it. Run it with raw transcripts and in chat format, then remove the edit from the history and score again. Does your agent beat the pretrained model it was built from, in both formats, when it can see what changed? Code and data: https://github.com/bojieli/agentic-world-models
+Code and data: https://github.com/bojieli/agentic-world-models

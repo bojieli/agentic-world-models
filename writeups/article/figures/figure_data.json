@@ -479,5 +479,44 @@
       }
     ],
     "src": "HOST p2/RESULTS_ROLES.md section 'neutral, raw' (columns Δ thought / Δ action / Δ obs (all) / Δ obs (copy) / Δ obs (novel)); FACTS l.45, l.96"
+  },
+  "penalty_flip": {
+    "ikp": {
+      "penalty": [
+        0,
+        -0.25,
+        -0.5,
+        -1.0,
+        -2.0
+      ],
+      "gpt41_T": [
+        2.2,
+        1.6,
+        1.5,
+        1.2,
+        1.3
+      ],
+      "opus47_T": [
+        0.538,
+        0.761,
+        0.916,
+        1.2,
+        1.5
+      ],
+      "gpt41_hardest_wrong": 0.77,
+      "opus47_hardest_wrong": 0.15,
+      "src": "IKP paper (Incompressible Knowledge Probes), appendix table lambda_sensitivity (estimates per penalty) and table full_hallucination, tier T7 column (wrong / all answers). https://01.me/research/ikp"
+    },
+    "agenticppl_8b": {
+      "capped": {
+        "chat": 0.827,
+        "pretrained": 0.929
+      },
+      "uncapped": {
+        "chat": 3.224,
+        "pretrained": 1.807
+      },
+      "src": "This study, AgenticPPL reimplementation on 960 held-out trajectories: capped score = minus mean capped bits per picked span (Qwen3-8B -0.827, Qwen3-8B-Base -0.929); uncapped = mean bits per picked span (3.224, 1.807). FACTS.md Experiment 4."
+    }
   }
 }
