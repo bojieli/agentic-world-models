@@ -6,7 +6,7 @@ OpenAI’s Jakub Pachocki found that base-model perplexity tracks capabilities f
 
 ![At 8B, the base matched 77.1% of output pairs. Chat tuning dropped accuracy to 71.7%. Both stages of agent training finished below base.](figures/training-stages.png)
 
-## Which side of the terminal are you scoring?
+## Agent perplexity scores the agent's commands, not the tool's replies
 
 On November 22, 2026, Pachocki published base-model log-perplexity on a held-out snapshot of OpenAI’s internal code. The figures in his post put fluent conversation around 0.99, productive chain-of-thought reasoning around 0.91 and breakthrough math results around 0.76. Lower means the model assigned more probability to the text that actually came next. Pachocki also points out that using chain-of-thought can improve what a model achieves without lowering its base-model perplexity. [OpenAI’s “Perplexity and Intelligence”](https://openai.com/index/perplexity-and-intelligence/)
 
@@ -14,7 +14,7 @@ Chai’s AgenticPPL inspired our test. Suppose a directory listing reveals a fil
 
 Now pause *before* that listing appears. Given the preceding commands, can the model anticipate which files are there? That ability to anticipate the reply is what we mean here by a tool-output world model.
 
-## How much of perplexity is confidence?
+## Raw perplexity misreads post-trained models because they are overconfident
 
 Pretraining rewards a model for putting probability on the next token. On our terminal sessions, the pretrained Qwen3 models did best at their default temperature of 1.0. The chat-tuned releases, which we call *instruct*, made overconfident bets. On separate calibration sessions, their best temperatures ranged from 1.2 to 1.8. Raising temperature spreads the bets out while preserving the model’s ranking of possible next tokens. That adjustment alone closed about half the gap between base and instruct.
 
@@ -26,7 +26,7 @@ Consider NVIDIA’s Nemotron-Terminal at 8B. We kept the terminal’s native for
 
 Confidence also helps explain Chai’s command score. Across our 20 checkpoints, AgenticPPL rose as uncertainty about commands fell (rank correlation with entropy, −0.77). At 8B, chat tuning improved the capped score from −0.929 to −0.827. Remove the cap on the cost of a miss, and the same selected command spans got *more* expensive to predict, from 1.81 to 3.22 bits per span. AgenticPPL can pick up something valuable about taking the next action. To measure what an agent expects the machine to do, we need the machine’s answer.
 
-## What the base model already knows
+## Bigger pretrained models predict tool outputs better, and base beats chat
 
 We first measured how many bits each model needed per byte of recorded terminal output. Across the pretrained Qwen3 checkpoints from 0.6B to 14B, that cost fell from 0.170 to 0.108. Every size step helped.
 
@@ -42,7 +42,7 @@ We call the share of pairs matched correctly *binding accuracy*. On plain transc
 
 ![The pretrained model led its chat-tuned counterpart at every shared size. A 4B base already matched 14B instruct.](figures/scale.png)
 
-## How much does agent training buy back?
+## Agent training wins back about one size doubling but never beats the base
 
 Ai2 published TMax both before and after reinforcement learning. Supervised training on terminal examples took 8B instruct from 71.7% to 75.3% in the plain sandbox. That caught up with 14B instruct. Before chat tuning, the 8B base already scored 77.1%.
 
@@ -60,7 +60,7 @@ That gap between doing and predicting shows up for every agent with a published 
 
 ![Agent benchmark scores rose 1.6–8× within each team’s own harness. Tool-output prediction moved about one doubling of model size at most. Models without a same-paper starting score are left out.](figures/dissociation.png)
 
-## Ask in chat and the lead changes hands
+## Asking the same question in chat format reverses the agents' advantage
 
 Keep the files, commands and outputs fixed. Put the transcript in a chat message and ask the assistant for the exact result of the final command. An independent review of the item scores caught what happened next.
 
@@ -72,7 +72,7 @@ So we ran the chat test on every fine-tune. **Five agents beat their chat model 
 
 It isn't only agents. Light-IF-14B, an instruction-following fine-tune with no agent training, flipped from 1.7 points ahead to 4.3 behind. Whatever these fine-tunes picked up about tool outputs is tied to the wrapper. Ask in a different format and the ranking reverses. If you evaluate a world model in one prompt format, you may be measuring the format.
 
-## What the agent learned to write
+## Supervised agent training teaches the agent's lines, not the tool's replies
 
 On the original terminal sessions we could pause before any speaker’s turn. Given identical histories, Nemotron-8B assigned the recorded agent’s thoughts an extra 0.77 bits per token of log probability over instruct. Its commands picked up 0.26. The actual terminal reply lost 0.36.
 
@@ -81,6 +81,8 @@ On the original terminal sessions we could pause before any speaker’s turn. Gi
 It isn't a one-off. Nemotron-14B and 32B show the same shift, and so does SERA-8B. All four were trained on full agent transcripts. The RL-trained agents don't show it. Neither do the non-agentic fine-tunes: none of them moved probability from tool output toward the agent's turns. **Supervised training on agent transcripts mostly teaches the agent’s lines. RL doesn’t add to them.**
 
 That division of labor makes sense for a working agent. When a test fails, choosing the right diagnostic command is valuable even if the result surprises you. The shell supplies the result for free. Some training recipes make that distinction explicit. CodeScout, for instance, excluded tool replies from its training loss. Most labs disclose too little to say how much that mechanism explains across checkpoints.
+
+## The limits, the bottom line, and a test for your own agent
 
 Our tests cover one model family, a shell and Python sandbox, and a sample of successful repository runs. The chat-tuning cost may be a Qwen3 trait: in the one Qwen3.5 pair we ran, at 0.8B, base and instruct scored the same (63.6% vs 63.5%). And we didn't get to score a model trained specifically to predict tool output, which would show what a genuine gain looks like on this test. Within Qwen3, across the full chain from base to chat to agent, we saw **no detectable gain beyond base**.
 
