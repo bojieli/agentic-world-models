@@ -88,3 +88,13 @@ Primary: https://openai.com/index/perplexity-and-intelligence/ (as cited by The 
 - SWE recalibrated content bits/token, base: 1.517 (0.6B) → 1.284 → 1.116 → 1.056 → 0.987 (14B), every step passes; 14B base (0.987) beats 32B instruct (1.016).
 - Sandbox binding, base: 63.6 → 68.6 → 75.7 → 77.1 → 78.4 (0.6B→14B); large gains to 4B, smaller and not individually significant above 4B (+1.4, +1.3 points). Instruct ladder rises every step to 32B (79.3).
 - 4B base (75.7) ≈ 14B instruct (75.3) on the sandbox.
+
+## ADDENDUM 2 (2026-11-28) — late results folded into the article (verified from files on the study host)
+Sources: sandbox/results/chat_delta.json; sandbox/results/<model>/plain/per_item.jsonl; p2/RESULTS_ROLES.md; sandbox/RESULTS_EXT.md.
+- Margin (sandbox interaction, bits/byte, ratio of sums over primary pool S2+S3+S2h+S3h, plain, T1/nocopy): Qwen3-8B 0.540 → Nemotron-8B 0.407, tmax-sft-8b 0.409, tmax-8b 0.414; Qwen3-14B 0.693 → Nemotron-14B 0.544; Qwen3-32B 0.669 → Nemotron-32B 0.584. All five agents that gained on binding accuracy have a smaller margin than their instruct start. Only CodeScout-14B has a larger margin (+0.040, chat_delta.json).
+- Chat-format sweep (paired Δ binding vs instruct start, 2000-draw env-cluster bootstrap): agents with a significant plain gain: Nemotron-8B +0.031→chat −0.052; tmax-sft +0.036→−0.064; tmax-8b +0.032→−0.063; Nemotron-14B +0.034→−0.103; Nemotron-32B +0.029→−0.008 (n.s., tie). Non-agentic Light-IF-14B +0.017→−0.043. Arctic-AWM and CodeScout flat in both formats.
+- Role-shift (per-token log-ratio vs instruct start, neutral raw, bits/token): full signature (thought↑ action↑ observation↓) for Nemotron-8B (+0.77/+0.26/−0.36), Nemotron-14B (+0.63/+0.16/−0.38), Nemotron-32B (+0.50/+0.10/−0.08), SERA-8B (+0.11/+0.16/obs −0.09 copy, −0.12 novel). Not RL: tmax-8b thought −0.13; Arctic ≈0; CodeScout all down. OpenThinkerAgent-32B (SFT) thought −0.16 with observations collapsing (−2.22 copy). Non-agentic controls: none shift probability from observations toward thought/action (Light-IF-8B obs novel +0.10; WebWorld-8B +0.14; Klear vs base all down).
+- Cross-family, one pair only: Qwen3.5-0.8B base 63.6% vs instruct 63.5% binding (plain) — no chat-tuning cost there.
+- Not scored: positive control Qwen-AgentWorld-35B-A3B (anchor Qwen3.5-35B-A3B-Base scored 79.4%); OLMo-2 and Mistral pairs never ran.
+- Dissociation figure: within-paper benchmark multipliers 1.58× (tmax-sft), 2.42× (tmax), 5.00× (Nemotron-14B), 5.26× (Nemotron-8B), 8.13× (Nemotron-32B); see figures/DISSOCIATION_NOTES.md.
+- Removed from the article: the SWE edit-acknowledgement information-gain figures (34% vs 18%), because that measure failed the pre-registered ladder gate.

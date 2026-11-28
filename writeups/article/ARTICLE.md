@@ -2,7 +2,7 @@
 
 OpenAI’s Jakub Pachocki found that base-model perplexity tracks capabilities from conversation to math. Wenhao Chai found that the models best at predicting a terminal’s replies tended to rank lower as agents. So when does a coding agent learn what its tools will do?
 
-**No post-trained Qwen3 model we tested beat its own pretrained base at matching tool outputs to commands. That held at every size where we had both.** Chat tuning cost 3–7 percentage points. Agent training recovered some ground. Even Nemotron-14B, the strongest challenger, tied its base in plain text. Reinforcement learning raised one agent's reported task score from 11.5 to 17.7 and left its forecasts where they were. The teams reported roughly 2–8× higher success on agent benchmarks. Pretraining built the tool-output world model. Agent training taught the model how to act on it.
+**No post-trained Qwen3 model we tested beat its own pretrained base at matching tool outputs to commands. That held at every size where we had both.** In Qwen3, chat tuning cost 3–7 percentage points. Agent training won some of it back, by thinner margins. Even Nemotron-14B, the strongest challenger, tied its base in plain text. Reinforcement learning raised one agent's reported task score from 11.5 to 17.7 and left its forecasts where they were. The teams reported roughly 2–8× higher success on agent benchmarks. Pretraining built the tool-output world model. Agent training taught the model how to act on it.
 
 ![At 8B, the base matched 77.1% of output pairs. Chat tuning dropped accuracy to 71.7%. Both stages of agent training finished below base.](figures/training-stages.png)
 
@@ -50,11 +50,15 @@ Five of the ten agent checkpoints gained roughly as much over the chat model as 
 
 ![TMax gained 3.6 points over 8B chat. The shaded band shows the typical gain from doubling a chat model’s size.](figures/gains.png)
 
+There's a catch in those gains. Binding accuracy only asks whether the model picks the right pairing. It doesn't ask how firmly. So we also measured the margin: how many bits separate the right pairing from the wrong one. **All five agents that gained on binding got worse on margin.** Nemotron-8B's margin shrank from 0.540 to 0.407 bits per byte. More pairs right, by thinner margins. That's not what a sharper picture of the machine looks like.
+
 **Nemotron-Terminal-14B came closest to beating its base. It tied.** In plain transcripts it beat 14B instruct by 3.4 points. Against the pretrained 14B model, the difference was just +0.3 points (95% CI [−1.1, +1.9]). A small advantage in either direction fits the data. Qwen released no 32B base, so the larger specialist has no same-size base to beat.
 
 The gains were smaller on real repository work. After supervised training, TMax predicted tool replies about as well as a chat model 1.31 times its size. That was the largest gain. Reinforcement learning shrank it to 1.04× and changed sandbox accuracy by −0.4 points, within the uncertainty. Over that same reinforcement step, TMax’s reported TB-Lite task score climbed from **11.5 to 17.7**.
 
-How much did seeing the actual command help? On the repository logs we scored the same reply under the real command and under substitutes of the same kind. For replies acknowledging a file edit, the right command cut prediction loss by 34% for the 14B base. For the SERA-14B agent it cut loss by 18%. **The agent got about half as much information from the command on those edits.** The size of that drop depended on the kind of reply. Across all content, the command helped Nemotron-14B less than it helped its base. Two cautions: these substitutes were never executed, and this measure failed the size check we set in advance, so treat the percentages as an observation rather than a result. The sandbox remains the more direct test of what a command actually does.
+That gap between doing and predicting shows up for every agent with a published starting score.
+
+![Agent benchmark scores rose 1.6–8× within each team’s own harness. Tool-output prediction moved about one doubling of model size at most. Models without a same-paper starting score are left out.](figures/dissociation.png)
 
 ## Ask in chat and the lead changes hands
 
@@ -62,7 +66,11 @@ Keep the files, commands and outputs fixed. Put the transcript in a chat message
 
 ![Both 8B terminal specialists led instruct in a plain transcript. When asked for exactly the same outputs in chat, both fell behind it.](figures/chat.png)
 
-TMax dropped from 75.3% to 63.5%. Nemotron dropped from 74.8% to 64.6%. Instruct slipped much less, from 71.7% to 69.8%, and finished ahead of both. We tested three specialists in chat. The third, Nemotron-32B, tied its chat counterpart. Nemotron-14B was outside that check. Its tie with base belongs to plain transcripts alone.
+TMax dropped from 75.3% to 63.5%. Nemotron dropped from 74.8% to 64.6%. Instruct slipped much less, from 71.7% to 69.8%, and finished ahead of both.
+
+So we ran the chat test on every fine-tune. **Five agents beat their chat model in plain text. In chat, four fell behind it and the fifth only tied.** The biggest swing was Nemotron-14B: 3.4 points ahead in plain, 10.3 points behind in chat. Its tie with base was a plain-text result.
+
+It isn't only agents. Light-IF-14B, an instruction-following fine-tune with no agent training, flipped from 1.7 points ahead to 4.3 behind. Whatever these fine-tunes picked up about tool outputs is tied to the wrapper. Ask in a different format and the ranking reverses. If you evaluate a world model in one prompt format, you may be measuring the format.
 
 ## What the agent learned to write
 
@@ -70,9 +78,11 @@ On the original terminal sessions we could pause before any speaker’s turn. Gi
 
 ![Nemotron-8B put more probability on the original agent’s thoughts and commands. Given the same histories, it put less on the terminal’s replies.](figures/roles.png)
 
+It isn't a one-off. Nemotron-14B and 32B show the same shift, and so does SERA-8B. All four were trained on full agent transcripts. The RL-trained agents don't show it. Neither do the non-agentic fine-tunes: none of them moved probability from tool output toward the agent's turns. **Supervised training on agent transcripts mostly teaches the agent’s lines. RL doesn’t add to them.**
+
 That division of labor makes sense for a working agent. When a test fails, choosing the right diagnostic command is valuable even if the result surprises you. The shell supplies the result for free. Some training recipes make that distinction explicit. CodeScout, for instance, excluded tool replies from its training loss. Most labs disclose too little to say how much that mechanism explains across checkpoints.
 
-Our tests cover one model family, a shell and Python sandbox, and a sample of successful repository runs. On the plain sandbox, chat tuning cost 3–7 points of binding accuracy. The best agent recovered enough to tie. Across the full chain from base to chat to agent, we saw **no detectable gain beyond base** on that test. On edit replies, SERA got about half as much information from the command as its base.
+Our tests cover one model family, a shell and Python sandbox, and a sample of successful repository runs. The chat-tuning cost may be a Qwen3 trait: in the one Qwen3.5 pair we ran, at 0.8B, base and instruct scored the same (63.6% vs 63.5%). And we didn't get to score a model trained specifically to predict tool output, which would show what a genuine gain looks like on this test. Within Qwen3, across the full chain from base to chat to agent, we saw **no detectable gain beyond base**.
 
 **In this family, the world model comes from pretraining. Agent training taught the agents to act on it. They finished more tasks without seeing further ahead.**
 

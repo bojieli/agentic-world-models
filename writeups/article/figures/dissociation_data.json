@@ -1,0 +1,191 @@
+{
+  "title": "Dissociation figure data: agentic benchmark gain vs tool-output prediction gain",
+  "created": "2026-11-27",
+  "note": "Every number here was copied from the study files listed in 'sources'. Benchmark multipliers are ALWAYS within one paper and one harness (score after / that paper's own starting-checkpoint score). Never compare across papers.",
+  "sources": {
+    "sandbox_multipliers": "the study host: agentic-wm/sandbox/SIZE_EQUIV.md, forest table 'binding acc/primary' (primary pool S2+S3+S2h+S3h, T1/nocopy, ladder interpolation n [95% CI])",
+    "sandbox_ladders": "the study host: agentic-wm/sandbox/SIZE_EQUIV.md, section 'Ladder fits' (binding acc/primary, inst and base ladders; matches article/FACTS.md experiment 1)",
+    "swe_multipliers": "the study host: agentic-wm/p2/FINDINGS.md headline table (SWE-rebench 2026; M1 recalibrated content bits/tok, M2 NLL of output given true action) and ~/agentic-wm/p2/results/size_equiv/size_equiv_swe.md",
+    "swe_ladders": "the study host: agentic-wm/p2/results/size_equiv/size_equiv_swe.md, 'M1 recal content bits/tok [content]' ladders (GATE=PASS); M2 ladder 1.883/1.673/1.348/1.215/1.070/0.975 per p2/FINDINGS.md validity-gate table",
+    "benchmark_scores": "the study host: agentic-wm/p2/CONTROLS.md (published scores with harness and paper). Cross-checked against article/FACTS.md 'Benchmark context'",
+    "params": "the study host: agentic-wm/p2/configs/params.json (non-embedding params)",
+    "verified_facts": "Mac: ~/agentic-wm-review/article/FACTS.md"
+  },
+  "plotted": [
+    {
+      "model": "Nemotron-Terminal-8B",
+      "label": "Nemotron-Terminal-8B",
+      "type": "agentic SFT (Terminal-Corpus)",
+      "benchmark": {
+        "name": "Terminal-Bench 2.0",
+        "harness": "Terminus-2 (as run in the Nemotron-Terminal paper)",
+        "paper": "arXiv 2602.21193",
+        "start": "Qwen3-8B",
+        "start_score": 2.47,
+        "tuned_score": 13.0,
+        "multiplier": 5.263
+      },
+      "sandbox": {"n": 1.73, "ci": [1.34, 2.37], "censored": false},
+      "swe_m1": {"n": 0.99, "ci": [0.93, 1.05], "censored": false},
+      "swe_m2": {"n": 1.06, "ci": [0.96, 1.15], "censored": false}
+    },
+    {
+      "model": "Nemotron-Terminal-14B",
+      "label": "Nemotron-Terminal-14B",
+      "type": "agentic SFT (Terminal-Corpus)",
+      "benchmark": {
+        "name": "Terminal-Bench 2.0",
+        "harness": "Terminus-2 (as run in the Nemotron-Terminal paper)",
+        "paper": "arXiv 2602.21193",
+        "start": "Qwen3-14B",
+        "start_score": 4.04,
+        "tuned_score": 20.2,
+        "multiplier": 5.0
+      },
+      "sandbox": {"n": 2.08, "ci": [1.58, 2.36], "censored": false},
+      "swe_m1": {"n": 0.82, "ci": [0.78, 0.87], "censored": false},
+      "swe_m2": {"n": 0.84, "ci": [0.78, 0.9], "censored": false}
+    },
+    {
+      "model": "Nemotron-Terminal-32B",
+      "label": "Nemotron-Terminal-32B",
+      "type": "agentic SFT (Terminal-Corpus)",
+      "benchmark": {
+        "name": "Terminal-Bench 2.0",
+        "harness": "Terminus-2 (as run in the Nemotron-Terminal paper)",
+        "paper": "arXiv 2602.21193",
+        "start": "Qwen3-32B",
+        "start_score": 3.37,
+        "tuned_score": 27.4,
+        "multiplier": 8.131
+      },
+      "sandbox": {"n": 1.0, "ci": [1.0, 1.0], "censored": true,
+        "censor_note": "lower bound only: n > 1.00 (its binding accuracy sits above the top of the instruct ladder, so n cannot be quantified; a 32B start can only be bounded)"},
+      "swe_m1": {"n": 0.81, "ci": [0.76, 0.86], "censored": false},
+      "swe_m2": {"n": 0.76, "ci": [0.69, 0.83], "censored": false}
+    },
+    {
+      "model": "tmax-sft-8b",
+      "label": "tmax-sft-8b",
+      "type": "agentic SFT (TMax-15k traces)",
+      "benchmark": {
+        "name": "Terminal-Bench Lite",
+        "harness": "Ai2's own mini-swe-agent-like harness (Tmax paper)",
+        "paper": "arXiv 2606.23321",
+        "start": "Qwen3-8B",
+        "start_score": 7.3,
+        "tuned_score": 11.5,
+        "multiplier": 1.575
+      },
+      "sandbox": {"n": 1.9, "ci": [1.46, 2.61], "censored": false},
+      "swe_m1": {"n": 1.31, "ci": [1.27, 1.36], "censored": false},
+      "swe_m2": {"n": 1.44, "ci": [1.37, 1.52], "censored": false}
+    },
+    {
+      "model": "tmax-8b",
+      "label": "tmax-8b",
+      "type": "agentic RL (DPPO) on top of tmax-sft-8b",
+      "benchmark": {
+        "name": "Terminal-Bench Lite",
+        "harness": "Ai2's own mini-swe-agent-like harness (Tmax paper)",
+        "paper": "arXiv 2606.23321",
+        "start": "Qwen3-8B",
+        "start_score": 7.3,
+        "tuned_score": 17.7,
+        "multiplier": 2.425
+      },
+      "sandbox": {"n": 1.77, "ci": [1.36, 2.42], "censored": false},
+      "swe_m1": {"n": 1.04, "ci": [0.99, 1.08], "censored": false},
+      "swe_m2": {"n": 1.16, "ci": [1.09, 1.22], "censored": false}
+    }
+  ],
+  "rl_step_note": {
+    "pair": "tmax-sft-8b -> tmax-8b",
+    "benchmark": "TB-Lite 11.5 -> 17.7 (within the Tmax paper)",
+    "sandbox": "1.90 -> 1.77 (delta vs tmax-sft n.s.: +0.7 pts [-0.3,+1.6])",
+    "swe_m1": "1.31 -> 1.04 (RL step alone: 0.79x [0.77,0.81])",
+    "swe_m2": "1.44 -> 1.16 (RL step alone: 0.79x [0.75,0.82])",
+    "source": "SIZE_EQUIV.md rows 'tmax-8b|vs tmax-sft'; p2/FINDINGS.md headline table last row"
+  },
+  "ladders": {
+    "sizes": ["0.6B", "1.7B", "4B", "8B", "14B", "32B"],
+    "sandbox_binding_acc_primary": {
+      "higher_is_better": true,
+      "inst": [0.604, 0.646, 0.687, 0.717, 0.753, 0.793],
+      "base": [0.636, 0.686, 0.757, 0.771, 0.784],
+      "base_sizes": ["0.6B", "1.7B", "4B", "8B", "14B"]
+    },
+    "swe_m1_content_bits": {
+      "higher_is_better": false,
+      "inst": [1.8212, 1.5555, 1.3179, 1.2029, 1.0892, 1.0164],
+      "base": [1.5172, 1.2838, 1.1164, 1.0556, 0.9872],
+      "base_sizes": ["0.6B", "1.7B", "4B", "8B", "14B"]
+    }
+  },
+  "non_embedding_params": {
+    "0.6B": 440467456,
+    "1.7B": 1409410048,
+    "4B": 3633511936,
+    "8B": 6946075648,
+    "14B": 13212482560,
+    "32B": 31206298624
+  },
+  "base_model_band": {
+    "meaning": "the same-size Qwen3 Base model's tool-output prediction, expressed as the size of an Instruct model that would match it, against each Instruct start",
+    "method": "inverse piecewise-linear interpolation of the Instruct ladder in log2(non-embedding params) at the Base ladder value; n = 2^(x* - x_start)",
+    "sandbox": {"8B start": 2.8, "14B start": 1.95, "32B start": "n/a (Qwen3-32B-Base does not exist)"},
+    "swe_m1": {"8B start": 2.83, "14B start": ">2.36 (censored above the 32B top of the ladder)", "32B start": "n/a"},
+    "band": [1.95, 2.83]
+  },
+  "reference_lines": {
+    "y_eq_1": "no gain over the chat model (the model's own Instruct start)",
+    "y_eq_2": "one size doubling: what pretraining gets from 2x the parameters"
+  },
+  "excluded": [
+    {
+      "model": "CodeScout-14B",
+      "reason": "no published agentic benchmark score at all (only SWE-V file-localisation F1 68.6, no resolve rate) — no x value",
+      "y_if_it_had_x": "sandbox 0.96 [0.80,1.16]; SWE M1 0.84 [0.83,0.85]; M2 0.72 [0.69,0.75]"
+    },
+    {
+      "model": "OpenThinker-Agent-v1",
+      "reason": "TB2.0 4.9 is published (blog only), but no starting-checkpoint TB2.0 score appears in the vetted files, so no within-paper ratio exists; its SWE row is moreover for OpenThinker-Agent-v1-SFT, a different checkpoint",
+      "y_if_it_had_x": "SWE M1 0.56 [0.53,0.58]; M2 0.69 [0.65,0.73] (v1-SFT); no sandbox row"
+    },
+    {
+      "model": "OpenThinkerAgent-32B",
+      "reason": "TB2.0 26.2 is published (blog only); the only Qwen3-32B TB2.0 score in the files (3.37) is a baseline run inside a different paper (Nemotron-Terminal, arXiv 2602.21193) — cross-paper ratio prohibited",
+      "y_if_it_had_x": "sandbox 0.89 [0.67,1.00]; SWE M1 <0.5 (censored); M2 <0.5 (censored)"
+    },
+    {
+      "model": "SERA-8B / SERA-14B",
+      "reason": "only SWE-V scores (31.7 / 49.5) with no starting-checkpoint score in the same paper; not Terminal-Bench; would be a cross-harness x",
+      "y_if_it_had_x": "sandbox 1.28 [0.96,1.72] (8B); SWE M1 <0.5 (censored); M2 0.60 / 0.56"
+    },
+    {
+      "model": "FrogMini-14B-2510",
+      "reason": "SWE-V 45.3 in the R2E-Gym scaffold with no same-harness start baseline in the files; and its SWE prediction row is flagged as a rendering mismatch (+1.31 bits/tok, larger than the whole ladder span)",
+      "y_if_it_had_x": "sandbox 1.13 [0.86,1.48]; SWE M1 <0.5 (censored, suspect); M2 <0.5 (censored, suspect)"
+    },
+    {
+      "model": "Arctic-AWM-8B",
+      "reason": "published numbers are tau-style MCP tool benchmarks, not Terminal-Bench; no within-paper start baseline",
+      "y_if_it_had_x": "sandbox 0.95 [0.74,1.14]; SWE M1 1.01 [1.01,1.02]; M2 1.00 [0.99,1.01]"
+    },
+    {
+      "model": "Light-IF-8B / Light-IF-14B",
+      "reason": "non-agentic instruction-following control; no published agentic benchmark score",
+      "y_if_it_had_x": "sandbox 1.30 [1.02,1.72] / 1.43 [1.12,1.87]; SWE M1 1.08 / 0.82; M2 1.28 / 0.92"
+    },
+    {
+      "model": "WebWorld-8B",
+      "reason": "web-page world-model positive control; no published Terminal-Bench score",
+      "y_if_it_had_x": "sandbox 0.99 [0.72,1.30]; SWE M1 1.26 [1.22,1.29]; M2 1.39 [1.34,1.45]"
+    },
+    {
+      "model": "Klear-Reasoner-8B-SFT",
+      "reason": "non-agentic reasoning distillation, starts from Qwen3-8B-Base (no instruct start to ratio against); no published agentic benchmark score",
+      "y_if_it_had_x": "sandbox vs instruct 0.46 [0.31,0.67]; SWE M1/M2 <0.5 vs base ladder"
+    }
+  ]
+}

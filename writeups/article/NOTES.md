@@ -30,7 +30,6 @@ These entries cover the published copy, captions, thread and all seven figures. 
 | Gains figure, supervised agents vs same-size chat, in points. TMax-8B +3.6, Nemotron-14B +3.4, Nemotron-8B +3.1, Nemotron-32B +2.9, SERA-8B +1.4, FrogMini-14B +0.6, OpenThinkerAgent-32B −0.5. Agents after RL. TMax-8B +3.2, Arctic-AWM-8B −0.2, CodeScout-14B −0.2. | FACTS.md lines 15–25 and 29. Bars show point estimates. The shaded band of roughly 3–4 points reflects the instruct scale curve above 4B in line 13. The TMax RL bar includes the earlier supervised gain. |
 | Gains figure, comparison models vs chat. Light-IF-14B +1.7, Light-IF-8B +1.5, WebWorld-8B −0.1, Klear-8B −3.5. Klear vs base −8.9. | FACTS.md lines 26–28. Klear’s documented parent is the pretrained 8B model. |
 | Reported benchmark success rose roughly 2–8×. | FACTS.md lines 57–59. These are within-team comparisons. TMax’s TB-Lite ratio is 17.7/7.3 and Nemotron-32B’s Terminal-Bench ratio is 27.4/3.4. Each ratio uses its own benchmark and harness. |
-| Information gain on SWE file-edit acknowledgments, 14B base 34%, SERA-14B 18%, or about 0.5× base. Across all scored content the real command also helps Nemotron-14B less than its base. | In the M2 relative-gain table, gain is the fractional reduction in output loss under the real command relative to a same-kind substitution. For edit acknowledgments, base = 0.3408 and SERA = 0.3245 − 0.1490 = 0.1755. Their ratio is 0.515. For all content, the Nemotron-14B difference vs base is −0.0306. The half-size *model equivalents* elsewhere in the table are a separate statistic. [SWE M2 results, sections content/all and content/kind=edit_ack](../bundle/p2/results/size_equiv/size_equiv_swe.md) |
 | TMax on SWE, 1.31× after supervised training and 1.04× after RL. TB-Lite 11.5 → 17.7. Sandbox RL increment −0.4 points. | FACTS.md lines 18, 36–38 and 58. The two multipliers give the instruct-model size matching each TMax score, interpolated in log parameter count. The task scores are from the same team’s benchmark. The sandbox RL interval spans zero. |
 | Chat check, three agent checkpoints. At 8B, instruct 71.7 → 69.8%, Nemotron 74.8 → 64.6%, TMax SFT 75.3 → 63.5%. At 32B, Nemotron is level with instruct within uncertainty. | FACTS.md lines 30 and 64–65, plus the plain-sandbox calculation below. The three specialists are two 8B models and one 32B model, in addition to the instruct references. |
 | Nemotron-8B versus instruct, +0.77 on thoughts, +0.26 on commands, −0.36 on output. | FACTS.md line 45. These are changes in mean log probability in bits per token on the recorded histories. Positive means the recorded tokens became more likely. [Per-role measurements](../bundle/pilot/results/logratio.csv) |
@@ -95,3 +94,17 @@ observed = points * sum(agent[key] - base[key] for key in base)
 interval = 2 * observed - np.percentile(points * draws, [97.5, 2.5])
 print(observed, interval)
 ```
+
+## Late additions (2026-11-28)
+
+| Published quantity | Provenance |
+|---|---|
+| Margin shrank for all five agents that gained on binding; Nemotron-8B 0.540 → 0.407 bits/byte | Sandbox interaction, ratio of summed bits to summed bytes over the primary pool, plain rendering, copied words masked. FACTS.md, Addendum 2. |
+| Five agents beat chat in plain text; in chat four fell behind and Nemotron-32B tied; Nemotron-14B +3.4 → −10.3 points | Paired binding deltas vs instruct start, environment-cluster bootstrap. FACTS.md, Addendum 2. |
+| Light-IF-14B (non-agentic) flipped +1.7 → −4.3 points | Same source. |
+| Role shift in Nemotron-8B/14B/32B and SERA-8B; not in RL agents or non-agentic controls | Per-token log-ratio vs instruct start by span type. FACTS.md, Addendum 2. |
+| Qwen3.5-0.8B base 63.6% vs instruct 63.5% | Plain binding on the same 3,600 pairs. FACTS.md, Addendum 2. |
+| Benchmark multipliers 1.6–8× in the dissociation figure | Within-paper ratios; figures/DISSOCIATION_NOTES.md. |
+
+The SWE edit-acknowledgement information-gain figures (34% vs 18%) were removed from the article: that measure failed the size check set in advance.
+
